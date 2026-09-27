@@ -81,6 +81,11 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 3px rgba(85,173,115,.09
 .premium-login{background:radial-gradient(circle at 50% 35%,rgba(53,184,106,.11),transparent 30%),rgba(2,5,4,.94)!important;backdrop-filter:blur(18px)}
 .premium-login .login-box{border:1px solid rgba(105,223,152,.25)!important;background:linear-gradient(145deg,rgba(11,20,15,.97),rgba(5,10,8,.98))!important;box-shadow:0 30px 100px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.05)!important;border-radius:24px!important}
 
+
+/* Premium analytics / mobile-app layer */
+.metricgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}.metric{background:linear-gradient(145deg,#0c1711,#08100c);border:1px solid #25382c;border-radius:16px;padding:14px;position:relative;overflow:hidden}.metric:after{content:"";position:absolute;right:-25px;top:-25px;width:80px;height:80px;border-radius:50%;background:rgba(105,223,152,.05)}.metric small{color:#7f8b84}.metric strong{display:block;font-size:22px;margin-top:6px}.chartbox{height:250px;padding:10px}.chartbox canvas{width:100%;height:100%}.calendar-wrap{margin-top:12px}.searchbar{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:8px;margin-bottom:10px}.mini{padding:6px 9px!important;font-size:10px!important}.trade-actions{display:flex;gap:5px}.trade-actions button{padding:5px 8px;border-radius:8px;font-size:9px}.tag{display:inline-block;padding:4px 7px;border-radius:20px;background:#18251d;color:#8dd9a6;font-size:9px}.dangerText{color:#ef9991}.successText{color:#69df98}.profilegrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.milestones{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}.mile{border:1px solid #2a372f;border-radius:12px;padding:10px;text-align:center;background:#0b130f}.mile.done{border-color:#4e9a68;box-shadow:inset 0 0 0 1px #1d4b2d;background:#0d1b13}.mile b{display:block;font-size:11px}.mile small{color:#69756e;font-size:8px}.bottomnav{display:none}
+@media(max-width:850px){.metricgrid{grid-template-columns:repeat(2,1fr)}.milestones{grid-template-columns:repeat(3,1fr)}.searchbar{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.metricgrid{grid-template-columns:1fr 1fr}.chartbox{height:210px}.milestones{grid-template-columns:repeat(2,1fr)}.searchbar{grid-template-columns:1fr}.bottomnav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:60;background:rgba(5,9,8,.94);backdrop-filter:blur(15px);border-top:1px solid #23312a;padding:7px;gap:5px}.bottomnav button{flex:1;background:#0b120f;border:1px solid #26372d;color:#94a098;border-radius:10px;padding:8px 3px;font-size:9px}.bottomnav button.active{color:#d8f5e1;border-color:#46885d;background:#12351f}.wrap{padding-bottom:75px}}
 </style>
 </head>
 <body>
@@ -123,6 +128,14 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 3px rgba(85,173,115,.09
 <button id="startDayBtn" class="btn primary dayaction">▶ Start Day 1</button><button id="endDayBtn" class="btn gold dayaction" style="display:none">■ End Day</button></div>
 <div class="card"><small>Today's result</small><strong id="todayPnl">₹0</strong><div class="grid3" style="margin-top:10px"><div><small>Trades</small><b id="todayTrades">0</b></div><div><small>Wins</small><b id="todayWins" class="green">0</b></div><div><small>Losses</small><b id="todayLosses" class="red">0</b></div></div></div>
 </div>
+<div class="metricgrid">
+<div class="metric"><small>Win Rate</small><strong id="dashWinRate">0%</strong></div>
+<div class="metric"><small>Avg Win</small><strong id="dashAvgWin">₹0</strong></div>
+<div class="metric"><small>Avg Loss</small><strong id="dashAvgLoss">₹0</strong></div>
+<div class="metric"><small>Target Remaining</small><strong id="dashRemaining">₹60,000</strong></div>
+</div>
+<div class="card chartbox" style="margin-top:12px"><div class="head"><h3 style="margin:0">Balance Growth</h3><span class="pill">Recorded</span></div><canvas id="balanceChart"></canvas></div>
+<div class="card" style="margin-top:12px"><div class="head"><h3 style="margin:0">Milestones</h3><span class="pill">Progress</span></div><div id="milestones" class="milestones"></div></div>
 <div class="card" style="margin-top:12px"><div class="head"><h3 style="margin:0">10 AM → 5 PM Workflow</h3><span class="pill">Checklist</span></div><div id="workflow" class="workflow"></div></div>
 </section>
 
@@ -142,7 +155,8 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 3px rgba(85,173,115,.09
 <div class="actions"><button class="btn secondary" id="quickWin">+ Win</button><button class="btn danger" id="quickLoss">− Loss</button><button class="btn primary" id="addTradeBtn">Save Trade Record</button></div>
 <p class="muted">A win is entered as a positive P/L and a loss as a negative P/L. Each trade stores date, time, day and period number.</p>
 </div>
-<div class="table" style="margin-top:12px"><table><thead><tr><th>#</th><th>Day/Date</th><th>Time</th><th>Period</th><th>P/L</th><th>Before</th><th>After</th><th>Note</th></tr></thead><tbody id="journalBody"></tbody></table></div>
+<div class="searchbar" style="margin-top:12px"><input id="tradeSearch" placeholder="Search period / note / date"><select id="tradeFilter"><option value="all">All results</option><option value="win">Wins only</option><option value="loss">Losses only</option></select><button class="btn secondary" id="clearTradeFilter">Reset Filter</button></div>
+<div class="table"><table><thead><tr><th>#</th><th>Day/Date</th><th>Time</th><th>Period</th><th>P/L</th><th>Before</th><th>After</th><th>Note</th><th>Action</th></tr></thead><tbody id="journalBody"></tbody></table></div>
 </section>
 
 <section id="diary" class="panel">
@@ -157,6 +171,7 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 3px rgba(85,173,115,.09
 <section id="history" class="panel">
 <div class="head"><div><span class="kicker">SAVED DATA</span><h2>Day-by-Day History</h2></div><span class="pill">Tap a day</span></div>
 <div id="historyGrid" class="historygrid"></div>
+<div class="card calendar-wrap"><div class="head"><h3 style="margin:0">30-Day Calendar</h3><span class="pill">Daily status</span></div><div id="calendar" class="calendar"></div></div>
 </section>
 
 <section id="calculator" class="panel">
@@ -172,7 +187,11 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 3px rgba(85,173,115,.09
 <section id="stats" class="panel">
 <div class="head"><div><span class="kicker">ANALYTICS</span><h2>Statistics</h2></div></div>
 <div class="stats"><div class="card"><small>Total Trades</small><strong id="sTrades">0</strong></div><div class="card"><small>Wins</small><strong id="sWins" class="green">0</strong></div><div class="card"><small>Losses</small><strong id="sLosses" class="red">0</strong></div><div class="card"><small>Total P/L</small><strong id="sPnl">₹0</strong></div></div>
-<div class="card" style="margin-top:12px"><h3>Daily P/L</h3><div id="dailyStats"></div></div>
+<div class="metricgrid">
+<div class="metric"><small>Biggest Win</small><strong id="bigWin">₹0</strong></div><div class="metric"><small>Biggest Loss</small><strong id="bigLoss">₹0</strong></div><div class="metric"><small>Current Streak</small><strong id="streak">0</strong></div><div class="metric"><small>Drawdown</small><strong id="drawdown">₹0</strong></div>
+</div>
+<div class="grid2" style="margin-top:12px"><div class="card chartbox"><div class="head"><h3 style="margin:0">Daily P/L</h3></div><canvas id="pnlChart"></canvas></div><div class="card chartbox"><div class="head"><h3 style="margin:0">Win / Loss</h3></div><canvas id="wlChart"></canvas></div></div>
+<div class="card" style="margin-top:12px"><h3>Daily Records</h3><div id="dailyStats"></div></div>
 </section>
 
 <section id="settings" class="panel">
@@ -180,10 +199,12 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 3px rgba(85,173,115,.09
 <div class="card">
 <p class="muted">Your records are saved in this browser. Use Export regularly if you want a backup.</p>
 <div class="actions"><button class="btn primary" id="exportBtn">Export Backup JSON</button><button class="btn secondary" id="importBtn">Import Backup JSON</button><input id="importFile" type="file" accept=".json" style="display:none"><button class="btn danger" id="clearBtn">Clear All Saved Data</button></div>
+<div class="card" style="margin-top:12px"><h3>Local Login Profile</h3><div class="profilegrid"><label>Login Number / Username<input id="profileUser" placeholder="Mobile number"></label><label>New Password<input id="profilePass" type="password" placeholder="New password"></label></div><button class="btn secondary" id="saveProfile" style="margin-top:10px">Save Login Details</button><p class="meta">Demo/local authentication only. Do not use sensitive passwords on a public static site.</p></div>
 <button class="btn gold" id="logoutBtn" style="margin-top:10px">Logout</button><div class="meta" style="margin-top:15px">Storage status: <b id="storageStatus">Ready</b></div>
 </div>
 </section>
 </main>
+<div class="bottomnav"><button data-nav="dashboard">Home</button><button data-nav="trade">Trades</button><button data-nav="history">Calendar</button><button data-nav="stats">Stats</button><button data-nav="settings">Data</button></div>
 <footer>1000 → 60K • Educational projection & tracking tool • Real trading involves risk.</footer>
 <div id="toast" class="toast"></div>
 
@@ -219,7 +240,7 @@ function render(){
   $("startDayBtn").textContent=`▶ Start Day ${shown}`;$("endDayBtn").textContent=`■ End Day ${shown}`;
   $("jDay").value=shown;$("jDate").value=x.date||localDate();$("jStart").value=trades(shown).length?trades(shown).at(-1).end:(x.startBalance??cur);
   $("diaryDay").value=shown;$("diaryDate").value=x.date||localDate();$("fullDiary").value=x.journal||"";
-  renderPlan();renderToday(shown);renderJournal();renderHistory();renderStats();renderCalendarWorkflow();renderScenarios();calc();tradeCalc();
+  renderPlan();renderToday(shown);renderJournal();renderHistory();renderStats();renderCalendarWorkflow();renderScenarios();calc();tradeCalc();renderPremium();renderCalendar();renderCharts();
 }
 function renderToday(d){
   let a=trades(d),p=pnl(d);$("todayPnl").textContent=(p>=0?"+":"")+money(p);$("todayTrades").textContent=a.length;$("todayWins").textContent=a.filter(t=>t.result>0).length;$("todayLosses").textContent=a.filter(t=>t.result<0).length;
@@ -230,9 +251,12 @@ function renderPlan(){
   h+=`<tr><td><b>Day ${d}</b></td><td>${x.date||"—"}</td><td>${money(x.startBalance??(d===1?START:projected(d-1)))}</td><td>${money(projected(d))}</td><td>${end===null?"—":money(end)}</td><td class="${p>=0?"winTxt":"lossTxt"}">${p>=0?"+":""}${money(p)}</td><td>${a.length}</td><td>${a.filter(t=>t.result>0).length}</td><td>${a.filter(t=>t.result<0).length}</td><td>${st}</td></tr>`}$("planBody").innerHTML=h;
 }
 function renderJournal(){
- $("journalBody").innerHTML=[...state.trades].sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp)).map((t,i)=>`<tr><td>${i+1}</td><td>Day ${t.day}<br><small>${t.date}</small></td><td>${t.time}</td><td>${t.period}</td><td class="${t.result>=0?"winTxt":"lossTxt"}">${t.result>=0?"+":""}${money(t.result)}</td><td>${money(t.start)}</td><td>${money(t.end)}</td><td>${t.note||""}</td></tr>`).join("");
- $("tradeCountLabel").textContent=`${state.trades.length} trades`;
+ const q=(($("tradeSearch")||{}).value||"").toLowerCase();const f=(($("tradeFilter")||{}).value||"all");
+ const arr=[...state.trades].map((t,i)=>({...t,_i:i})).sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp)).filter(t=>{let ok=f==="all"||(f==="win"&&t.result>0)||(f==="loss"&&t.result<0);let hay=`${t.day} ${t.date} ${t.time} ${t.period} ${t.note}`.toLowerCase();return ok&&hay.includes(q)});
+ $("journalBody").innerHTML=arr.map((t,i)=>`<tr><td>${i+1}</td><td>Day ${t.day}<br><small>${t.date}</small></td><td>${t.time}</td><td>${t.period}</td><td class="${t.result>=0?"winTxt":"lossTxt"}">${t.result>=0?"+":""}${money(t.result)}</td><td>${money(t.start)}</td><td>${money(t.end)}</td><td>${t.note||""}</td><td><div class="trade-actions"><button class="btn danger mini" data-del-trade="${t._i}">Delete</button></div></td></tr>`).join("")||`<tr><td colspan="9" class="muted">No matching trades.</td></tr>`;
+ $("tradeCountLabel").textContent=`${state.trades.length} trades`;document.querySelectorAll("[data-del-trade]").forEach(b=>b.onclick=()=>deleteTrade(+b.dataset.delTrade));
 }
+function deleteTrade(i){if(!confirm("Delete this trade record?"))return;state.trades.splice(i,1);save();render();toast("Trade deleted");}
 function renderHistory(){
  let h="";for(let d=1;d<=DAYS;d++){let x=ensureDay(d),a=trades(d),p=pnl(d),end=x.actual!==null?x.actual:(a.length?a.at(-1).end:null);h+=`<div class="history ${state.activeDay===d?"active":""}"><h3>Day ${d}</h3><small>${x.date||"Not started"}</small><div class="num">${end===null?"—":money(end)}</div><div class="meta">${a.length} trades • ${a.filter(t=>t.result>0).length} W • ${a.filter(t=>t.result<0).length} L<br>P/L <span class="${p>=0?"winTxt":"lossTxt"}">${p>=0?"+":""}${money(p)}</span><br>${x.journal?x.journal.slice(0,65):"No diary yet"}</div><button class="btn secondary" data-open-day="${d}">Open Day</button></div>`}
  $("historyGrid").innerHTML=h;document.querySelectorAll("[data-open-day]").forEach(b=>b.onclick=()=>openDay(+b.dataset.openDay));
@@ -246,6 +270,19 @@ function renderCalendarWorkflow(){
 function renderScenarios(){$("scenarios").innerHTML=[1,2,3,4,5].map(r=>`<div class="scenario"><b>${r}% / day</b><strong>${money(START*Math.pow(1+r/100,DAYS))}</strong><small>30 periods</small></div>`).join("")}
 function calc(){let s=+$("calcStart").value||0,d=+$("calcDays").value||0,r=+$("calcRate").value||0;$("calcResult").textContent=money(s*Math.pow(1+r/100,d));$("calcNote").textContent=`${r}% assumed daily growth • ${d} periods • Target ${money(+$("calcTarget").value||0)}`}
 function tradeCalc(){let s=+$("tradeStart").value||0,r=+$("tradeRate").value||0,n=+$("tradeCount").value||0;$("tradeResult").textContent=money(s*Math.pow(1+r/100,n))}
+function renderPremium(){
+ const a=state.trades,w=a.filter(t=>t.result>0),l=a.filter(t=>t.result<0),wins=w.length,losses=l.length,total=a.length;
+ $("dashWinRate").textContent=total?((wins/total)*100).toFixed(1)+"%":"0%";$("dashAvgWin").textContent=money(w.length?w.reduce((s,t)=>s+t.result,0)/w.length:0);$("dashAvgLoss").textContent=money(l.length?l.reduce((s,t)=>s+t.result,0)/l.length:0);$("dashRemaining").textContent=money(Math.max(0,TARGET-balance()));
+ const ms=[1000,2500,5000,10000,25000,60000],bal=balance();$("milestones").innerHTML=ms.map(v=>`<div class="mile ${bal>=v?"done":""}"><b>${money(v)}</b><small>${bal>=v?"✓ Reached":"Locked"}</small></div>`).join("");
+ let vals=[0,...a.slice().sort((x,y)=>new Date(x.timestamp)-new Date(y.timestamp)).map(t=>Number(t.end)||0)],peak=START,dd=0;vals.forEach(v=>{peak=Math.max(peak,v);dd=Math.max(dd,peak-v)});$("bigWin").textContent=money(w.length?Math.max(...w.map(t=>t.result)):0);$("bigLoss").textContent=money(l.length?Math.min(...l.map(t=>t.result)):0);$("drawdown").textContent=money(dd);
+ let streak=0;for(let i=a.length-1;i>=0;i--){if(a.slice().sort((x,y)=>new Date(x.timestamp)-new Date(y.timestamp))[i]?.result>0)streak++;else break}$("streak").textContent=streak+" W";
+}
+function renderCalendar(){let h="";for(let d=1;d<=DAYS;d++){let x=ensureDay(d),p=pnl(d),a=trades(d),cls=x.endTime?"done":x.started?"started":"";h+=`<button class="cal ${cls}" data-cal-day="${d}"><b>${d}</b><small>${x.date||"—"}</small><em>${a.length?((p>=0?"+":"")+money(p)):"No trades"}</em></button>`}$('calendar').innerHTML=h;document.querySelectorAll('[data-cal-day]').forEach(b=>b.onclick=()=>openDay(+b.dataset.calDay))}
+function renderCharts(){drawLine('balanceChart',getBalancePoints(),false);drawLine('pnlChart',Array.from({length:DAYS},(_,i)=>pnl(i+1)),true);drawBars('wlChart',[state.trades.filter(t=>t.result>0).length,state.trades.filter(t=>t.result<0).length])}
+function getBalancePoints(){let arr=[START],a=[...state.trades].sort((x,y)=>new Date(x.timestamp)-new Date(y.timestamp));a.forEach(t=>arr.push(Number(t.end)||arr[arr.length-1]));return arr}
+function canvasSetup(id){let c=$(id);if(!c)return null;let r=c.getBoundingClientRect(),d=devicePixelRatio||1;c.width=Math.max(300,r.width*d);c.height=Math.max(160,r.height*d);let x=c.getContext('2d');x.scale(d,d);return {c,x,w:r.width,h:r.height}}
+function drawLine(id,data,isPnl){let z=canvasSetup(id);if(!z)return;let {x,w,h}=z;x.clearRect(0,0,w,h);let min=Math.min(...data,0),max=Math.max(...data,1);if(max===min)max=min+1;let pad=22;x.strokeStyle='#24372b';x.lineWidth=1;for(let i=0;i<4;i++){let yy=pad+i*(h-pad*2)/3;x.beginPath();x.moveTo(pad,yy);x.lineTo(w-pad,yy);x.stroke()}x.strokeStyle='#69df98';x.lineWidth=2.5;x.beginPath();data.forEach((v,i)=>{let px=pad+(w-pad*2)*(i/Math.max(1,data.length-1)),py=h-pad-(v-min)/(max-min)*(h-pad*2);i?x.lineTo(px,py):x.moveTo(px,py)});x.stroke();x.fillStyle='#84908a';x.font='9px system-ui';x.fillText(isPnl?'Daily P/L':'Start / recorded balance',pad,12);}
+function drawBars(id,data){let z=canvasSetup(id);if(!z)return;let {x,w,h}=z;x.clearRect(0,0,w,h);let max=Math.max(...data,1),bw=Math.min(70,w/4);data.forEach((v,i)=>{let bh=(v/max)*(h-45),px=w/2-bw-8+i*(bw+16);x.fillStyle=i?'#8c514b':'#3db968';x.fillRect(px,h-28-bh,bw,bh);x.fillStyle='#84908a';x.font='10px system-ui';x.fillText(i?'Loss':'Win',px+8,h-10);x.fillText(String(v),px+10,h-34-bh)})}
 function showTab(id){document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===id));document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id===id))}
 document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
 
@@ -287,7 +324,7 @@ function showApp(){
 }
 function doLogin(){
   const u=$("loginUser").value.trim(),p=$("loginPass").value;
-  if(u==="admin" && p==="1234"){
+  if(u===(localStorage.getItem("tracker_login_user")||"admin") && p===(localStorage.getItem("tracker_login_pass")||"1234")){
     localStorage.setItem(LOGIN_KEY,"1");
     $("loginError").textContent="";
     showApp();
@@ -301,6 +338,10 @@ if(localStorage.getItem(LOGIN_KEY)==="1")showApp();else document.body.classList.
 
 
 $("logoutBtn").onclick=()=>{localStorage.removeItem(LOGIN_KEY);location.reload()};
+$("tradeSearch").oninput=renderJournal;$("tradeFilter").onchange=renderJournal;$("clearTradeFilter").onclick=()=>{$("tradeSearch").value="";$('tradeFilter').value="all";renderJournal()};
+document.querySelectorAll('[data-nav]').forEach(b=>b.onclick=()=>showTab(b.dataset.nav));
+const savedUser=localStorage.getItem('tracker_login_user');const savedPass=localStorage.getItem('tracker_login_pass');if(savedUser)$("profileUser").value=savedUser;
+$("saveProfile").onclick=()=>{let u=$("profileUser").value.trim(),p=$("profilePass").value;if(!u||!p)return toast('Number and password required');localStorage.setItem('tracker_login_user',u);localStorage.setItem('tracker_login_pass',p);toast('Login details saved locally ✓')};
 
 render();
 </script>
