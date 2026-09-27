@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#050908">
-<title>1000 → 60K | 30-Day Trading Tracker</title>
+<title>1000 → 60K | Private 30-Day Trading Tracker</title>
 <style>
 :root{
   --bg:#050908;--panel:#0b1210;--panel2:#0e1713;--green:#35b86a;--green2:#69df98;
@@ -44,9 +44,60 @@ label{font-size:10px;color:#87918c}input,select,textarea{width:100%;display:bloc
 .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;pointer-events:none;background:#123b27;color:#dff7e7;border:1px solid #4e9868;padding:11px 15px;border-radius:12px;z-index:100;transition:.25s}.toast.show{opacity:1;transform:translateX(-50%)}
 @media(max-width:850px){.stats{grid-template-columns:repeat(2,1fr)}.form{grid-template-columns:repeat(2,1fr)}.scenarios{grid-template-columns:repeat(3,1fr)}.historygrid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.wrap{padding:14px 10px 40px}.hero{padding:20px}.badge{display:none}.stats,.grid2,.grid3{grid-template-columns:1fr}.form{grid-template-columns:1fr}.scenarios{grid-template-columns:repeat(2,1fr)}.historygrid{grid-template-columns:1fr}.calendar{grid-template-columns:repeat(4,1fr)}.topin{padding:11px 12px}}
+
+.login-screen{position:fixed;inset:0;z-index:200;background:radial-gradient(circle at 50% 0,#12372455,transparent 35%),#050908;display:flex;align-items:center;justify-content:center;padding:18px}
+.login-card{width:min(410px,100%);padding:30px 24px;background:#0b1210;border:1px solid #31533d;border-radius:22px;box-shadow:0 25px 90px #000b}
+.login-logo{font-size:34px;font-weight:900;text-align:center}.login-logo span{color:#69df98}.login-kicker{text-align:center;color:#69df98;font-size:9px;letter-spacing:2px;font-weight:900;margin-top:5px}
+.login-card h1{text-align:center;font-size:27px;margin:22px 0 6px}.login-card>p{text-align:center;color:#84908a;font-size:12px;margin-bottom:22px}
+.login-card label{display:block;margin-top:12px}.login-card input{margin-top:6px}
+.login-btn{width:100%;margin-top:16px}.login-error{min-height:18px;text-align:center;color:#e7867e;font-size:11px;margin-top:10px}.login-note{display:block;text-align:center;color:#66736c;font-size:9px;margin-top:14px}
+body.locked{overflow:hidden}
+
+/* Premium UI layer — keeps the existing structure and functionality */
+body{background:
+ radial-gradient(circle at 10% 10%,rgba(53,184,106,.12),transparent 26%),
+ radial-gradient(circle at 90% 0,rgba(200,166,90,.10),transparent 24%),
+ linear-gradient(145deg,#030605 0%,#07100c 48%,#050809 100%);}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.035;background-image:linear-gradient(rgba(255,255,255,.8) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.8) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,#000,transparent 80%);}
+.top{background:rgba(4,8,6,.82);box-shadow:0 10px 35px rgba(0,0,0,.28)}
+.logo{letter-spacing:-.8px;text-shadow:0 0 24px rgba(105,223,152,.16)}
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(14,28,20,.94),rgba(5,13,9,.92));border-color:rgba(83,155,108,.42);box-shadow:0 24px 80px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.035)}
+.hero:after{content:"";position:absolute;width:240px;height:240px;right:-90px;top:-110px;border-radius:50%;border:1px solid rgba(105,223,152,.12);box-shadow:0 0 0 24px rgba(105,223,152,.025),0 0 0 48px rgba(105,223,152,.018);pointer-events:none}
+h1{letter-spacing:-2px}.badge{box-shadow:0 0 35px rgba(200,166,90,.12),inset 0 1px 0 rgba(255,255,255,.06)}
+.card,.panel>.card{box-shadow:0 12px 35px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.025);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+.card:hover{transform:translateY(-2px);border-color:#355443;box-shadow:0 16px 42px rgba(0,0,0,.25),0 0 0 1px rgba(53,184,106,.04)}
+.tabs{scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}.tab{transition:.2s ease;box-shadow:inset 0 1px 0 rgba(255,255,255,.025)}.tab:hover{border-color:#42644f;color:#d8e9df;transform:translateY(-1px)}.tab.active{box-shadow:0 8px 25px rgba(35,122,71,.18),inset 0 1px 0 rgba(255,255,255,.06)}
+.btn{transition:transform .16s ease,box-shadow .16s ease,filter .16s ease}.btn:hover{transform:translateY(-1px);filter:brightness(1.06)}.primary{box-shadow:0 8px 22px rgba(35,123,69,.18)}
+input,select,textarea{box-shadow:inset 0 1px 5px rgba(0,0,0,.25),0 1px 0 rgba(255,255,255,.015)}
+input:focus,select:focus,textarea:focus{box-shadow:0 0 0 3px rgba(85,173,115,.09),inset 0 1px 5px rgba(0,0,0,.25)}
+.progress{box-shadow:inset 0 2px 5px rgba(0,0,0,.4)}.progress i{background:linear-gradient(90deg,#17643a,#35b86a,#82e8a7);box-shadow:0 0 16px rgba(53,184,106,.28)}
+.table{box-shadow:0 12px 35px rgba(0,0,0,.16)}th{background:linear-gradient(#101a15,#0b130f)}
+.result{box-shadow:inset 0 1px 0 rgba(255,255,255,.025),0 10px 30px rgba(0,0,0,.18)}
+.notice{box-shadow:inset 0 1px 0 rgba(255,255,255,.025)}
+@media(max-width:800px){.stats{grid-template-columns:repeat(2,1fr)}.grid2,.grid3{grid-template-columns:1fr}.form{grid-template-columns:1fr 1fr}.hero{padding:20px}.badge{min-width:72px;height:72px}h1{font-size:42px}}
+@media(max-width:520px){.wrap{padding:12px 11px 35px}.topin{padding:11px}.logo{font-size:21px}.sub{font-size:9px}.hero{border-radius:18px;padding:17px}.hero p{font-size:12px}.badge{min-width:62px;height:62px;font-size:12px}.badge small{font-size:8px}.stats{gap:8px}.card{padding:13px}.card strong{font-size:22px}.form{grid-template-columns:1fr}.head h2{font-size:23px}.tab{padding:9px 11px;font-size:12px}}
+
+
+.premium-login{background:radial-gradient(circle at 50% 35%,rgba(53,184,106,.11),transparent 30%),rgba(2,5,4,.94)!important;backdrop-filter:blur(18px)}
+.premium-login .login-box{border:1px solid rgba(105,223,152,.25)!important;background:linear-gradient(145deg,rgba(11,20,15,.97),rgba(5,10,8,.98))!important;box-shadow:0 30px 100px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.05)!important;border-radius:24px!important}
+
 </style>
 </head>
 <body>
+<div id="loginScreen" class="premium-login" class="login-screen">
+  <div class="login-card">
+    <div class="login-logo">1000<span>→</span>60K</div>
+    <div class="login-kicker">PRIVATE TRADING TRACKER</div>
+    <h1>Welcome back</h1>
+    <p>Login karke apna 30-Day Tracker open karo.</p>
+    <label>Username<input id="loginUser" autocomplete="username" placeholder="Enter username"></label>
+    <label>Password<input id="loginPass" type="password" autocomplete="current-password" placeholder="Enter password"></label>
+    <button id="loginBtn" class="btn primary login-btn">Login</button>
+    <div id="loginError" class="login-error"></div>
+    <small class="login-note">Demo login: <b>admin</b> / <b>1234</b></small>
+  </div>
+</div>
+
 <header class="top"><div class="topin"><div><div class="logo">1000<span>→</span>60K</div><div class="sub">30-Day Trading Tracker</div></div><button class="reset" id="resetBtn">Reset</button></div></header>
 
 <main class="wrap">
@@ -129,7 +180,7 @@ label{font-size:10px;color:#87918c}input,select,textarea{width:100%;display:bloc
 <div class="card">
 <p class="muted">Your records are saved in this browser. Use Export regularly if you want a backup.</p>
 <div class="actions"><button class="btn primary" id="exportBtn">Export Backup JSON</button><button class="btn secondary" id="importBtn">Import Backup JSON</button><input id="importFile" type="file" accept=".json" style="display:none"><button class="btn danger" id="clearBtn">Clear All Saved Data</button></div>
-<div class="meta" style="margin-top:15px">Storage status: <b id="storageStatus">Ready</b></div>
+<button class="btn gold" id="logoutBtn" style="margin-top:10px">Logout</button><div class="meta" style="margin-top:15px">Storage status: <b id="storageStatus">Ready</b></div>
 </div>
 </section>
 </main>
@@ -228,6 +279,29 @@ $("calcBtn").onclick=calc;
 $("resetBtn").onclick=()=>{if(confirm("Reset all saved tracker data?")){localStorage.removeItem(KEY);location.reload()}};
 for(let d=1;d<=DAYS;d++){$("jDay").innerHTML+=`<option value="${d}">Day ${d}</option>`;$("diaryDay").innerHTML+=`<option value="${d}">Day ${d}</option>`}
 $("jDate").value=localDate();$("jTime").value=localTime();$("diaryDate").value=localDate();
+
+const LOGIN_KEY="tracker_login_v1";
+function showApp(){
+  $("loginScreen").style.display="none";
+  document.body.classList.remove("locked");
+}
+function doLogin(){
+  const u=$("loginUser").value.trim(),p=$("loginPass").value;
+  if(u==="admin" && p==="1234"){
+    localStorage.setItem(LOGIN_KEY,"1");
+    $("loginError").textContent="";
+    showApp();
+  }else{
+    $("loginError").textContent="Invalid username or password.";
+  }
+}
+$("loginBtn").onclick=doLogin;
+$("loginPass").addEventListener("keydown",e=>{if(e.key==="Enter")doLogin()});
+if(localStorage.getItem(LOGIN_KEY)==="1")showApp();else document.body.classList.add("locked");
+
+
+$("logoutBtn").onclick=()=>{localStorage.removeItem(LOGIN_KEY);location.reload()};
+
 render();
 </script>
 </body>
