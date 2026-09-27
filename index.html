@@ -1,175 +1,136 @@
-<!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#050b0b"><title>My Lucky Zone — 1000 → 60K</title>
-<style>
-*{box-sizing:border-box}body{margin:0;background:#050a0a;color:#e9eef4;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(circle at 80% 5%,#173c3033,transparent 28%),radial-gradient(circle at 15% 80%,#24170d33,transparent 30%);z-index:-1}
-.topbar{position:sticky;top:0;z-index:20;min-height:78px;display:flex;align-items:center;gap:22px;padding:12px 22px;background:#070c0cdd;backdrop-filter:blur(18px);border-bottom:1px solid #1b302d}
-.brandrow{display:flex;align-items:center;gap:10px;flex:1}.clover{font-size:40px;color:#56e69b;text-shadow:0 0 20px #38e69a66}.brand{font-size:21px;font-weight:900;letter-spacing:.5px;color:#f1d58b}.sub{font-size:10px;color:#7e8b91;margin-top:3px}.luckchips{display:flex;gap:10px}.numchip,.daychip{border:1px solid #3c3321;background:#0b1111;border-radius:14px;padding:8px 13px;display:flex;align-items:center;gap:7px}.numchip b{font-size:25px;color:#f0ce75}.numchip span,.daychip span{font-size:9px;color:#87949a;display:block}.daychip{color:#f2d787}.ghost{background:#0c1215;border:1px solid #263640;color:#aab4be;padding:10px 16px;border-radius:13px;font-weight:700}
-.layout{display:flex;max-width:1450px;margin:auto}.sidebar{width:190px;padding:25px 12px;border-right:1px solid #182724;min-height:calc(100vh - 78px)}.nav{width:100%;padding:13px 15px;border:0;background:transparent;color:#aab4bd;text-align:left;border-radius:12px;margin-bottom:6px;font-size:14px;cursor:pointer}.nav.active,.nav:hover{background:#063d2e;color:#6cf0b0;box-shadow:inset 3px 0 #35e69b}.nav span{margin-left:10px}.main{flex:1;padding:22px;min-width:0}.panel{display:none}.panel.active{display:block}.hero{display:flex;justify-content:space-between;align-items:center;padding:24px 28px;border:1px solid #244e43;border-radius:23px;background:radial-gradient(circle at 75% 20%,#17483e55,transparent 35%),linear-gradient(135deg,#0b1518,#080d11);box-shadow:0 20px 60px #0006}.kicker{font-size:11px;letter-spacing:2px;font-weight:900;color:#4de6a3}.hero h1{font-size:50px;margin:8px 0 0;letter-spacing:-2px}.hero h1 span{color:#45e2a0}.hero p{margin:0;color:#78868e;font-size:16px}.quote{text-align:right;color:#e7c977;font-size:16px;line-height:1.6}.quote span{color:#65e8aa}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}.stats4{grid-template-columns:repeat(4,1fr)}.stat{padding:19px;border:1px solid #1e2d31;background:#0c1219;border-radius:17px}.stat small{color:#788790}.stat strong{display:block;font-size:29px;margin:7px 0}.stat em{font-style:normal;color:#52df9d;font-size:12px}.progress{height:9px;background:#182125;border-radius:10px;margin-top:13px;overflow:hidden}.progress i{display:block;height:100%;width:1.7%;background:linear-gradient(90deg,#1ecb79,#f0d17c);border-radius:10px}.range{display:flex;justify-content:space-between;color:#77848c;font-size:10px;margin:5px 2px 15px}.luckybox{border:1px solid #31533e;background:linear-gradient(135deg,#0c1817,#0b1113);border-radius:18px;padding:15px;margin-bottom:15px}.lucktitle{font-size:17px;color:#e7ce82}.lucktitle small{display:block;font-size:10px;color:#7e8b91;margin-left:25px;margin-top:2px}.luckitems{display:grid;grid-template-columns:repeat(7,1fr);margin-top:13px}.luckcolor,.luckybig,.saturday{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;border-right:1px solid #20302e;padding:4px}.luckcolor i{width:40px;height:40px;border-radius:10px;border:1px solid #667;box-shadow:0 0 16px #000}.luckcolor b,.luckybig span,.saturday span{font-size:10px;color:#a8b1b5}.green i{background:#0b6b43}.brown i{background:#5a3518}.black i{background:#050505}.navy i{background:#062b52}.grey i{background:#777f84}.luckybig b{font-size:28px;color:#f1d275}.saturday b{font-size:15px;color:#e9d37d}.two{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}.card{background:#0b1219;border:1px solid #203036;border-radius:18px;padding:18px}.cardtitle{font-size:18px;font-weight:800;margin-bottom:13px}.cardhead{display:flex;justify-content:space-between}.pill{padding:6px 10px;border-radius:18px;background:#083e30;color:#64e8ad;font-size:11px}.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:10px}label{font-size:10px;color:#87949a}input,select,textarea{display:block;width:100%;margin-top:6px;background:#081015;border:1px solid #24363d;color:#e7edf0;border-radius:10px;padding:11px;outline:none}textarea{min-height:118px;resize:vertical}.quick{display:flex;gap:8px;margin:10px 0}.quick button{flex:1;padding:11px;border-radius:10px;font-weight:800;cursor:pointer}.win{background:#073b2c;border:1px solid #1d9e70;color:#62e9ae}.loss{background:#401d23;border:1px solid #a9434e;color:#ff8c99}.primary{width:100%;padding:12px;border:0;border-radius:11px;background:linear-gradient(90deg,#18b96e,#15d890);color:#04100c;font-weight:900;cursor:pointer}.overview{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.overview>div{padding:12px 7px;text-align:center;border:1px solid #202e33;border-radius:11px}.overview small{display:block;color:#718088;font-size:9px}.overview b{font-size:17px}.greenText{color:#56e4a2}.redText{color:#ff6979}.diarymini{margin-top:15px}.tiny{float:right;border:1px solid #276b55;background:#0c382d;color:#6ce8ae;border-radius:8px;padding:5px 9px}.templates{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}.templates button{font-size:9px;background:#111c20;border:1px solid #304048;color:#a8b2b7;padding:7px 9px;border-radius:15px}.tradescard{margin-top:14px}.tablewrap{overflow:auto;border:1px solid #1c2a2f;border-radius:12px}table{width:100%;border-collapse:collapse;min-width:720px}th,td{padding:10px 11px;text-align:left;border-bottom:1px solid #18262b;font-size:11px}th{color:#74828a;background:#0c1419}td{color:#cbd3d8}.win{color:#55e7a2!important}.loss{color:#ff6d7b!important}.sectionhead{display:flex;justify-content:space-between;align-items:center;margin:4px 0 15px}.sectionhead h2{margin:5px 0;font-size:29px}.notice{padding:12px;border:1px solid #493c25;background:#1c170d;color:#c9b37b;border-radius:12px;font-size:11px;margin-bottom:12px}.resultbox{margin-top:13px;padding:16px;border-radius:13px;background:#0b1c18;border:1px solid #235b49}.resultbox strong{display:block;font-size:32px;color:#65e6ab}.resultbox small,.resultbox span{color:#819097;font-size:10px}.scenario-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}.scenario{padding:13px;border:1px solid #27383c;background:#0d151a;border-radius:12px}.scenario b{color:#62e8aa;font-size:11px}.scenario strong{display:block;margin:5px 0}.scenario small{color:#6e7b82;font-size:9px}.tradeResult{display:flex;justify-content:space-between;padding:12px;background:#081015;border-radius:10px}.tradeResult strong{color:#5be4a5}.mt{margin-top:14px}.saved{color:#62e8ab;font-size:11px;margin-left:8px}.statline{display:grid;grid-template-columns:1fr 1fr 1fr;padding:11px;border-bottom:1px solid #1c2a2f}.statline span{color:#78868d}.calendarGrid{display:grid;grid-template-columns:repeat(6,1fr);gap:9px}.cal{min-height:90px;text-align:left;padding:12px;border:1px solid #26373b;background:#0c1418;color:#d7dee2;border-radius:13px;cursor:pointer}.cal.has{border-color:#227653;background:#0d1d18}.cal b{font-size:17px}.cal small,.cal em{display:block;color:#7c8a91;font-size:9px;margin-top:7px}.cal em{color:#59df9e;font-style:normal}footer{text-align:center;padding:22px;color:#5f6c72;font-size:9px;border-top:1px solid #152321}
-@media(max-width:900px){.sidebar{display:none}.main{padding:15px}.luckitems{grid-template-columns:repeat(4,1fr);gap:8px}.luckcolor:nth-child(4){border-right:0}.two{grid-template-columns:1fr}.stats4{grid-template-columns:repeat(2,1fr)}.calendarGrid{grid-template-columns:repeat(4,1fr)}}
-@media(max-width:560px){.topbar{padding:10px 12px;gap:7px}.brand{font-size:16px}.clover{font-size:30px}.luckchips{display:none}.hero{padding:19px 16px}.hero h1{font-size:38px}.quote{font-size:11px}.stats{grid-template-columns:1fr}.stats4{grid-template-columns:1fr 1fr}.luckitems{grid-template-columns:repeat(3,1fr)}.luckcolor{border-right:0}.formgrid{grid-template-columns:1fr}.overview{grid-template-columns:repeat(2,1fr)}.scenario-grid{grid-template-columns:repeat(2,1fr)}.calendarGrid{grid-template-columns:repeat(3,1fr)}}
-</style>
-
-<body>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#050907"><title>1000 → 60K | 30-Day Trading Tracker</title><style>
+*{box-sizing:border-box}
+body{margin:0;background:#050907;color:#e9eee9;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(circle at 85% 0%,#0d3b2833,transparent 32%),radial-gradient(circle at 10% 90%,#4a2c1220,transparent 30%);z-index:-1}
+.topbar{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:15px max(18px,calc((100% - 1100px)/2));background:#070b08ee;backdrop-filter:blur(15px);border-bottom:1px solid #253129}
+.brand{font-size:24px;font-weight:900;letter-spacing:-1px}.brand span{color:#58d58b}.sub{font-size:11px;color:#8b958e;margin-top:2px}
+.ghost{border:1px solid #4b4032;background:#0c100d;color:#aaa9a2;border-radius:12px;padding:10px 14px;cursor:pointer}
+.container{max-width:1100px;margin:auto;padding:24px 18px 50px}
+.hero{display:flex;justify-content:space-between;align-items:center;padding:28px 24px;margin-bottom:18px;border:1px solid #294637;border-radius:24px;background:radial-gradient(circle at 90% 20%,#16452e55,transparent 35%),linear-gradient(135deg,#0d1711,#080c0a)}
+.eyebrow,.kicker{font-size:11px;font-weight:800;letter-spacing:1.5px;color:#58d58b}.hero h1{font-size:clamp(32px,7vw,58px);line-height:.98;margin:10px 0}.hero h1 span{color:#58d58b}.hero p,.muted{color:#8b958e}.hero-badge{width:90px;height:90px;border-radius:50%;display:grid;place-content:center;text-align:center;background:#14291d;border:1px solid #8a6b3c;color:#d7c18c;font-size:20px;font-weight:900;box-shadow:0 0 30px #174b2d55}.hero-badge small{font-size:9px;letter-spacing:2px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.card{background:#0d1410;border:1px solid #28352d;border-radius:18px;padding:18px}.card.dark{background:linear-gradient(135deg,#102419,#0c1210);border-color:#31583f}.card small{display:block;color:#8b958e;font-size:12px}.card strong{display:block;font-size:25px;margin:7px 0}.card em{font-style:normal;color:#58d58b;font-size:12px}
+.tabs{display:flex;gap:7px;overflow:auto;margin:20px 0}.tab{border:1px solid #334039;background:#0d1310;color:#aeb7b0;border-radius:12px;padding:10px 14px;cursor:pointer;white-space:nowrap}.tab.active{background:#174b2d;color:#bdf0d0;border-color:#4f9a6b;font-weight:800}
+.panel{display:none}.panel.active{display:block}.section-head{display:flex;justify-content:space-between;align-items:center;margin:18px 0}.section-head h2{margin:4px 0;font-size:28px}.section-head h3{margin:0}.compact{margin:0 0 14px}.pill{font-size:11px;padding:7px 10px;border-radius:20px;background:#332b1f;color:#d5bd82}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.progress{height:10px;background:#202a23;border-radius:20px;overflow:hidden;margin-top:12px}.progress i{display:block;width:1.7%;height:100%;background:linear-gradient(90deg,#2d9d5c,#a1844f);border-radius:20px;transition:.4s}.minirow{display:flex;justify-content:space-between;color:#849087;font-size:11px;margin-top:8px}
+.workflow-item{display:flex;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid #202a24}.workflow-item:last-child{border:0}.workflow-item input{accent-color:#58d58b;width:18px;height:18px}.workflow-item b{font-size:13px}.workflow-item span{display:block;color:#829087;font-size:11px;margin-top:3px}
+.notice{padding:12px 14px;border:1px solid #54432b;background:#1b160e;color:#cbb786;border-radius:13px;margin-bottom:12px;font-size:12px}.tablewrap{overflow:auto;border:1px solid #28332d;border-radius:15px}table{width:100%;border-collapse:collapse;min-width:760px}th,td{padding:11px 12px;text-align:left;border-bottom:1px solid #202a24;font-size:12px}th{color:#8d978f;background:#0d1410}td{color:#cdd4cf}
+.formgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}label{font-size:11px;color:#8c968f}input,select,textarea{display:block;width:100%;margin-top:6px;padding:12px;border-radius:11px;border:1px solid #35423a;background:#090e0b;color:#eef2ea;outline:none}textarea{min-height:150px;resize:vertical}input:focus,select:focus,textarea:focus{border-color:#58a56f}
+.primary{border:0;border-radius:12px;padding:12px 18px;background:linear-gradient(90deg,#267c49,#3f9a60);color:#f0f7f1;font-weight:900;cursor:pointer}.quick{display:flex;gap:8px;margin-bottom:10px}.quick button{flex:1;padding:10px;border-radius:10px;font-weight:800;cursor:pointer}.winbtn{background:#123b25;border:1px solid #43895c;color:#73d69a}.lossbtn{background:#2e2020;border:1px solid #76504b;color:#d68d82}
+.resultbox{margin-top:14px;padding:20px;border-radius:18px;background:linear-gradient(135deg,#102219,#15130d);border:1px solid #3e513c}.resultbox small{color:#8c968f}.resultbox strong{display:block;font-size:34px;margin:5px 0;color:#b7d9b7}.resultbox span{font-size:12px;color:#8c968f}.scenario-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.scenario{padding:14px;border:1px solid #303c34;border-radius:14px;background:#0d1410}.scenario b{display:block;color:#68c98a}.scenario strong{display:block;margin-top:5px}.scenario small{color:#7d8981}.trade-result{display:flex;justify-content:space-between;padding:14px;background:#090f0c;border-radius:12px}.trade-result strong{color:#67ce8c}.mt{margin-top:18px}.diarybar{display:flex;justify-content:space-between;color:#849087;font-size:12px;margin:12px 0}.win{color:#63d895!important}.loss{color:#d88c82!important}
+footer{text-align:center;color:#667168;font-size:10px;padding:25px 18px;border-top:1px solid #1b2520}
+@media(max-width:720px){.container{padding-top:16px}.hero{padding:22px 18px}.hero-badge{width:72px;height:72px;font-size:16px}.stats{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr 1fr}.scenario-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:430px){.formgrid{grid-template-columns:1fr}.scenario-grid{grid-template-columns:1fr 1fr}.hero-badge{display:none}}
+</style></head>
 <header class="topbar">
-  <div class="brandrow">
-    <div class="clover">☘</div>
-    <div><div class="brand">MY LUCKY ZONE</div><div class="sub">Trade with Plan • Discipline • Consistency</div></div>
-  </div>
-  <div class="luckchips">
-    <div class="numchip"><b>8</b><span>LUCKY NUMBER</span></div>
-    <div class="daychip">📅 <b>Saturday</b><span>LUCKY DAY</span></div>
-  </div>
+  <div><div class="brand">1000<span>→</span>60K</div><div class="sub">30-Day Trading Tracker</div></div>
   <button id="resetBtn" class="ghost">Reset</button>
 </header>
 
-<div class="layout">
-  <aside class="sidebar">
-    <button class="nav active" data-tab="dashboard">⌂ <span>Dashboard</span></button>
-    <button class="nav" data-tab="journal">▥ <span>Add Trade</span></button>
-    <button class="nav" data-tab="plan">▦ <span>30-Day Plan</span></button>
-    <button class="nav" data-tab="diary">▤ <span>Trade Journal</span></button>
-    <button class="nav" data-tab="calculator">♣ <span>Lucky Tools</span></button>
-    <button class="nav" data-tab="stats">◔ <span>Statistics</span></button>
-    <button class="nav" data-tab="calendar">▦ <span>Calendar</span></button>
-  </aside>
+<main class="container">
+  <section class="hero">
+    <div>
+      <div class="eyebrow">30 DAY CHALLENGE • SIMULATION</div>
+      <h1>Build the plan.<br><span>Track every day.</span></h1>
+      <p>Projection, journal and daily workflow in one place.</p>
+    </div>
+    <div class="hero-badge">₹1K<br><small>START</small></div>
+  </section>
 
-  <main class="main">
-    <section id="dashboard" class="panel active">
-      <div class="hero">
-        <div><div class="kicker">30 DAY CHALLENGE • SIMULATION</div>
-          <h1>1000 <span>→</span> 60K</h1>
-          <p>30-Day Trading Tracker</p></div>
-        <div class="quote">“Discipline Today<br><span>Bigger Tomorrow</span>”</div>
-      </div>
+  <section class="stats">
+    <div class="card"><small>Current Balance</small><strong id="currentBalance">₹1,000</strong><em id="pnl">+₹0</em></div>
+    <div class="card"><small>Target</small><strong>₹60,000</strong><em id="progress">1.7%</em></div>
+    <div class="card"><small>Day</small><strong id="dayNo">1 / 30</strong><em id="status">Not started</em></div>
+  </section>
 
-      <div class="stats">
-        <div class="stat"><small>Current Balance</small><strong id="currentBalance">₹1,000</strong><em id="pnl">+₹0</em></div>
-        <div class="stat"><small>Target</small><strong>₹60,000</strong><em id="progress">1.7%</em></div>
-        <div class="stat"><small>Day</small><strong id="dayNo">1 / 30</strong><em id="status">Not started</em></div>
-      </div>
+  <nav class="tabs">
+    <button class="tab active" data-tab="dashboard">Dashboard</button>
+    <button class="tab" data-tab="plan">30-Day Plan</button>
+    <button class="tab" data-tab="calculator">Calculator</button>
+    <button class="tab" data-tab="diary">Daily Diary</button>
+    <button class="tab" data-tab="journal">Trade Journal</button>
+  </nav>
+
+  <section id="dashboard" class="panel active">
+    <div class="section-head"><div><span class="kicker">TODAY</span><h2>Daily Control</h2></div><span class="pill" id="todayPill">Day 1</span></div>
+    <div class="grid2">
+      <div class="card dark"><small>Projected target today</small><strong id="todayTarget">₹1,000</strong><p>Equal-compounding path to ₹60,000.</p></div>
+      <div class="card"><small>Required daily compound</small><strong>14.66%</strong><p>Mathematical projection only.</p></div>
+    </div>
+    <div class="card">
+      <div class="section-head compact"><h3>Progress</h3><span id="progressText">0 / 30 days</span></div>
       <div class="progress"><i id="progressBar"></i></div>
-      <div class="range"><span>₹1,000</span><span>₹60,000</span></div>
+      <div class="minirow"><span>Start ₹1,000</span><span>Target ₹60,000</span></div>
+    </div>
+    <div class="card">
+      <div class="section-head compact"><h3>10 AM → 5 PM Workflow</h3><span class="pill">Today</span></div>
+      <div id="workflow"></div>
+    </div>
+  </section>
 
-      <div class="luckybox">
-        <div class="lucktitle">☘ <b>Lucky Guide</b><small>Your selected lucky colors & number</small></div>
-        <div class="luckitems">
-          <div class="luckcolor green"><i></i><b>Dark Green</b></div>
-          <div class="luckcolor brown"><i></i><b>Brown</b></div>
-          <div class="luckcolor black"><i></i><b>Black</b></div>
-          <div class="luckcolor navy"><i></i><b>Navy Blue</b></div>
-          <div class="luckcolor grey"><i></i><b>Grey</b></div>
-          <div class="luckybig"><b>8</b><span>Lucky Number</span></div>
-          <div class="saturday"><b>Saturday</b><span>Lucky Day</span></div>
-        </div>
-      </div>
+  <section id="plan" class="panel">
+    <div class="section-head"><div><span class="kicker">ROADMAP</span><h2>30-Day Plan & Record</h2></div><span class="pill">Projection</span></div>
+    <div class="notice">Targets are mathematical projections only. Real trading results can vary and losses are possible.</div>
+    <div class="tablewrap"><table><thead><tr><th>Day</th><th>Date</th><th>Start</th><th>Target</th><th>End</th><th>P/L</th><th>Trades</th><th>Wins</th><th>Losses</th><th>Status</th></tr></thead><tbody id="planBody"></tbody></table></div>
+  </section>
 
-      <div class="two">
-        <div class="card">
-          <div class="cardtitle">＋ Add New Trade</div>
-          <div class="formgrid">
-            <label>Date<input id="jDate" type="date"></label>
-            <label>Time<input id="jTime" type="time" value="10:00"></label>
-            <label>Day<select id="jDay"></select></label>
-            <label>Period Number<input id="jPeriod" type="text" placeholder="Enter period number"></label>
-            <label>Starting Balance<input id="jStart" type="number" value="1000"></label>
-            <label>Result ₹<input id="jResult" type="number" step="0.01" placeholder="+20 / -15"></label>
-          </div>
-          <label>Notes<input id="jNote" type="text" placeholder="e.g. good pattern, avoid next time..."></label>
-          <div class="quick"><button class="win" id="quickWin">↑ Win</button><button class="loss" id="quickLoss">↓ Loss</button></div>
-          <button id="addTrade" class="primary">▣ Save Trade</button>
-        </div>
-
-        <div class="card">
-          <div class="cardhead"><div class="cardtitle">▣ Today's Overview</div><span class="pill" id="todayPill">Day 1</span></div>
-          <div class="overview">
-            <div><small>Total Trades</small><b id="todayTrades">0</b></div>
-            <div><small>Wins</small><b class="greenText" id="todayWins">0</b></div>
-            <div><small>Losses</small><b class="redText" id="todayLosses">0</b></div>
-            <div><small>Today's P/L</small><b id="todayPnl">₹0</b></div>
-          </div>
-          <div class="diarymini">
-            <div class="cardtitle">▤ Today's Diary <button class="tiny" id="saveDiary">Save</button></div>
-            <textarea id="diaryText" placeholder="Write about today's trading, what worked, what didn't, lessons and plan for tomorrow..."></textarea>
-            <div class="templates">
-              <button data-note="Good day">Good Day</button><button data-note="Challenging">Challenging</button>
-              <button data-note="Mistakes">Mistakes</button><button data-note="Plan for Tomorrow">Plan for Tomorrow</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card tradescard">
-        <div class="cardtitle">☘ Today's Trades</div>
-        <div class="tablewrap"><table><thead><tr><th>#</th><th>Time</th><th>Period</th><th>Result</th><th>Amount</th><th>Balance</th><th>Note</th></tr></thead><tbody id="todayTradesBody"></tbody></table></div>
-      </div>
-    </section>
-
-    <section id="journal" class="panel">
-      <div class="sectionhead"><div><span class="kicker">TRADE RECORD</span><h2>All Trade Records</h2></div><span class="pill" id="tradeCountLabel">0 trades</span></div>
-      <div class="card"><div class="tablewrap"><table><thead><tr><th>#</th><th>Day/Date</th><th>Time</th><th>Period</th><th>P/L</th><th>Before</th><th>After</th><th>Note</th></tr></thead><tbody id="journalBody"></tbody></table></div></div>
-    </section>
-
-    <section id="plan" class="panel">
-      <div class="sectionhead"><div><span class="kicker">ROADMAP</span><h2>30-Day Plan & Record</h2></div><span class="pill">Projection</span></div>
-      <div class="notice">Targets are mathematical projections only. Real trading results can vary and losses are possible.</div>
-      <div class="card"><div class="tablewrap"><table><thead><tr><th>Day</th><th>Date</th><th>Start</th><th>Target</th><th>End</th><th>P/L</th><th>Trades</th><th>Wins</th><th>Losses</th><th>Status</th></tr></thead><tbody id="planBody"></tbody></table></div></div>
-    </section>
-
-    <section id="diary" class="panel">
-      <div class="sectionhead"><div><span class="kicker">DAILY DIARY</span><h2>Day-by-Day Journal</h2></div></div>
-      <div class="card">
-        <div class="formgrid"><label>Day<select id="diaryDay"></select></label><label>Date<input id="diaryDate" type="date"></label></div>
-        <label>Journal<textarea id="fullDiary" placeholder="What happened today? Wins, losses, mistakes, observations, lessons and tomorrow's plan..."></textarea></label>
-        <button class="primary" id="saveFullDiary">Save Day Journal</button>
-        <span class="saved" id="fullSaved"></span>
-      </div>
-    </section>
-
-    <section id="calculator" class="panel">
-      <div class="sectionhead"><div><span class="kicker">LUCKY TOOLS</span><h2>Compound & Trade Calculator</h2></div></div>
-      <div class="card">
-        <div class="formgrid">
-          <label>Starting Balance<input id="calcStart" type="number" value="1000"></label>
-          <label>Days<input id="calcDays" type="number" value="30"></label>
-          <label>Daily %<input id="calcRate" type="number" step="0.01" value="14.66"></label>
-          <label>Target<input id="calcTarget" type="number" value="60000"></label>
-        </div>
-        <button id="calcBtn" class="primary">Calculate</button>
-        <div class="resultbox"><small>Projected ending balance</small><strong id="calcResult">₹0</strong><span id="calcNote"></span></div>
-        <h3>1%–5% daily scenarios</h3><div id="scenarios" class="scenario-grid"></div>
-      </div>
-      <div class="card mt"><h3>Per-trade scenario</h3><div class="formgrid">
+  <section id="calculator" class="panel">
+    <div class="section-head"><div><span class="kicker">TOOLS</span><h2>Compound Calculator</h2></div></div>
+    <div class="formgrid">
+      <label>Starting balance<input id="calcStart" type="number" value="1000"></label>
+      <label>Days<input id="calcDays" type="number" value="30"></label>
+      <label>Daily assumed growth %<input id="calcRate" type="number" step="0.01" value="14.66"></label>
+      <label>Target<input id="calcTarget" type="number" value="60000"></label>
+    </div>
+    <button id="calcBtn" class="primary">Calculate Projection</button>
+    <div class="resultbox"><small>Projected ending balance</small><strong id="calcResult">₹0</strong><span id="calcNote"></span></div>
+    <h3 class="mt">1%–5% daily scenarios</h3>
+    <div id="scenarios" class="scenario-grid"></div>
+    <div class="card mt">
+      <h3>Per-trade scenario</h3>
+      <div class="formgrid">
         <label>Balance<input id="tradeStart" type="number" value="1000"></label>
-        <label>% / Trade<input id="tradeRate" type="number" step="0.1" value="2"></label>
+        <label>Assumed % / trade<input id="tradeRate" type="number" step="0.1" value="2"></label>
         <label>Trades<input id="tradeCount" type="number" value="10"></label>
-      </div><div class="tradeResult"><span>Mathematical all-win scenario</span><strong id="tradeResult">₹1,219</strong></div></div>
-    </section>
-
-    <section id="stats" class="panel">
-      <div class="sectionhead"><div><span class="kicker">ANALYTICS</span><h2>Statistics</h2></div></div>
-      <div class="stats stats4">
-        <div class="stat"><small>Total Trades</small><strong id="sTrades">0</strong></div>
-        <div class="stat"><small>Wins</small><strong id="sWins">0</strong></div>
-        <div class="stat"><small>Losses</small><strong id="sLosses">0</strong></div>
-        <div class="stat"><small>Total P/L</small><strong id="sPnl">₹0</strong></div>
       </div>
-      <div class="card mt"><h3>Daily P/L</h3><div id="dailyStats"></div></div>
-    </section>
+      <div class="trade-result"><span>Mathematical all-win projection</span><strong id="tradeResult">₹1,219</strong></div>
+      <p class="muted">This is a compound scenario, not a prediction of actual trading results.</p>
+    </div>
+  </section>
 
-    <section id="calendar" class="panel">
-      <div class="sectionhead"><div><span class="kicker">HISTORY</span><h2>30-Day Calendar</h2></div></div>
-      <div id="calendarGrid" class="calendarGrid"></div>
-    </section>
-  </main>
-</div>
-<footer>MY LUCKY ZONE • Lucky preferences are user-provided and are for personal motivation/organization, not a guarantee of trading outcomes.</footer>
+  <section id="diary" class="panel">
+    <div class="section-head"><div><span class="kicker">DAILY DIARY</span><h2>Day Journal</h2></div><span class="pill">Saved by date</span></div>
+    <div class="card">
+      <div class="formgrid"><label>Day<select id="diaryDay"></select></label><label>Date<input id="diaryDate" type="date"></label></div>
+      <label>Today's notes / diary<textarea id="fullDiary" placeholder="Aaj kya hua? Observations, mistakes, lessons, plan..."></textarea></label>
+      <div class="diarybar"><span id="diaryStats"></span><span id="fullSaved"></span></div>
+      <button id="saveFullDiary" class="primary">Save Day Journal</button>
+    </div>
+  </section>
+
+  <section id="journal" class="panel">
+    <div class="section-head"><div><span class="kicker">TRADE RECORD</span><h2>Trade Journal</h2></div><span class="pill" id="tradeCountLabel">0 trades</span></div>
+    <div class="card">
+      <div class="formgrid">
+        <label>Day<select id="jDay"></select></label>
+        <label>Date<input id="jDate" type="date"></label>
+        <label>Time<input id="jTime" type="time" value="10:00"></label>
+        <label>Period Number<input id="jPeriod" type="text" placeholder="Enter period"></label>
+        <label>Starting balance<input id="jStart" type="number" value="1000"></label>
+        <label>Win / Loss P&L ₹<input id="jResult" type="number" step="0.01" placeholder="+20 or -15"></label>
+        <label>Note<input id="jNote" type="text" placeholder="Optional note"></label>
+      </div>
+      <div class="quick"><button class="winbtn" id="quickWin">+ Win</button><button class="lossbtn" id="quickLoss">− Loss</button></div>
+      <button id="addTrade" class="primary">Save Trade Record</button>
+      <p class="muted">Win = positive amount, Loss = negative amount. Date, time, day and period number are saved.</p>
+    </div>
+    <div class="tablewrap mt"><table><thead><tr><th>#</th><th>Day / Date</th><th>Time</th><th>Period</th><th>P/L</th><th>Before</th><th>After</th><th>Note</th></tr></thead><tbody id="journalBody"></tbody></table></div>
+  </section>
+</main>
+<footer>1000 → 60K • Educational projection & tracking tool • Real trading involves risk.</footer>
 <script>
-const KEY="t2_lucky_zone_v1",START=1000,TARGET=60000,DAYS=30;
+const KEY="t2_1000_60k_v2",START=1000,TARGET=60000,DAYS=30;
 const dailyRate=Math.pow(TARGET/START,1/DAYS)-1;
-let state=JSON.parse(localStorage.getItem(KEY)||"null")||{days:{},trades:[]};
+let state=JSON.parse(localStorage.getItem(KEY)||"null")||{days:{},trades:[],workflow:{}};
 const money=n=>"₹"+(Number(n)||0).toLocaleString("en-IN",{maximumFractionDigits:2});
 const todayISO=()=>new Date().toISOString().slice(0,10),save=()=>localStorage.setItem(KEY,JSON.stringify(state));
 const projected=d=>START*Math.pow(1+dailyRate,d);
@@ -179,39 +140,60 @@ const dayPnl=d=>dayTrades(d).reduce((s,t)=>s+Number(t.result||0),0);
 const currentBalance=()=>{const a=state.trades.slice().sort((x,y)=>new Date(x.timestamp)-new Date(y.timestamp));return a.length?+a[a.length-1].end:START};
 
 function render(){
- let ds=Object.keys(state.days).filter(d=>state.days[d].journal||state.days[d].actual!==null||dayTrades(d).length).map(Number);
- let last=ds.length?Math.max(...ds):0,active=Math.min(last+1,DAYS),cur=currentBalance();
- currentBalance.textContent=money(cur);pnl.textContent=(cur>=START?"+":"")+money(cur-START);
- progress.textContent=(cur/TARGET*100).toFixed(1)+"%";dayNo.textContent=`${active} / ${DAYS}`;status.textContent=last?"Tracking":"Not started";todayPill.textContent=`Day ${active}`;
- progressBar.style.width=Math.max(1,Math.min(100,cur/TARGET*100))+"%";
- renderPlan();renderToday(active);renderJournal();renderDiary(active);renderStats();renderCalendar();renderScenarios();updateTradeCalc();calc();
+ const ds=Object.keys(state.days).filter(d=>state.days[d].journal||state.days[d].actual!==null||dayTrades(d).length).map(Number);
+ const last=ds.length?Math.max(...ds):0,active=Math.min(last+1,DAYS),cur=currentBalance();
+ currentBalanceEl.textContent=money(cur);pnl.textContent=(cur>=START?"+":"")+money(cur-START);
+ progress.textContent=(cur/TARGET*100).toFixed(1)+"%";dayNo.textContent=`${active} / ${DAYS}`;
+ status.textContent=last?"Tracking":"Not started";todayPill.textContent=`Day ${active}`;
+ todayTarget.textContent=money(projected(active));progressText.textContent=`${last} / ${DAYS} days`;
+ progressBar.style.width=Math.max(0,Math.min(100,cur/TARGET*100))+"%";
+ renderPlan();renderToday(active);renderJournal();renderDiary(active);renderScenarios();updateTradeCalc();calc();renderWorkflow();
 }
 function renderToday(d){
- let a=dayTrades(d);todayTrades.textContent=a.length;todayWins.textContent=a.filter(t=>t.result>0).length;todayLosses.textContent=a.filter(t=>t.result<0).length;todayPnl.textContent=(dayPnl(d)>=0?"+":"")+money(dayPnl(d));
- todayTradesBody.innerHTML=a.map((t,i)=>`<tr><td>${i+1}</td><td>${t.time}</td><td>${t.period}</td><td class="${t.result>=0?"win":"loss"}">${t.result>=0?"+":""}${money(t.result)}</td><td>${money(Math.abs(t.result))}</td><td>${money(t.end)}</td><td>${t.note||""}</td></tr>`).join("");
- let x=ensureDay(d);diaryText.value=x.journal||"";
+ const a=dayTrades(d);const p=dayPnl(d);
+ const tb=document.getElementById("workflow");
+ todayTarget.textContent=money(projected(d));
+ const diary=ensureDay(d);diaryStats.textContent=`${a.length} trades • ${a.filter(t=>t.result>0).length} wins • ${a.filter(t=>t.result<0).length} losses • P/L ${p>=0?"+":""}${money(p)}`;
+ fullDiary.value=diary.journal||"";
 }
-function renderPlan(){planBody.innerHTML=Array.from({length:DAYS},(_,i)=>{let d=i+1,x=ensureDay(d),a=dayTrades(d),p=dayPnl(d),actual=x.actual!==null?x.actual:(a.length?a[a.length-1].end:null),st=actual==null?"Not started":actual>=projected(d)?"Ahead":"Behind";return `<tr><td><b>${d}</b></td><td>${x.date||"—"}</td><td>${money(d===1?START:projected(d-1))}</td><td>${money(projected(d))}</td><td>${actual==null?"—":money(actual)}</td><td class="${p>=0?"win":"loss"}">${p>=0?"+":""}${money(p)}</td><td>${a.length}</td><td>${a.filter(t=>t.result>0).length}</td><td>${a.filter(t=>t.result<0).length}</td><td>${st}</td></tr>`}).join("")}
-function renderJournal(){journalBody.innerHTML=state.trades.slice().sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp)).map((t,i)=>`<tr><td>${i+1}</td><td>Day ${t.day}<br><small>${t.date}</small></td><td>${t.time}</td><td>${t.period}</td><td class="${t.result>=0?"win":"loss"}">${t.result>=0?"+":""}${money(t.result)}</td><td>${money(t.start)}</td><td>${money(t.end)}</td><td>${t.note||""}</td></tr>`).join("");tradeCountLabel.textContent=`${state.trades.length} trades`}
-function renderDiary(active){let d=+diaryDay.value||active,x=ensureDay(d);diaryDay.value=d;diaryDate.value=x.date||"";fullDiary.value=x.journal||""}
-function addTrade(){let d=+jDay.value||1,date=jDate.value||todayISO(),time=jTime.value||"10:00",period=jPeriod.value.trim(),start=+jStart.value||0,result=+jResult.value||0,note=jNote.value.trim();if(!period)return alert("Period number enter karo.");if(!start)return alert("Starting balance enter karo.");let end=start+result;state.trades.push({day:d,date,time,period,start,result,end,note,timestamp:`${date}T${time}:00`});let x=ensureDay(d);x.date=date;x.actual=end;save();render();jStart.value=end;jResult.value=0;jPeriod.value="";jNote.value=""}
-function renderStats(){let a=state.trades,p=a.reduce((s,t)=>s+t.result,0);sTrades.textContent=a.length;sWins.textContent=a.filter(t=>t.result>0).length;sLosses.textContent=a.filter(t=>t.result<0).length;sPnl.textContent=(p>=0?"+":"")+money(p);dailyStats.innerHTML=Array.from({length:DAYS},(_,i)=>i+1).filter(d=>dayTrades(d).length).map(d=>`<div class="statline"><b>Day ${d}</b><span>${dayTrades(d).length} trades</span><strong class="${dayPnl(d)>=0?"win":"loss"}">${dayPnl(d)>=0?"+":""}${money(dayPnl(d))}</strong></div>`).join("")}
-function renderCalendar(){calendarGrid.innerHTML=Array.from({length:DAYS},(_,i)=>i+1).map(d=>{let x=ensureDay(d),a=dayTrades(d);return `<button class="cal ${a.length||x.journal?"has":""}" data-d="${d}"><b>${d}</b><small>${x.date||"Not recorded"}</small><em>${a.length?money(dayPnl(d)):"—"}</em></button>`}).join("");document.querySelectorAll(".cal").forEach(b=>b.onclick=()=>{document.querySelector('[data-tab="diary"]').click();diaryDay.value=b.dataset.d;renderDiary(+b.dataset.d)})}
+function renderPlan(){
+ planBody.innerHTML="";
+ for(let d=1;d<=DAYS;d++){const x=ensureDay(d),a=dayTrades(d),p=dayPnl(d),actual=x.actual!==null?x.actual:(a.length?a[a.length-1].end:null),st=actual==null?"Not started":actual>=projected(d)?"Ahead":"Behind";
+ planBody.innerHTML+=`<tr><td><b>Day ${d}</b></td><td>${x.date||"—"}</td><td>${money(d===1?START:projected(d-1))}</td><td>${money(projected(d))}</td><td>${actual==null?"—":money(actual)}</td><td class="${p>=0?"win":"loss"}">${p>=0?"+":""}${money(p)}</td><td>${a.length}</td><td>${a.filter(t=>t.result>0).length}</td><td>${a.filter(t=>t.result<0).length}</td><td>${st}</td></tr>`}
+}
+function renderJournal(){
+ journalBody.innerHTML=state.trades.slice().sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp)).map((t,i)=>`<tr><td>${i+1}</td><td>Day ${t.day}<br><small>${t.date}</small></td><td>${t.time}</td><td>${t.period}</td><td class="${t.result>=0?"win":"loss"}">${t.result>=0?"+":""}${money(t.result)}</td><td>${money(t.start)}</td><td>${money(t.end)}</td><td>${t.note||""}</td></tr>`).join("");
+ tradeCountLabel.textContent=`${state.trades.length} trades`;
+}
+function renderDiary(active){
+ for(let d=1;d<=DAYS;d++){if(![...diaryDay.options].some(o=>+o.value===d)) diaryDay.innerHTML+=`<option value="${d}">Day ${d}</option>`}
+ const d=+diaryDay.value||active,x=ensureDay(d);diaryDay.value=d;diaryDate.value=x.date||"";fullDiary.value=x.journal||"";
+}
+function addTrade(){
+ const d=+jDay.value||1,date=jDate.value||todayISO(),time=jTime.value||"10:00",period=jPeriod.value.trim(),start=+jStart.value||0,result=+jResult.value||0,note=jNote.value.trim();
+ if(!period)return alert("Period number enter karo.");
+ if(!start)return alert("Starting balance enter karo.");
+ const end=start+result;state.trades.push({day:d,date,time,period,start,result,end,note,timestamp:`${date}T${time}:00`});
+ const x=ensureDay(d);x.date=date;x.actual=end;save();render();jStart.value=end;jResult.value=0;jNote.value="";jPeriod.value="";
+}
 function renderScenarios(){scenarios.innerHTML=[1,2,3,4,5].map(r=>`<div class="scenario"><b>${r}% / day</b><strong>${money(START*Math.pow(1+r/100,DAYS))}</strong><small>30 periods</small></div>`).join("")}
-function updateTradeCalc(){let s=+tradeStart.value||0,r=+tradeRate.value||0,n=+tradeCount.value||0;tradeResult.textContent=money(s*Math.pow(1+r/100,n))}
-function calc(){let s=+calcStart.value||0,d=+calcDays.value||0,r=+calcRate.value||0;calcResult.textContent=money(s*Math.pow(1+r/100,d));calcNote.textContent=`${r}% daily assumption • ${d} periods`}
-document.querySelectorAll(".nav").forEach(b=>b.onclick=()=>{document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.getElementById(b.dataset.tab).classList.add("active")});
+function updateTradeCalc(){const s=+tradeStart.value||0,r=+tradeRate.value||0,n=+tradeCount.value||0;tradeResult.textContent=money(s*Math.pow(1+r/100,n))}
+function calc(){const s=+calcStart.value||0,d=+calcDays.value||0,r=+calcRate.value||0,v=s*Math.pow(1+r/100,d);calcResult.textContent=money(v);calcNote.textContent=`${r}% daily assumption • ${d} periods`}
+function renderWorkflow(){
+ const items=[["10:00–10:30","Preparation","Set target, review previous day and define stop conditions."],["10:30–12:00","Session 1","Record every trade; don't force trades."],["12:00–12:30","Review","Check P/L, wins, losses and drawdown."],["12:30–14:00","Break / analysis","Review notes and reset."],["14:00–15:30","Session 2","Continue only within predefined rules."],["15:30–16:00","Review","Compare actual balance with daily projection."],["16:00–17:00","Close","Finish journal, save period records and stop."]];
+ workflow.innerHTML=items.map((x,i)=>`<div class="workflow-item"><input type="checkbox" data-w="${i}" ${state.workflow[i]?"checked":""}><div><b>${x[0]} · ${x[1]}</b><span>${x[2]}</span></div></div>`).join("");
+ workflow.querySelectorAll("input").forEach(c=>c.onchange=()=>{state.workflow[c.dataset.w]=c.checked;save()});
+}
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.getElementById(b.dataset.tab).classList.add("active")});
 for(let d=1;d<=DAYS;d++){jDay.innerHTML+=`<option value="${d}">Day ${d}</option>`;diaryDay.innerHTML+=`<option value="${d}">Day ${d}</option>`}
 jDate.value=todayISO();diaryDate.value=todayISO();
-addTrade.onclick=addTrade;quickWin.onclick=()=>{if(!jResult.value)jResult.value=20};quickLoss.onclick=()=>{if(!jResult.value)jResult.value=-20};
-saveDiary.onclick=()=>{let d=+jDay.value||1,x=ensureDay(d);x.journal=diaryText.value;x.date=jDate.value||todayISO();save();render()};
-saveFullDiary.onclick=()=>{let x=ensureDay(+diaryDay.value);x.journal=fullDiary.value;x.date=diaryDate.value||todayISO();save();render();fullSaved.textContent="Saved ✓";setTimeout(()=>fullSaved.textContent="",1000)};
+addTrade.onclick=addTrade;
+quickWin.onclick=()=>{if(!jResult.value)jResult.value=20};
+quickLoss.onclick=()=>{if(!jResult.value)jResult.value=-20};
+saveFullDiary.onclick=()=>{const x=ensureDay(+diaryDay.value);x.journal=fullDiary.value;x.date=diaryDate.value||todayISO();save();render();fullSaved.textContent="Saved ✓";setTimeout(()=>fullSaved.textContent="",1000)};
 diaryDay.onchange=()=>renderDiary(+diaryDay.value);
-document.querySelectorAll("[data-note]").forEach(b=>b.onclick=()=>{diaryText.value+=(diaryText.value?"
-":"")+b.dataset.note});
 ["tradeStart","tradeRate","tradeCount"].forEach(id=>document.getElementById(id).oninput=updateTradeCalc);
-calcBtn.onclick=calc;resetBtn.onclick=()=>{if(confirm("Reset all saved tracker data?")){localStorage.removeItem(KEY);location.reload()}};
+calcBtn.onclick=calc;
+resetBtn.onclick=()=>{if(confirm("Reset all saved tracker data?")){localStorage.removeItem(KEY);location.reload()}};
 render();
-</script>
-</script>
-</body>
+</script></html>
