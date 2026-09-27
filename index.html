@@ -131,8 +131,10 @@ footer{text-align:center;color:#667168;font-size:10px;padding:25px 18px;border-t
 const KEY="t2_1000_60k_v2",START=1000,TARGET=60000,DAYS=30;
 const dailyRate=Math.pow(TARGET/START,1/DAYS)-1;
 let state=JSON.parse(localStorage.getItem(KEY)||"null")||{days:{},trades:[],workflow:{}};
+const $=id=>document.getElementById(id);
 const money=n=>"₹"+(Number(n)||0).toLocaleString("en-IN",{maximumFractionDigits:2});
-const todayISO=()=>new Date().toISOString().slice(0,10),save=()=>localStorage.setItem(KEY,JSON.stringify(state));
+const todayISO=()=>new Date().toISOString().slice(0,10);
+const save=()=>localStorage.setItem(KEY,JSON.stringify(state));
 const projected=d=>START*Math.pow(1+dailyRate,d);
 const ensureDay=d=>state.days[d]||(state.days[d]={date:"",journal:"",actual:null});
 const dayTrades=d=>state.trades.filter(t=>+t.day===+d);
@@ -140,60 +142,135 @@ const dayPnl=d=>dayTrades(d).reduce((s,t)=>s+Number(t.result||0),0);
 const currentBalance=()=>{const a=state.trades.slice().sort((x,y)=>new Date(x.timestamp)-new Date(y.timestamp));return a.length?+a[a.length-1].end:START};
 
 function render(){
- const ds=Object.keys(state.days).filter(d=>state.days[d].journal||state.days[d].actual!==null||dayTrades(d).length).map(Number);
- const last=ds.length?Math.max(...ds):0,active=Math.min(last+1,DAYS),cur=currentBalance();
- currentBalanceEl.textContent=money(cur);pnl.textContent=(cur>=START?"+":"")+money(cur-START);
- progress.textContent=(cur/TARGET*100).toFixed(1)+"%";dayNo.textContent=`${active} / ${DAYS}`;
- status.textContent=last?"Tracking":"Not started";todayPill.textContent=`Day ${active}`;
- todayTarget.textContent=money(projected(active));progressText.textContent=`${last} / ${DAYS} days`;
- progressBar.style.width=Math.max(0,Math.min(100,cur/TARGET*100))+"%";
- renderPlan();renderToday(active);renderJournal();renderDiary(active);renderScenarios();updateTradeCalc();calc();renderWorkflow();
+  const ds=Object.keys(state.days).filter(d=>state.days[d].journal||state.days[d].actual!==null||dayTrades(d).length).map(Number);
+  const last=ds.length?Math.max(...ds):0,active=Math.min(last+1,DAYS),cur=currentBalance();
+  $("currentBalance").textContent=money(cur);
+  $("pnl").textContent=(cur>=START?"+":"")+money(cur-START);
+  $("progress").textContent=(cur/TARGET*100).toFixed(1)+"%";
+  $("dayNo").textContent=`${active} / ${DAYS}`;
+  $("status").textContent=last?"Tracking":"Not started";
+  $("todayPill").textContent=`Day ${active}`;
+  $("todayTarget").textContent=money(projected(active));
+  $("progressText").textContent=`${last} / ${DAYS} days`;
+  $("progressBar").style.width=Math.max(0,Math.min(100,cur/TARGET*100))+"%";
+  renderPlan(); renderToday(active); renderJournal(); renderDiary(active); renderScenarios(); updateTradeCalc(); calc(); renderWorkflow();
 }
+
 function renderToday(d){
- const a=dayTrades(d);const p=dayPnl(d);
- const tb=document.getElementById("workflow");
- todayTarget.textContent=money(projected(d));
- const diary=ensureDay(d);diaryStats.textContent=`${a.length} trades • ${a.filter(t=>t.result>0).length} wins • ${a.filter(t=>t.result<0).length} losses • P/L ${p>=0?"+":""}${money(p)}`;
- fullDiary.value=diary.journal||"";
+  const a=dayTrades(d),p=dayPnl(d);
+  const x=ensureDay(d);
+  $("diaryStats").textContent=`${a.length} trades • ${a.filter(t=>t.result>0).length} wins • ${a.filter(t=>t.result<0).length} losses • P/L ${p>=0?"+":""}${money(p)}`;
+  $("fullDiary").value=x.journal||"";
 }
+
 function renderPlan(){
- planBody.innerHTML="";
- for(let d=1;d<=DAYS;d++){const x=ensureDay(d),a=dayTrades(d),p=dayPnl(d),actual=x.actual!==null?x.actual:(a.length?a[a.length-1].end:null),st=actual==null?"Not started":actual>=projected(d)?"Ahead":"Behind";
- planBody.innerHTML+=`<tr><td><b>Day ${d}</b></td><td>${x.date||"—"}</td><td>${money(d===1?START:projected(d-1))}</td><td>${money(projected(d))}</td><td>${actual==null?"—":money(actual)}</td><td class="${p>=0?"win":"loss"}">${p>=0?"+":""}${money(p)}</td><td>${a.length}</td><td>${a.filter(t=>t.result>0).length}</td><td>${a.filter(t=>t.result<0).length}</td><td>${st}</td></tr>`}
+  $("planBody").innerHTML="";
+  for(let d=1;d<=DAYS;d++){
+    const x=ensureDay(d),a=dayTrades(d),p=dayPnl(d);
+    const actual=x.actual!==null?x.actual:(a.length?a[a.length-1].end:null);
+    const st=actual==null?"Not started":actual>=projected(d)?"Ahead":"Behind";
+    $("planBody").innerHTML+=`<tr><td><b>Day ${d}</b></td><td>${x.date||"—"}</td><td>${money(d===1?START:projected(d-1))}</td><td>${money(projected(d))}</td><td>${actual==null?"—":money(actual)}</td><td class="${p>=0?"win":"loss"}">${p>=0?"+":""}${money(p)}</td><td>${a.length}</td><td>${a.filter(t=>t.result>0).length}</td><td>${a.filter(t=>t.result<0).length}</td><td>${st}</td></tr>`;
+  }
 }
+
 function renderJournal(){
- journalBody.innerHTML=state.trades.slice().sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp)).map((t,i)=>`<tr><td>${i+1}</td><td>Day ${t.day}<br><small>${t.date}</small></td><td>${t.time}</td><td>${t.period}</td><td class="${t.result>=0?"win":"loss"}">${t.result>=0?"+":""}${money(t.result)}</td><td>${money(t.start)}</td><td>${money(t.end)}</td><td>${t.note||""}</td></tr>`).join("");
- tradeCountLabel.textContent=`${state.trades.length} trades`;
+  $("journalBody").innerHTML=state.trades.slice().sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp)).map((t,i)=>
+    `<tr><td>${i+1}</td><td>Day ${t.day}<br><small>${t.date}</small></td><td>${t.time}</td><td>${t.period}</td><td class="${t.result>=0?"win":"loss"}">${t.result>=0?"+":""}${money(t.result)}</td><td>${money(t.start)}</td><td>${money(t.end)}</td><td>${t.note||""}</td></tr>`
+  ).join("");
+  $("tradeCountLabel").textContent=`${state.trades.length} trades`;
 }
+
 function renderDiary(active){
- for(let d=1;d<=DAYS;d++){if(![...diaryDay.options].some(o=>+o.value===d)) diaryDay.innerHTML+=`<option value="${d}">Day ${d}</option>`}
- const d=+diaryDay.value||active,x=ensureDay(d);diaryDay.value=d;diaryDate.value=x.date||"";fullDiary.value=x.journal||"";
+  const d=Number($("diaryDay").value)||active,x=ensureDay(d);
+  $("diaryDay").value=d;$("diaryDate").value=x.date||"";$("fullDiary").value=x.journal||"";
 }
-function addTrade(){
- const d=+jDay.value||1,date=jDate.value||todayISO(),time=jTime.value||"10:00",period=jPeriod.value.trim(),start=+jStart.value||0,result=+jResult.value||0,note=jNote.value.trim();
- if(!period)return alert("Period number enter karo.");
- if(!start)return alert("Starting balance enter karo.");
- const end=start+result;state.trades.push({day:d,date,time,period,start,result,end,note,timestamp:`${date}T${time}:00`});
- const x=ensureDay(d);x.date=date;x.actual=end;save();render();jStart.value=end;jResult.value=0;jNote.value="";jPeriod.value="";
+
+function addTradeRecord(){
+  const d=Number($("jDay").value)||1;
+  const date=$("jDate").value||todayISO();
+  const time=$("jTime").value||"10:00";
+  const period=$("jPeriod").value.trim();
+  const start=Number($("jStart").value);
+  const result=Number($("jResult").value);
+  const note=$("jNote").value.trim();
+
+  if(!period){alert("Period number enter karo.");return;}
+  if(!Number.isFinite(start)||start<=0){alert("Starting balance enter karo.");return;}
+  if(!Number.isFinite(result)||result===0){alert("Win/Loss amount enter karo. Win ke liye +20, loss ke liye -20.");return;}
+
+  const end=start+result;
+  state.trades.push({day:d,date,time,period,start,result,end,note,timestamp:`${date}T${time}:00`});
+  const x=ensureDay(d);x.date=date;x.actual=end;
+  save();render();
+
+  $("jStart").value=end;
+  $("jResult").value="";
+  $("jPeriod").value="";
+  $("jNote").value="";
+  alert("Trade saved ✓");
 }
-function renderScenarios(){scenarios.innerHTML=[1,2,3,4,5].map(r=>`<div class="scenario"><b>${r}% / day</b><strong>${money(START*Math.pow(1+r/100,DAYS))}</strong><small>30 periods</small></div>`).join("")}
-function updateTradeCalc(){const s=+tradeStart.value||0,r=+tradeRate.value||0,n=+tradeCount.value||0;tradeResult.textContent=money(s*Math.pow(1+r/100,n))}
-function calc(){const s=+calcStart.value||0,d=+calcDays.value||0,r=+calcRate.value||0,v=s*Math.pow(1+r/100,d);calcResult.textContent=money(v);calcNote.textContent=`${r}% daily assumption • ${d} periods`}
+
+function renderScenarios(){
+  $("scenarios").innerHTML=[1,2,3,4,5].map(r=>
+    `<div class="scenario"><b>${r}% / day</b><strong>${money(START*Math.pow(1+r/100,DAYS))}</strong><small>30 periods</small></div>`
+  ).join("");
+}
+
+function updateTradeCalc(){
+  const s=Number($("tradeStart").value)||0,r=Number($("tradeRate").value)||0,n=Number($("tradeCount").value)||0;
+  $("tradeResult").textContent=money(s*Math.pow(1+r/100,n));
+}
+
+function calc(){
+  const s=Number($("calcStart").value)||0,d=Number($("calcDays").value)||0,r=Number($("calcRate").value)||0;
+  $("calcResult").textContent=money(s*Math.pow(1+r/100,d));
+  $("calcNote").textContent=`${r}% daily assumption • ${d} periods`;
+}
+
 function renderWorkflow(){
- const items=[["10:00–10:30","Preparation","Set target, review previous day and define stop conditions."],["10:30–12:00","Session 1","Record every trade; don't force trades."],["12:00–12:30","Review","Check P/L, wins, losses and drawdown."],["12:30–14:00","Break / analysis","Review notes and reset."],["14:00–15:30","Session 2","Continue only within predefined rules."],["15:30–16:00","Review","Compare actual balance with daily projection."],["16:00–17:00","Close","Finish journal, save period records and stop."]];
- workflow.innerHTML=items.map((x,i)=>`<div class="workflow-item"><input type="checkbox" data-w="${i}" ${state.workflow[i]?"checked":""}><div><b>${x[0]} · ${x[1]}</b><span>${x[2]}</span></div></div>`).join("");
- workflow.querySelectorAll("input").forEach(c=>c.onchange=()=>{state.workflow[c.dataset.w]=c.checked;save()});
+  const items=[
+    ["10:00–10:30","Preparation","Set target, review previous day and define stop conditions."],
+    ["10:30–12:00","Session 1","Record every trade; don't force trades."],
+    ["12:00–12:30","Review","Check P/L, wins, losses and drawdown."],
+    ["12:30–14:00","Break / analysis","Review notes and reset."],
+    ["14:00–15:30","Session 2","Continue only within predefined rules."],
+    ["15:30–16:00","Review","Compare actual balance with daily projection."],
+    ["16:00–17:00","Close","Finish journal, save period records and stop."]
+  ];
+  $("workflow").innerHTML=items.map((x,i)=>
+    `<div class="workflow-item"><input type="checkbox" data-w="${i}" ${state.workflow[i]?"checked":""}><div><b>${x[0]} · ${x[1]}</b><span>${x[2]}</span></div></div>`
+  ).join("");
+  $("workflow").querySelectorAll("input").forEach(c=>c.onchange=()=>{state.workflow[c.dataset.w]=c.checked;save()});
 }
-document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.getElementById(b.dataset.tab).classList.add("active")});
-for(let d=1;d<=DAYS;d++){jDay.innerHTML+=`<option value="${d}">Day ${d}</option>`;diaryDay.innerHTML+=`<option value="${d}">Day ${d}</option>`}
-jDate.value=todayISO();diaryDate.value=todayISO();
-addTrade.onclick=addTrade;
-quickWin.onclick=()=>{if(!jResult.value)jResult.value=20};
-quickLoss.onclick=()=>{if(!jResult.value)jResult.value=-20};
-saveFullDiary.onclick=()=>{const x=ensureDay(+diaryDay.value);x.journal=fullDiary.value;x.date=diaryDate.value||todayISO();save();render();fullSaved.textContent="Saved ✓";setTimeout(()=>fullSaved.textContent="",1000)};
-diaryDay.onchange=()=>renderDiary(+diaryDay.value);
-["tradeStart","tradeRate","tradeCount"].forEach(id=>document.getElementById(id).oninput=updateTradeCalc);
-calcBtn.onclick=calc;
-resetBtn.onclick=()=>{if(confirm("Reset all saved tracker data?")){localStorage.removeItem(KEY);location.reload()}};
+
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+  document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active");
+  $(b.dataset.tab).classList.add("active");
+});
+
+for(let d=1;d<=DAYS;d++){
+  $("jDay").innerHTML+=`<option value="${d}">Day ${d}</option>`;
+  $("diaryDay").innerHTML+=`<option value="${d}">Day ${d}</option>`;
+}
+$("jDate").value=todayISO();$("diaryDate").value=todayISO();
+
+$("addTrade").addEventListener("click",addTradeRecord);
+$("quickWin").addEventListener("click",()=>{if(!$("jResult").value)$("jResult").value=20});
+$("quickLoss").addEventListener("click",()=>{if(!$("jResult").value)$("jResult").value=-20});
+
+$("saveFullDiary").addEventListener("click",()=>{
+  const x=ensureDay(Number($("diaryDay").value));
+  x.journal=$("fullDiary").value;x.date=$("diaryDate").value||todayISO();
+  save();render();$("fullSaved").textContent="Saved ✓";
+  setTimeout(()=>$("fullSaved").textContent="",1000);
+});
+
+$("diaryDay").addEventListener("change",()=>renderDiary(Number($("diaryDay").value)));
+["tradeStart","tradeRate","tradeCount"].forEach(id=>$(id).addEventListener("input",updateTradeCalc));
+$("calcBtn").addEventListener("click",calc);
+$("resetBtn").addEventListener("click",()=>{if(confirm("Reset all saved tracker data?")){localStorage.removeItem(KEY);location.reload()}});
+
 render();
 </script></html>
