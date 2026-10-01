@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#050908">
-<title>1000 → 60K | Private 30-Day Trading Tracker</title>
+<title>₹1K → 30% Daily | Premium 30-Day Tracker</title>
 <style>
 :root{
   --bg:#050908;--panel:#0b1210;--panel2:#0e1713;--green:#35b86a;--green2:#69df98;
@@ -91,7 +91,7 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 3px rgba(85,173,115,.09
 <body>
 <div id="loginScreen" class="premium-login" class="login-screen">
   <div class="login-card">
-    <div class="login-logo">1000<span>→</span>60K</div>
+    <div class="login-logo">₹1K<span>→</span>30% Daily</div>
     <div class="login-kicker">PRIVATE TRADING TRACKER</div>
     <h1>Welcome back</h1>
     <p>Login karke apna 30-Day Tracker open karo.</p>
@@ -103,18 +103,18 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 3px rgba(85,173,115,.09
   </div>
 </div>
 
-<header class="top"><div class="topin"><div><div class="logo">1000<span>→</span>60K</div><div class="sub">30-Day Trading Tracker</div></div><button class="reset" id="resetBtn">Reset</button></div></header>
+<header class="top"><div class="topin"><div><div class="logo">₹1K<span>→</span>30% Daily</div><div class="sub">30-Day • 30% Daily Simulation Tracker</div></div><button class="reset" id="resetBtn">Reset</button></div></header>
 
 <main class="wrap">
-<section class="hero"><div><div class="kicker">30 DAY CHALLENGE • SIMULATION</div><h1>Build the plan.<br><span>Track every day.</span></h1><p>Daily plan, trade records, periods, diary and saved history in one place.</p></div><div class="badge">₹1K<br><small>START</small></div></section>
+<section class="hero"><div><div class="kicker">30 DAY PLAN • 30% DAILY SIMULATION</div><h1>Build the plan.<br><span>Track every day.</span></h1><p>Daily plan, trade records, periods, diary and saved history in one place.</p></div><div class="badge">₹1K<br><small>START</small></div></section>
 
 <section class="stats">
 <div class="card"><small>Current Balance</small><strong id="currentBalance">₹1,000</strong><span id="pnl" class="green">+₹0</span></div>
-<div class="card"><small>Target</small><strong>₹60,000</strong><span id="progress" class="green">1.7%</span></div>
+<div class="card"><small>30-Day Projected Target</small><strong>₹26,19,996</strong><span id="progress" class="green">1.7%</span></div>
 <div class="card"><small>Day</small><strong id="dayNo">1 / 30</strong><span id="status" class="green">Not started</span></div>
 <div class="card"><small>Active Session</small><strong id="sessionState">Ready</strong><span id="sessionMeta" class="muted">10 AM → 5 PM</span></div>
 </section>
-<div class="progress"><i id="progressBar"></i></div><div class="range"><span>₹1,000</span><span>₹60,000</span></div>
+<div class="progress"><i id="progressBar"></i></div><div class="range"><span>₹1,000</span><span>₹26,19,996</span></div>
 
 <nav class="tabs">
 <button class="tab active" data-tab="dashboard">Dashboard</button><button class="tab" data-tab="plan">30-Day Plan</button><button class="tab" data-tab="trade">Add Trade</button><button class="tab" data-tab="diary">Daily Diary</button><button class="tab" data-tab="history">Saved History</button><button class="tab" data-tab="calculator">Calculator</button><button class="tab" data-tab="stats">Statistics</button><button class="tab" data-tab="settings">Data</button>
@@ -123,7 +123,7 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 3px rgba(85,173,115,.09
 <section id="dashboard" class="panel active">
 <div class="head"><div><span class="kicker">TODAY</span><h2>Daily Control</h2></div><span class="pill" id="todayPill">Day 1</span></div>
 <div class="grid2">
-<div class="card"><small>Projected target today</small><strong id="todayTarget">₹1,146.60</strong><p class="muted">Equal-compounding mathematical projection.</p>
+<div class="card"><small>Projected target today</small><strong id="todayTarget">₹1,146.60</strong><p class="muted">30% daily target • Mathematical simulation only.</p>
 <div id="dayMeta" class="meta"></div>
 <button id="startDayBtn" class="btn primary dayaction">▶ Start Day 1</button><button id="endDayBtn" class="btn gold dayaction" style="display:none">■ End Day</button></div>
 <div class="card"><small>Today's result</small><strong id="todayPnl">₹0</strong><div class="grid3" style="margin-top:10px"><div><small>Trades</small><b id="todayTrades">0</b></div><div><small>Wins</small><b id="todayWins" class="green">0</b></div><div><small>Losses</small><b id="todayLosses" class="red">0</b></div></div></div>
@@ -132,7 +132,7 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 3px rgba(85,173,115,.09
 <div class="metric"><small>Win Rate</small><strong id="dashWinRate">0%</strong></div>
 <div class="metric"><small>Avg Win</small><strong id="dashAvgWin">₹0</strong></div>
 <div class="metric"><small>Avg Loss</small><strong id="dashAvgLoss">₹0</strong></div>
-<div class="metric"><small>Target Remaining</small><strong id="dashRemaining">₹60,000</strong></div>
+<div class="metric"><small>Target Remaining</small><strong id="dashRemaining">₹26,19,996</strong></div>
 </div>
 <div class="card chartbox" style="margin-top:12px"><div class="head"><h3 style="margin:0">Balance Growth</h3><span class="pill">Recorded</span></div><canvas id="balanceChart"></canvas></div>
 <div class="card" style="margin-top:12px"><div class="head"><h3 style="margin:0">Milestones</h3><span class="pill">Progress</span></div><div id="milestones" class="milestones"></div></div>
@@ -177,9 +177,9 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 3px rgba(85,173,115,.09
 <section id="calculator" class="panel">
 <div class="head"><div><span class="kicker">TOOLS</span><h2>Calculators</h2></div></div>
 <div class="card">
-<h3>Compound Projection</h3><div class="form"><label>Start<input id="calcStart" type="number" value="1000"></label><label>Days<input id="calcDays" type="number" value="30"></label><label>Daily %<input id="calcRate" type="number" step="0.01" value="14.66"></label><label>Target<input id="calcTarget" type="number" value="60000"></label></div>
+<h3>30% Daily Compound Projection</h3><div class="form"><label>Start<input id="calcStart" type="number" value="1000"></label><label>Days<input id="calcDays" type="number" value="30"></label><label>Daily %<input id="calcRate" type="number" step="0.01" value="30"></label><label>Target<input id="calcTarget" type="number" value="2619996"></label></div>
 <button class="btn primary" id="calcBtn" style="margin-top:12px">Calculate</button><div class="result"><small>Projected ending balance</small><strong id="calcResult">₹0</strong><span id="calcNote"></span></div>
-<h3 style="margin-top:20px">1%–5% Daily Scenarios</h3><div id="scenarios" class="scenarios"></div>
+<h3 style="margin-top:20px">Daily Growth Scenarios</h3><div id="scenarios" class="scenarios"></div>
 </div>
 <div class="card" style="margin-top:12px"><h3>Per-Trade Compound Scenario</h3><div class="form"><label>Balance<input id="tradeStart" type="number" value="1000"></label><label>% / Trade<input id="tradeRate" type="number" step="0.1" value="2"></label><label>Trades<input id="tradeCount" type="number" value="10"></label></div><div class="result"><small>Mathematical all-win projection</small><strong id="tradeResult">₹1,219</strong></div></div>
 </section>
@@ -205,12 +205,12 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 3px rgba(85,173,115,.09
 </section>
 </main>
 <div class="bottomnav"><button data-nav="dashboard">Home</button><button data-nav="trade">Trades</button><button data-nav="history">Calendar</button><button data-nav="stats">Stats</button><button data-nav="settings">Data</button></div>
-<footer>1000 → 60K • Educational projection & tracking tool • Real trading involves risk.</footer>
+<footer>₹1K → 30% Daily • Educational simulation & tracking tool • 30% is an assumed target, not a guaranteed return.</footer>
 <div id="toast" class="toast"></div>
 
 <script>
-const KEY="tracker_full_v1", START=1000, TARGET=60000, DAYS=30;
-const dailyRate=Math.pow(TARGET/START,1/DAYS)-1;
+const KEY="tracker_full_v1", START=1000, DAYS=30, DAILY_RATE=0.30, TARGET=Math.round(START*Math.pow(1+DAILY_RATE,DAYS));
+const dailyRate=DAILY_RATE;
 let state=JSON.parse(localStorage.getItem(KEY)||"null")||{days:{},trades:[],workflow:{},activeDay:null};
 
 const $=id=>document.getElementById(id);
@@ -267,13 +267,13 @@ function renderStats(){let a=state.trades,p=a.reduce((s,t)=>s+t.result,0);$("sTr
 function renderCalendarWorkflow(){
   let w=[["10:00–10:30","Preparation","Set target and review previous day."],["10:30–12:00","Session 1","Record each trade; don't force trades."],["12:00–12:30","Review","Check wins, losses and P/L."],["12:30–14:00","Break","Review notes and reset."],["14:00–15:30","Session 2","Continue within predefined rules."],["15:30–16:00","Review","Compare actual with projection."],["16:00–17:00","Close","Finish records and stop."]];$("workflow").innerHTML=w.map((x,i)=>`<div class="wf"><input type="checkbox" data-wf="${i}" ${state.workflow[i]?"checked":""}><div><b>${x[0]} · ${x[1]}</b><span>${x[2]}</span></div></div>`).join("");document.querySelectorAll("[data-wf]").forEach(c=>c.onchange=()=>{state.workflow[c.dataset.wf]=c.checked;save()})
 }
-function renderScenarios(){$("scenarios").innerHTML=[1,2,3,4,5].map(r=>`<div class="scenario"><b>${r}% / day</b><strong>${money(START*Math.pow(1+r/100,DAYS))}</strong><small>30 periods</small></div>`).join("")}
+function renderScenarios(){$("scenarios").innerHTML=[5,10,15,20,25,30].map(r=>`<div class="scenario"><b>${r}% / day</b><strong>${money(START*Math.pow(1+r/100,DAYS))}</strong><small>30 periods</small></div>`).join("")}
 function calc(){let s=+$("calcStart").value||0,d=+$("calcDays").value||0,r=+$("calcRate").value||0;$("calcResult").textContent=money(s*Math.pow(1+r/100,d));$("calcNote").textContent=`${r}% assumed daily growth • ${d} periods • Target ${money(+$("calcTarget").value||0)}`}
 function tradeCalc(){let s=+$("tradeStart").value||0,r=+$("tradeRate").value||0,n=+$("tradeCount").value||0;$("tradeResult").textContent=money(s*Math.pow(1+r/100,n))}
 function renderPremium(){
  const a=state.trades,w=a.filter(t=>t.result>0),l=a.filter(t=>t.result<0),wins=w.length,losses=l.length,total=a.length;
  $("dashWinRate").textContent=total?((wins/total)*100).toFixed(1)+"%":"0%";$("dashAvgWin").textContent=money(w.length?w.reduce((s,t)=>s+t.result,0)/w.length:0);$("dashAvgLoss").textContent=money(l.length?l.reduce((s,t)=>s+t.result,0)/l.length:0);$("dashRemaining").textContent=money(Math.max(0,TARGET-balance()));
- const ms=[1000,2500,5000,10000,25000,60000],bal=balance();$("milestones").innerHTML=ms.map(v=>`<div class="mile ${bal>=v?"done":""}"><b>${money(v)}</b><small>${bal>=v?"✓ Reached":"Locked"}</small></div>`).join("");
+ const ms=[1000,5000,25000,100000,500000,2619996],bal=balance();$("milestones").innerHTML=ms.map(v=>`<div class="mile ${bal>=v?"done":""}"><b>${money(v)}</b><small>${bal>=v?"✓ Reached":"Locked"}</small></div>`).join("");
  let vals=[0,...a.slice().sort((x,y)=>new Date(x.timestamp)-new Date(y.timestamp)).map(t=>Number(t.end)||0)],peak=START,dd=0;vals.forEach(v=>{peak=Math.max(peak,v);dd=Math.max(dd,peak-v)});$("bigWin").textContent=money(w.length?Math.max(...w.map(t=>t.result)):0);$("bigLoss").textContent=money(l.length?Math.min(...l.map(t=>t.result)):0);$("drawdown").textContent=money(dd);
  let streak=0;for(let i=a.length-1;i>=0;i--){if(a.slice().sort((x,y)=>new Date(x.timestamp)-new Date(y.timestamp))[i]?.result>0)streak++;else break}$("streak").textContent=streak+" W";
 }
