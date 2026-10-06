@@ -151,6 +151,250 @@ footer{border-top-color:#17271f}
   .hero{box-shadow:0 18px 55px rgba(0,0,0,.4)}
 }
 
+
+/* ===== LIGHT PREMIUM MOBILE APP THEME ===== */
+:root{
+  --bg:#f4f7f5;
+  --panel:#ffffff;
+  --panel2:#f8fbf9;
+  --green:#159a62;
+  --green2:#0f7f50;
+  --brown:#8c6b36;
+  --navy:#18344b;
+  --grey:#6b7771;
+  --line:#dce7e1;
+  --gold:#b88a2c;
+  --red:#d9534f;
+  --text:#17231e;
+  --muted:#718078;
+  --cyan:#168fa0;
+}
+html{scroll-behavior:smooth}
+body{
+  background:
+    radial-gradient(circle at 8% 0,rgba(21,154,98,.10),transparent 26%),
+    radial-gradient(circle at 95% 4%,rgba(184,138,44,.10),transparent 23%),
+    linear-gradient(180deg,#f8fbf9 0%,#f1f6f3 100%);
+  color:var(--text);
+}
+body:before{
+  opacity:.025;
+  background-image:
+    linear-gradient(rgba(21,80,54,.35) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(21,80,54,.35) 1px,transparent 1px);
+  background-size:42px 42px;
+}
+.top{
+  background:rgba(255,255,255,.90);
+  border-bottom:1px solid #dce8e1;
+  box-shadow:0 8px 30px rgba(26,61,45,.08);
+}
+.logo{color:#183129;text-shadow:none}
+.logo b,.logo span{color:var(--green)}
+.sub{color:#77847d}
+.reset{
+  background:#fffaf0;
+  border:1px solid #dfc98f;
+  color:#806327;
+  box-shadow:0 4px 14px rgba(128,99,39,.08);
+}
+.hero{
+  background:linear-gradient(135deg,#ffffff 0%,#f1faf5 100%);
+  border:1px solid #cfe3d8;
+  box-shadow:0 18px 55px rgba(27,75,52,.10),inset 0 1px 0 #fff;
+}
+.hero:after{
+  border-color:rgba(21,154,98,.14);
+  box-shadow:0 0 0 24px rgba(21,154,98,.025),0 0 0 48px rgba(184,138,44,.018);
+}
+.kicker{color:#138554}
+.hero p,.muted,.meta{color:#718078}
+.badge{
+  background:linear-gradient(145deg,#fffaf0,#f4ead0);
+  border:1px solid #d2b66b;
+  color:#876825;
+  box-shadow:0 12px 35px rgba(135,104,37,.12),inset 0 1px 0 #fff;
+}
+.card,.metric{
+  background:rgba(255,255,255,.94);
+  border:1px solid #dbe7e1;
+  box-shadow:0 10px 30px rgba(30,68,51,.07),inset 0 1px 0 #fff;
+}
+.card:hover{
+  transform:translateY(-3px);
+  border-color:#bcd8ca;
+  box-shadow:0 16px 36px rgba(30,68,51,.10);
+}
+.card small,.metric small,label{color:#718078}
+.card strong,.metric strong{color:#182a22}
+.green,.successText,.winTxt{color:#138b58!important}
+.red,.dangerText,.lossTxt{color:#d9534f!important}
+.progress{background:#e4eee9;box-shadow:inset 0 2px 5px rgba(37,74,57,.10)}
+.progress i{
+  background:linear-gradient(90deg,#159a62,#42c78c);
+  box-shadow:0 0 14px rgba(21,154,98,.20);
+}
+.tab{
+  background:#fff;
+  border:1px solid #d8e4de;
+  color:#65736b;
+  box-shadow:0 3px 12px rgba(31,66,50,.045);
+}
+.tab.active{
+  background:linear-gradient(135deg,#e4f7ed,#d4f0e2);
+  border-color:#78c39e;
+  color:#126d49;
+  box-shadow:0 7px 22px rgba(21,154,98,.13),inset 0 1px 0 #fff;
+}
+.tab:hover{border-color:#9bcdb3;color:#176c4b}
+.btn{box-shadow:0 5px 14px rgba(27,75,52,.07)}
+.primary{
+  background:linear-gradient(100deg,#138b58,#28b879);
+  color:#fff;
+  box-shadow:0 9px 22px rgba(21,154,98,.20);
+}
+.secondary{
+  background:#f7fbf9;
+  border:1px solid #bfd8cb;
+  color:#14764e;
+}
+.gold{
+  background:linear-gradient(135deg,#fff8e8,#f6ecd2);
+  border:1px solid #dfc783;
+  color:#765b20;
+}
+.danger{
+  background:#fff4f3;
+  border:1px solid #e9b5b2;
+  color:#bd4a46;
+}
+input,select,textarea{
+  background:#fbfdfc;
+  color:#1b2923;
+  border:1px solid #cfddd6;
+  box-shadow:inset 0 1px 4px rgba(31,66,50,.035);
+}
+input:focus,select:focus,textarea:focus{
+  border-color:#55b98a;
+  box-shadow:0 0 0 3px rgba(21,154,98,.10),inset 0 1px 4px rgba(31,66,50,.04);
+}
+.notice{
+  background:linear-gradient(135deg,#fffaf0,#fff7e5);
+  border:1px solid #e3cb8b;
+  color:#765f29;
+  box-shadow:0 6px 18px rgba(128,99,39,.06);
+}
+.pill{
+  background:#fff5dc;
+  color:#8a6a29;
+  border:1px solid #ead6a5;
+}
+.table,.history,.cal{
+  border-color:#d7e4dd;
+}
+.table{box-shadow:0 8px 24px rgba(30,68,51,.055)}
+table{color:#23342b}
+th{
+  color:#637169;
+  background:linear-gradient(#f5faf7,#edf4f0);
+}
+td{color:#34443c;border-bottom-color:#e3ebe7}
+.result{
+  background:linear-gradient(145deg,#f5fbf7,#ffffff);
+  border:1px solid #cfe3d8;
+  box-shadow:0 8px 24px rgba(30,68,51,.06);
+}
+.result strong{color:#14794f}
+.scenario{
+  background:#fff;
+  border:1px solid #dce7e1;
+  box-shadow:0 5px 15px rgba(30,68,51,.05);
+}
+.scenario b{color:#158653}
+.history{
+  background:#fff;
+}
+.history.active{
+  border-color:#72bd98;
+  box-shadow:0 0 0 1px #c8e8d7 inset,0 10px 25px rgba(21,154,98,.08);
+}
+.calendar .cal{
+  background:#fff;
+  color:#32433a;
+}
+.cal.started{
+  border-color:#77bf9b;
+  background:#eefaf4;
+}
+.cal.done{
+  border-color:#d4b86d;
+  background:#fffaf0;
+}
+.mile{
+  background:#f9fcfa;
+  border:1px solid #d8e5df;
+}
+.mile.done{
+  border-color:#70bd96;
+  background:#edf9f3;
+  box-shadow:inset 0 0 0 1px #c8e8d7;
+}
+.wf{border-bottom-color:#e2ebe6}
+.wf input{accent-color:#159a62}
+.bottomnav{
+  background:rgba(255,255,255,.94);
+  border-top:1px solid #d8e5df;
+  box-shadow:0 -8px 25px rgba(27,75,52,.08);
+}
+.bottomnav button{
+  background:#f8fbf9;
+  border:1px solid #dbe7e1;
+  color:#748078;
+}
+.bottomnav button.active{
+  color:#126d49;
+  border-color:#79c39e;
+  background:#e5f7ed;
+}
+footer{color:#84918a;border-top-color:#e1eae5}
+.toast{
+  background:#e6f8ee;
+  color:#146e49;
+  border:1px solid #8bcbaa;
+  box-shadow:0 8px 24px rgba(21,154,98,.15);
+}
+.login-screen{
+  background:
+    radial-gradient(circle at 50% 20%,rgba(21,154,98,.11),transparent 30%),
+    radial-gradient(circle at 15% 90%,rgba(184,138,44,.08),transparent 26%),
+    rgba(245,249,247,.96);
+}
+.login-card{
+  background:linear-gradient(145deg,#ffffff,#f1f8f4);
+  border:1px solid #cfe1d7;
+  box-shadow:0 25px 70px rgba(27,75,52,.14),inset 0 1px 0 #fff;
+}
+.login-logo{color:#183129}
+.login-logo span{color:#159a62}
+.login-kicker{color:#138554}
+.login-card h1{color:#182a22}
+.login-card>p{color:#718078}
+.login-note{color:#7b8881}
+.chartbox{background:rgba(255,255,255,.96)}
+/* smoother mobile-app feel */
+button,.card,.metric,.tab,.cal,.history,input,select,textarea{
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease,background .18s ease,color .18s ease;
+}
+button:active{transform:scale(.98)}
+.panel.active{animation:panelIn .24s ease both}
+@keyframes panelIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+@media(max-width:560px){
+  .wrap{padding-bottom:84px}
+  .hero{border-radius:20px}
+  .card{border-radius:18px}
+  .bottomnav button{min-height:42px}
+}
+
 </style>
 </head>
 <body>
@@ -179,7 +423,7 @@ footer{border-top-color:#17271f}
 <div class="card"><small>Day</small><strong id="dayNo">1 / 30</strong><span id="status" class="green">Not started</span></div>
 <div class="card"><small>Cloud</small><strong id="sessionState">Connecting</strong><span id="sessionMeta" class="muted">Supabase</span></div>
 </section>
-<div class="progress"><i id="progressBar"></i></div><div class="range"><span>₹1,000</span><span id="rangeTarget">₹143,371</span></div>
+<div class="progress"><i id="progressBar"></i></div><div class="range"><span>₹2,300</span><span id="rangeTarget">₹143,371</span></div>
 
 <nav class="tabs">
 <button class="tab active" data-tab="dashboard">Dashboard</button><button class="tab" data-tab="plan">30-Day Plan</button><button class="tab" data-tab="trade">Add Trade</button><button class="tab" data-tab="diary">Daily Diary</button><button class="tab" data-tab="history">History</button><button class="tab" data-tab="calculator">Calculator</button><button class="tab" data-tab="stats">Statistics</button><button class="tab" data-tab="settings">Data</button>
