@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#050908">
-<title>₹1K → 18% Daily | Cloud Trading Tracker</title>
+<title>₹2.3K → 18% Daily | Cloud Trading Tracker</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--bg:#050908;--panel:#0b1210;--panel2:#0e1713;--green:#35b86a;--green2:#69df98;--gold:#c8a65a;--red:#df7770;--text:#edf2ee;--muted:#84908a;--line:#23312a}
@@ -19,12 +19,144 @@ input,select,textarea{width:100%;display:block;margin-top:5px;background:#070d0a
 .table{overflow:auto;border:1px solid var(--line);border-radius:13px}table{width:100%;border-collapse:collapse;min-width:820px}th,td{padding:9px;border-bottom:1px solid #1d2822;text-align:left;font-size:11px}th{color:#7e8983;background:#0d1511}td{color:#d1d8d3}.result{padding:15px;margin-top:12px;border:1px solid #314d3a;border-radius:13px;background:#0c1811}.result strong{font-size:31px;display:block;color:#b9e5c8}
 .historygrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.history{border:1px solid var(--line);background:#0b1310;border-radius:14px;padding:14px}.history .num{font-size:22px;font-weight:900;margin:6px 0}.history button{margin-top:10px;width:100%}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}.cal{min-height:72px;border:1px solid var(--line);background:#0a110e;color:#cbd4ce;border-radius:10px;padding:8px;text-align:left}.cal.started{border-color:#3b8055;background:#0d1c13}.cal.done{border-color:#8c713e}.cal small,.cal em{display:block;font-size:9px;margin-top:4px}.cal small{color:#758078}.cal em{color:#62d594;font-style:normal}.wf{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid #1e2a23}.wf input{width:18px}.wf b{font-size:12px}.wf span{display:block;color:var(--muted);font-size:10px;margin-top:2px}.statrow{display:grid;grid-template-columns:1fr 1fr 1fr;padding:10px;border-bottom:1px solid #1d2822}.login-screen{position:fixed;inset:0;z-index:200;background:#030605ee;backdrop-filter:blur(18px);display:flex;align-items:center;justify-content:center;padding:18px}.login-card{width:min(420px,100%);padding:28px 23px;background:#0b1210;border:1px solid #31533d;border-radius:22px;box-shadow:0 30px 100px #000b}.login-logo{text-align:center;font-size:31px;font-weight:900}.login-kicker{text-align:center;color:#69df98;font-size:9px;letter-spacing:2px;font-weight:900;margin-top:5px}.login-card h2{text-align:center;margin-top:20px}.login-card label{display:block;margin-top:12px}.login-btn{width:100%;margin-top:15px}.login-error{min-height:18px;text-align:center;color:#e7867e;font-size:11px;margin-top:9px}.bottomnav{display:none}footer{text-align:center;color:#59645e;font-size:9px;padding:22px;border-top:1px solid #19231e}
 @media(max-width:850px){.stats,.metricgrid{grid-template-columns:repeat(2,1fr)}.form{grid-template-columns:1fr 1fr}.historygrid{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.wrap{padding:12px 10px 75px}.hero{padding:17px}.badge{display:none}.stats,.grid2,.grid3,.metricgrid,.form{grid-template-columns:1fr 1fr}.historygrid{grid-template-columns:1fr}.calendar{grid-template-columns:repeat(4,1fr)}.bottomnav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:60;background:#050908f2;border-top:1px solid #23312a;padding:6px;gap:5px}.bottomnav button{flex:1;background:#0b120f;border:1px solid #26372d;color:#94a098;border-radius:10px;padding:8px 3px;font-size:9px}.bottomnav button.active{color:#d8f5e1;border-color:#46885d;background:#12351f}}
+
+/* ===== PREMIUM 2.3K THEME ===== */
+:root{
+  --bg:#040706;
+  --panel:#09110e;
+  --panel2:#0d1813;
+  --green:#38d996;
+  --green2:#83f3bb;
+  --gold:#e2c276;
+  --red:#ff817c;
+  --text:#f2f7f4;
+  --muted:#8b9992;
+  --line:#20352b;
+  --cyan:#63d9e8;
+}
+body{
+  background:
+    radial-gradient(circle at 12% 0,rgba(56,217,150,.15),transparent 28%),
+    radial-gradient(circle at 92% 4%,rgba(226,194,118,.13),transparent 24%),
+    radial-gradient(circle at 55% 100%,rgba(99,217,232,.06),transparent 30%),
+    linear-gradient(145deg,#020504 0%,#07100c 48%,#040807 100%);
+}
+body:before{
+  opacity:.028;
+  background-image:
+    linear-gradient(rgba(255,255,255,.7) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.7) 1px,transparent 1px);
+  background-size:44px 44px;
+}
+.top{
+  background:rgba(3,7,5,.88);
+  border-bottom:1px solid rgba(131,243,187,.14);
+  box-shadow:0 12px 40px rgba(0,0,0,.42);
+}
+.logo{text-shadow:0 0 28px rgba(131,243,187,.18)}
+.hero{
+  background:
+    linear-gradient(135deg,rgba(11,28,20,.97),rgba(5,12,9,.96));
+  border-color:rgba(131,243,187,.28);
+  box-shadow:0 28px 90px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.045);
+}
+.hero:after{
+  border-color:rgba(226,194,118,.16);
+  box-shadow:0 0 0 24px rgba(226,194,118,.025),0 0 0 48px rgba(99,217,232,.018);
+}
+.card,.metric{
+  background:linear-gradient(145deg,rgba(12,24,18,.98),rgba(6,13,10,.98));
+  border-color:#213a2d;
+  box-shadow:0 14px 42px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.025);
+}
+.card:hover{
+  border-color:#3c6e55;
+  box-shadow:0 18px 48px rgba(0,0,0,.3),0 0 0 1px rgba(56,217,150,.04);
+}
+.tab.active{
+  background:linear-gradient(135deg,#123e2b,#0c2b20);
+  border-color:#4f9d78;
+  box-shadow:0 8px 28px rgba(56,217,150,.15);
+}
+.primary{
+  background:linear-gradient(100deg,#1b8f5e,#39d996);
+  box-shadow:0 9px 28px rgba(56,217,150,.18);
+}
+.secondary{
+  background:#0a1711;
+  border-color:#365d49;
+  color:#91e7ba;
+}
+.gold{
+  background:linear-gradient(135deg,#302713,#1e180d);
+  border-color:#806c3d;
+  color:#f0d58c;
+}
+.progress{
+  background:#121d18;
+  box-shadow:inset 0 2px 6px rgba(0,0,0,.5);
+}
+.progress i{
+  background:linear-gradient(90deg,#168157,#38d996,#9af7c7);
+  box-shadow:0 0 18px rgba(56,217,150,.3);
+}
+.badge{
+  border-color:rgba(226,194,118,.8);
+  background:radial-gradient(circle,#302713,#171108);
+  box-shadow:0 0 42px rgba(226,194,118,.13),inset 0 1px 0 rgba(255,255,255,.06);
+}
+.result{
+  background:linear-gradient(145deg,#0d1c14,#07100c);
+  border-color:#315540;
+}
+.notice{
+  border-color:#6e5a31;
+  background:linear-gradient(135deg,#1b160c,#110f09);
+  color:#dfc77e;
+}
+.table,.history,.cal{
+  border-color:#21362b;
+}
+th{background:linear-gradient(#111d17,#0a130f)}
+.cal.started{border-color:#3d8d63;background:#0d2117}
+.cal.done{border-color:#9a7a3e}
+.mile.done{
+  border-color:#48a878;
+  background:linear-gradient(145deg,#0d2418,#09150f);
+  box-shadow:inset 0 0 0 1px #205638,0 8px 24px rgba(56,217,150,.08);
+}
+.login-screen{
+  background:
+    radial-gradient(circle at 50% 25%,rgba(56,217,150,.12),transparent 30%),
+    radial-gradient(circle at 20% 90%,rgba(226,194,118,.08),transparent 26%),
+    rgba(2,5,4,.96);
+}
+.login-card{
+  background:linear-gradient(145deg,rgba(12,25,19,.98),rgba(4,10,7,.99));
+  border-color:rgba(131,243,187,.25);
+  box-shadow:0 35px 110px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,.05);
+}
+input,select,textarea{
+  background:#050c08;
+  border-color:#294236;
+}
+input:focus,select:focus,textarea:focus{
+  border-color:#55d99a;
+  box-shadow:0 0 0 3px rgba(56,217,150,.09),inset 0 1px 5px rgba(0,0,0,.3);
+}
+.tag{background:#10291e;color:#91e7ba}
+.successText{color:#83f3bb}
+footer{border-top-color:#17271f}
+@media(max-width:560px){
+  .hero{box-shadow:0 18px 55px rgba(0,0,0,.4)}
+}
+
 </style>
 </head>
 <body>
 <div id="loginScreen" class="login-screen">
   <div class="login-card">
-    <div class="login-logo">₹1K<span style="color:#69df98">→</span>18% Daily</div>
+    <div class="login-logo">₹2.3K<span style="color:#69df98">→</span>18% Daily</div>
     <div class="login-kicker">CLOUD TRADING TRACKER</div>
     <h2>Welcome back</h2>
     <p class="muted" style="text-align:center;font-size:12px">Login with your Supabase account.</p>
@@ -36,10 +168,10 @@ input,select,textarea{width:100%;display:block;margin-top:5px;background:#070d0a
   </div>
 </div>
 
-<header class="top"><div class="topin"><div><div class="logo">₹1K<span>→</span>18% Daily</div><div class="sub">30-Day • Cloud Simulation Tracker</div></div><button class="btn gold" id="resetBtn">Reset Local UI</button></div></header>
+<header class="top"><div class="topin"><div><div class="logo">₹2.3K<span>→</span>18% Daily</div><div class="sub">30-Day • Cloud Simulation Tracker</div></div><button class="btn gold" id="resetBtn">Reset Local UI</button></div></header>
 
 <main class="wrap">
-<section class="hero"><div><div class="kicker">30 DAY PLAN • 18% DAILY SIMULATION</div><h1>Build the plan.<br><span>Track every day.</span></h1><p>Cloud-synced trades, daily records, diary, statistics and backup in one place.</p></div><div class="badge">₹1K<br><small>START</small></div></section>
+<section class="hero"><div><div class="kicker">30 DAY PLAN • 18% DAILY SIMULATION</div><h1>Build the plan.<br><span>Track every day.</span></h1><p>Cloud-synced trades, daily records, diary, statistics and backup in one place.</p></div><div class="badge">₹2,300<br><small>START</small></div></section>
 
 <section class="stats">
 <div class="card"><small>Current Balance</small><strong id="currentBalance">₹1,000</strong><span id="pnl" class="green">+₹0</span></div>
@@ -74,15 +206,15 @@ input,select,textarea{width:100%;display:block;margin-top:5px;background:#070d0a
 
 <section id="history" class="panel"><div class="head"><div><span class="kicker">SAVED DATA</span><h2>Day-by-Day History</h2></div></div><div id="historyGrid" class="historygrid"></div><div class="card" style="margin-top:12px"><div class="head"><h3 style="margin:0">30-Day Calendar</h3></div><div id="calendar" class="calendar"></div></div></section>
 
-<section id="calculator" class="panel"><div class="head"><div><span class="kicker">TOOLS</span><h2>Calculators</h2></div></div><div class="card"><h3>18% Daily Compound Projection</h3><div class="form"><label>Start<input id="calcStart" type="number" value="1000"></label><label>Days<input id="calcDays" type="number" value="30"></label><label>Daily %<input id="calcRate" type="number" step="0.01" value="18"></label><label>Target<input id="calcTarget" type="number" value="143371"></label></div><button class="btn primary" id="calcBtn" style="margin-top:12px">Calculate</button><div class="result"><small>Projected ending balance</small><strong id="calcResult">₹0</strong><span id="calcNote" class="muted"></span></div></div>
-<div class="card" style="margin-top:12px"><h3>Per-Trade Compound Scenario</h3><div class="form"><label>Balance<input id="tradeStart" type="number" value="1000"></label><label>% / Trade<input id="tradeRate" type="number" step="0.1" value="2"></label><label>Trades<input id="tradeCount" type="number" value="10"></label></div><div class="result"><small>Mathematical all-win projection</small><strong id="tradeResult">₹1,219</strong></div></div></section>
+<section id="calculator" class="panel"><div class="head"><div><span class="kicker">TOOLS</span><h2>Calculators</h2></div></div><div class="card"><h3>18% Daily Compound Projection</h3><div class="form"><label>Start<input id="calcStart" type="number" value="2300"></label><label>Days<input id="calcDays" type="number" value="30"></label><label>Daily %<input id="calcRate" type="number" step="0.01" value="18"></label><label>Target<input id="calcTarget" type="number" value="329752"></label></div><button class="btn primary" id="calcBtn" style="margin-top:12px">Calculate</button><div class="result"><small>Projected ending balance</small><strong id="calcResult">₹0</strong><span id="calcNote" class="muted"></span></div></div>
+<div class="card" style="margin-top:12px"><h3>Per-Trade Compound Scenario</h3><div class="form"><label>Balance<input id="tradeStart" type="number" value="2300"></label><label>% / Trade<input id="tradeRate" type="number" step="0.1" value="2"></label><label>Trades<input id="tradeCount" type="number" value="10"></label></div><div class="result"><small>Mathematical all-win projection</small><strong id="tradeResult">₹2,346</strong></div></div></section>
 
 <section id="stats" class="panel"><div class="head"><div><span class="kicker">ANALYTICS</span><h2>Statistics</h2></div></div><div class="stats"><div class="card"><small>Total Trades</small><strong id="sTrades">0</strong></div><div class="card"><small>Wins</small><strong id="sWins" class="green">0</strong></div><div class="card"><small>Losses</small><strong id="sLosses" class="red">0</strong></div><div class="card"><small>Total P/L</small><strong id="sPnl">₹0</strong></div></div><div class="metricgrid"><div class="metric"><small>Biggest Win</small><strong id="bigWin">₹0</strong></div><div class="metric"><small>Biggest Loss</small><strong id="bigLoss">₹0</strong></div><div class="metric"><small>Current Streak</small><strong id="streak">0</strong></div><div class="metric"><small>Drawdown</small><strong id="drawdown">₹0</strong></div></div><div class="card" style="margin-top:12px"><h3>Daily Records</h3><div id="dailyStats"></div></div></section>
 
 <section id="settings" class="panel"><div class="head"><div><span class="kicker">DATA</span><h2>Cloud & Backup</h2></div></div><div class="card"><p class="muted">Trades and daily records are stored in Supabase. Export is an additional local backup.</p><div class="actions"><button class="btn primary" id="exportBtn">Export Backup JSON</button><button class="btn danger" id="clearLocalBtn">Clear Local UI Data</button></div><div class="card" style="margin-top:12px"><h3>Account</h3><div id="accountEmail" class="muted"></div><button class="btn gold" id="logoutBtn" style="margin-top:10px;width:100%">Logout</button></div><div class="muted" style="font-size:10px;margin-top:12px">Cloud status: <b id="storageStatus">Connecting…</b></div></div></section>
 </main>
 <div class="bottomnav"><button data-nav="dashboard">Home</button><button data-nav="trade">Trades</button><button data-nav="history">Calendar</button><button data-nav="stats">Stats</button><button data-nav="settings">Data</button></div>
-<footer>₹1K → 18% Daily • Educational simulation & tracking tool • 18% is an assumed target, not guaranteed.</footer>
+<footer>₹2.3K → 18% Daily • Educational simulation & tracking tool • 18% is an assumed target, not guaranteed.</footer>
 <div id="toast" style="position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;background:#123b27;color:#dff7e7;border:1px solid #4e9868;padding:11px 15px;border-radius:12px;z-index:300;transition:.25s"></div>
 
 <script>
@@ -92,7 +224,7 @@ const SUPABASE_KEY="sb_publishable_2IwUIzy3iLmHSgrPL7M7EA_RBzMJFje";
 const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 /* ===== TRACKER CONFIG ===== */
-const START=1000,DAYS=30,DAILY_RATE=.18,TARGET=Math.round(START*Math.pow(1+DAILY_RATE,DAYS));
+const START=2300,DAYS=30,DAILY_RATE=.18,TARGET=Math.round(START*Math.pow(1+DAILY_RATE,DAYS));
 const LOCAL_KEY="tracker_cloud_ui_v1";
 let state={trades:[],days:{},activeDay:null,workflow:{}};
 let currentUser=null;
