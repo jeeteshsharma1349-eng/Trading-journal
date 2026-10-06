@@ -4,346 +4,209 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#050908">
-<title>₹1K → 18% Daily | Premium 30-Day Tracker</title>
+<title>₹1K → 18% Daily | Cloud Trading Tracker</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{
-  --bg:#050908;--panel:#0b1210;--panel2:#0e1713;--green:#35b86a;--green2:#69df98;
-  --brown:#5d452b;--navy:#0b1725;--grey:#98a29d;--line:#23312a;--gold:#c8a65a;
-  --red:#df7770;--text:#edf2ee;--muted:#84908a;
-}
-*{box-sizing:border-box}html{scroll-behavior:smooth}
-body{margin:0;background:radial-gradient(circle at 85% 0,#12372444,transparent 30%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}
-button,input,select,textarea{font:inherit}
-button{cursor:pointer}.top{position:sticky;top:0;z-index:50;background:#050908ee;backdrop-filter:blur(15px);border-bottom:1px solid var(--line)}
-.topin{max-width:1200px;margin:auto;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.logo{font-size:25px;font-weight:900}.logo b{color:var(--green2)}.sub{font-size:10px;color:var(--muted);margin-top:2px}
-.reset{background:#0c100e;border:1px solid #51462f;color:#b9ab83;border-radius:11px;padding:10px 14px}
-.wrap{max-width:1200px;margin:auto;padding:18px 16px 50px}
-.hero{display:flex;justify-content:space-between;align-items:center;padding:25px;border:1px solid #294b38;border-radius:22px;background:linear-gradient(135deg,#0d1812,#07100c);box-shadow:0 20px 60px #0007}
-.kicker{font-size:10px;letter-spacing:2px;font-weight:900;color:var(--green2)}h1{font-size:clamp(36px,7vw,60px);line-height:1;margin:8px 0}h1 span{color:var(--green2)}
-.hero p{color:var(--muted);margin:0}.badge{min-width:90px;height:90px;border-radius:50%;display:grid;place-content:center;text-align:center;border:1px solid var(--gold);background:#211b10;color:#e0c477;font-weight:900}.badge small{font-size:9px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}.card{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:17px}.card small{color:var(--muted);font-size:11px}.card strong{display:block;font-size:27px;margin:6px 0}.green{color:var(--green2)}.red{color:var(--red)}
-.progress{height:10px;background:#1a241e;border-radius:20px;overflow:hidden;margin-top:12px}.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#237a47,#62d991);transition:.3s}
-.range{display:flex;justify-content:space-between;color:#758079;font-size:10px;margin:5px 2px 15px}
-.tabs{display:flex;gap:7px;overflow:auto;padding:2px 0 4px;margin:16px 0}.tab{white-space:nowrap;border:1px solid #2c3a32;background:#0b120f;color:#aeb8b1;border-radius:11px;padding:10px 13px}.tab.active{background:#123d27;border-color:#4a9866;color:#d5f2df;font-weight:800}
-.panel{display:none}.panel.active{display:block}.head{display:flex;justify-content:space-between;align-items:center;margin:18px 0 12px}.head h2{margin:3px 0;font-size:28px}.pill{background:#332a1d;color:#d1b875;padding:6px 10px;border-radius:20px;font-size:10px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.btn{border:0;border-radius:11px;padding:11px 14px;font-weight:800}.primary{background:linear-gradient(90deg,#227b45,#3db968);color:#f1fff5}.secondary{background:#0d1713;border:1px solid #36533f;color:#83dba0}.danger{background:#301b1b;border:1px solid #74403c;color:#ef9991}.gold{background:#302513;border:1px solid #705d37;color:#e2c57f}
-.daybox{display:grid;grid-template-columns:1fr 1fr;gap:10px}.dayaction{width:100%;margin-top:9px}.meta{color:var(--muted);font-size:11px;line-height:1.6}
-.workflow{margin-top:5px}.wf{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid #1e2a23}.wf input{accent-color:var(--green);width:18px;height:18px}.wf b{font-size:12px}.wf span{display:block;color:var(--muted);font-size:10px;margin-top:2px}
-.notice{padding:12px;border:1px solid #5a4729;background:#19140d;color:#cbb57c;border-radius:12px;font-size:11px;margin-bottom:12px}
-label{font-size:10px;color:#87918c}input,select,textarea{width:100%;display:block;margin-top:5px;background:#070d0a;color:#edf2ee;border:1px solid #314039;border-radius:10px;padding:11px;outline:none}input:focus,select:focus,textarea:focus{border-color:#55ad73}textarea{min-height:135px;resize:vertical}.form{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.form .wide{grid-column:1/-1}
-.table{overflow:auto;border:1px solid var(--line);border-radius:13px}table{width:100%;border-collapse:collapse;min-width:850px}th,td{padding:10px;border-bottom:1px solid #1d2822;text-align:left;font-size:11px}th{color:#7e8983;background:#0d1511}td{color:#d1d8d3}
-.winTxt{color:#63d996!important}.lossTxt{color:#e7867e!important}
-.result{padding:15px;margin-top:12px;border:1px solid #314d3a;border-radius:13px;background:#0c1811}.result strong{font-size:31px;display:block;color:#b9e5c8}.result span{font-size:10px;color:var(--muted)}
-.scenarios{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.scenario{padding:13px;border:1px solid var(--line);background:#0d1511;border-radius:12px}.scenario b{color:#69d99a}.scenario strong{display:block;margin:4px 0}.scenario small{color:var(--muted)}
-.actions{display:flex;gap:8px;flex-wrap:wrap}.actions>*{flex:1;min-width:130px}
-.historygrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.history{border:1px solid var(--line);background:#0b1310;border-radius:14px;padding:14px}.history.active{border-color:#4d9d68;box-shadow:0 0 0 1px #214a31 inset}.history h3{margin:0 0 5px}.history small{color:var(--muted)}.history .num{font-size:22px;font-weight:900;margin:6px 0}.history button{margin-top:10px;width:100%}
-.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}.cal{min-height:72px;border:1px solid var(--line);background:#0a110e;color:#cbd4ce;border-radius:10px;padding:8px;text-align:left}.cal.started{border-color:#3b8055;background:#0d1c13}.cal.done{border-color:#8c713e}.cal b{font-size:15px}.cal small{display:block;color:#758078;font-size:8px;margin-top:5px}.cal em{display:block;color:#62d594;font-size:9px;font-style:normal;margin-top:3px}
-.statrow{display:grid;grid-template-columns:1fr 1fr 1fr;padding:10px;border-bottom:1px solid #1d2822}.muted{color:var(--muted)}footer{text-align:center;color:#59645e;font-size:9px;padding:24px;border-top:1px solid #19231e}
-.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;pointer-events:none;background:#123b27;color:#dff7e7;border:1px solid #4e9868;padding:11px 15px;border-radius:12px;z-index:100;transition:.25s}.toast.show{opacity:1;transform:translateX(-50%)}
-@media(max-width:850px){.stats{grid-template-columns:repeat(2,1fr)}.form{grid-template-columns:repeat(2,1fr)}.scenarios{grid-template-columns:repeat(3,1fr)}.historygrid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){.wrap{padding:14px 10px 40px}.hero{padding:20px}.badge{display:none}.stats,.grid2,.grid3{grid-template-columns:1fr}.form{grid-template-columns:1fr}.scenarios{grid-template-columns:repeat(2,1fr)}.historygrid{grid-template-columns:1fr}.calendar{grid-template-columns:repeat(4,1fr)}.topin{padding:11px 12px}}
-
-.login-screen{position:fixed;inset:0;z-index:200;background:radial-gradient(circle at 50% 0,#12372455,transparent 35%),#050908;display:flex;align-items:center;justify-content:center;padding:18px}
-.login-card{width:min(410px,100%);padding:30px 24px;background:#0b1210;border:1px solid #31533d;border-radius:22px;box-shadow:0 25px 90px #000b}
-.login-logo{font-size:34px;font-weight:900;text-align:center}.login-logo span{color:#69df98}.login-kicker{text-align:center;color:#69df98;font-size:9px;letter-spacing:2px;font-weight:900;margin-top:5px}
-.login-card h1{text-align:center;font-size:27px;margin:22px 0 6px}.login-card>p{text-align:center;color:#84908a;font-size:12px;margin-bottom:22px}
-.login-card label{display:block;margin-top:12px}.login-card input{margin-top:6px}
-.login-btn{width:100%;margin-top:16px}.login-error{min-height:18px;text-align:center;color:#e7867e;font-size:11px;margin-top:10px}.login-note{display:block;text-align:center;color:#66736c;font-size:9px;margin-top:14px}
-body.locked{overflow:hidden}
-
-/* Premium UI layer — keeps the existing structure and functionality */
-body{background:
- radial-gradient(circle at 10% 10%,rgba(53,184,106,.12),transparent 26%),
- radial-gradient(circle at 90% 0,rgba(200,166,90,.10),transparent 24%),
- linear-gradient(145deg,#030605 0%,#07100c 48%,#050809 100%);}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.035;background-image:linear-gradient(rgba(255,255,255,.8) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.8) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,#000,transparent 80%);}
-.top{background:rgba(4,8,6,.82);box-shadow:0 10px 35px rgba(0,0,0,.28)}
-.logo{letter-spacing:-.8px;text-shadow:0 0 24px rgba(105,223,152,.16)}
-.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(14,28,20,.94),rgba(5,13,9,.92));border-color:rgba(83,155,108,.42);box-shadow:0 24px 80px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.035)}
-.hero:after{content:"";position:absolute;width:240px;height:240px;right:-90px;top:-110px;border-radius:50%;border:1px solid rgba(105,223,152,.12);box-shadow:0 0 0 24px rgba(105,223,152,.025),0 0 0 48px rgba(105,223,152,.018);pointer-events:none}
-h1{letter-spacing:-2px}.badge{box-shadow:0 0 35px rgba(200,166,90,.12),inset 0 1px 0 rgba(255,255,255,.06)}
-.card,.panel>.card{box-shadow:0 12px 35px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.025);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
-.card:hover{transform:translateY(-2px);border-color:#355443;box-shadow:0 16px 42px rgba(0,0,0,.25),0 0 0 1px rgba(53,184,106,.04)}
-.tabs{scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}.tab{transition:.2s ease;box-shadow:inset 0 1px 0 rgba(255,255,255,.025)}.tab:hover{border-color:#42644f;color:#d8e9df;transform:translateY(-1px)}.tab.active{box-shadow:0 8px 25px rgba(35,122,71,.18),inset 0 1px 0 rgba(255,255,255,.06)}
-.btn{transition:transform .16s ease,box-shadow .16s ease,filter .16s ease}.btn:hover{transform:translateY(-1px);filter:brightness(1.06)}.primary{box-shadow:0 8px 22px rgba(35,123,69,.18)}
-input,select,textarea{box-shadow:inset 0 1px 5px rgba(0,0,0,.25),0 1px 0 rgba(255,255,255,.015)}
-input:focus,select:focus,textarea:focus{box-shadow:0 0 0 3px rgba(85,173,115,.09),inset 0 1px 5px rgba(0,0,0,.25)}
-.progress{box-shadow:inset 0 2px 5px rgba(0,0,0,.4)}.progress i{background:linear-gradient(90deg,#17643a,#35b86a,#82e8a7);box-shadow:0 0 16px rgba(53,184,106,.28)}
-.table{box-shadow:0 12px 35px rgba(0,0,0,.16)}th{background:linear-gradient(#101a15,#0b130f)}
-.result{box-shadow:inset 0 1px 0 rgba(255,255,255,.025),0 10px 30px rgba(0,0,0,.18)}
-.notice{box-shadow:inset 0 1px 0 rgba(255,255,255,.025)}
-@media(max-width:800px){.stats{grid-template-columns:repeat(2,1fr)}.grid2,.grid3{grid-template-columns:1fr}.form{grid-template-columns:1fr 1fr}.hero{padding:20px}.badge{min-width:72px;height:72px}h1{font-size:42px}}
-@media(max-width:520px){.wrap{padding:12px 11px 35px}.topin{padding:11px}.logo{font-size:21px}.sub{font-size:9px}.hero{border-radius:18px;padding:17px}.hero p{font-size:12px}.badge{min-width:62px;height:62px;font-size:12px}.badge small{font-size:8px}.stats{gap:8px}.card{padding:13px}.card strong{font-size:22px}.form{grid-template-columns:1fr}.head h2{font-size:23px}.tab{padding:9px 11px;font-size:12px}}
-
-
-.premium-login{background:radial-gradient(circle at 50% 35%,rgba(53,184,106,.11),transparent 30%),rgba(2,5,4,.94)!important;backdrop-filter:blur(18px)}
-.premium-login .login-box{border:1px solid rgba(105,223,152,.25)!important;background:linear-gradient(145deg,rgba(11,20,15,.97),rgba(5,10,8,.98))!important;box-shadow:0 30px 100px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.05)!important;border-radius:24px!important}
-
-
-/* Premium analytics / mobile-app layer */
-.metricgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}.metric{background:linear-gradient(145deg,#0c1711,#08100c);border:1px solid #25382c;border-radius:16px;padding:14px;position:relative;overflow:hidden}.metric:after{content:"";position:absolute;right:-25px;top:-25px;width:80px;height:80px;border-radius:50%;background:rgba(105,223,152,.05)}.metric small{color:#7f8b84}.metric strong{display:block;font-size:22px;margin-top:6px}.chartbox{height:250px;padding:10px}.chartbox canvas{width:100%;height:100%}.calendar-wrap{margin-top:12px}.searchbar{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:8px;margin-bottom:10px}.mini{padding:6px 9px!important;font-size:10px!important}.trade-actions{display:flex;gap:5px}.trade-actions button{padding:5px 8px;border-radius:8px;font-size:9px}.tag{display:inline-block;padding:4px 7px;border-radius:20px;background:#18251d;color:#8dd9a6;font-size:9px}.dangerText{color:#ef9991}.successText{color:#69df98}.profilegrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.milestones{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}.mile{border:1px solid #2a372f;border-radius:12px;padding:10px;text-align:center;background:#0b130f}.mile.done{border-color:#4e9a68;box-shadow:inset 0 0 0 1px #1d4b2d;background:#0d1b13}.mile b{display:block;font-size:11px}.mile small{color:#69756e;font-size:8px}.bottomnav{display:none}
-@media(max-width:850px){.metricgrid{grid-template-columns:repeat(2,1fr)}.milestones{grid-template-columns:repeat(3,1fr)}.searchbar{grid-template-columns:1fr 1fr}}
-@media(max-width:560px){.metricgrid{grid-template-columns:1fr 1fr}.chartbox{height:210px}.milestones{grid-template-columns:repeat(2,1fr)}.searchbar{grid-template-columns:1fr}.bottomnav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:60;background:rgba(5,9,8,.94);backdrop-filter:blur(15px);border-top:1px solid #23312a;padding:7px;gap:5px}.bottomnav button{flex:1;background:#0b120f;border:1px solid #26372d;color:#94a098;border-radius:10px;padding:8px 3px;font-size:9px}.bottomnav button.active{color:#d8f5e1;border-color:#46885d;background:#12351f}.wrap{padding-bottom:75px}}
+:root{--bg:#050908;--panel:#0b1210;--panel2:#0e1713;--green:#35b86a;--green2:#69df98;--gold:#c8a65a;--red:#df7770;--text:#edf2ee;--muted:#84908a;--line:#23312a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 10% 10%,#35b86a1f,transparent 26%),radial-gradient(circle at 90% 0,#c8a65a18,transparent 24%),linear-gradient(145deg,#030605,#07100c 48%,#050809);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}
+.top{position:sticky;top:0;z-index:50;background:#050908ee;backdrop-filter:blur(15px);border-bottom:1px solid var(--line)}.topin{max-width:1200px;margin:auto;padding:12px 16px;display:flex;justify-content:space-between;align-items:center}.logo{font-size:24px;font-weight:900}.logo span,h1 span{color:var(--green2)}.sub{font-size:10px;color:var(--muted)}
+.wrap{max-width:1200px;margin:auto;padding:18px 14px 60px}.hero{display:flex;justify-content:space-between;align-items:center;padding:24px;border:1px solid #294b38;border-radius:22px;background:linear-gradient(135deg,#0d1812,#07100c);box-shadow:0 20px 60px #0007}.kicker{font-size:10px;letter-spacing:2px;font-weight:900;color:var(--green2)}h1{font-size:clamp(36px,7vw,60px);line-height:1;margin:8px 0}h2{margin:4px 0 12px}.hero p,.muted{color:var(--muted)}.badge{min-width:90px;height:90px;border-radius:50%;display:grid;place-content:center;text-align:center;border:1px solid var(--gold);background:#211b10;color:#e0c477;font-weight:900}
+.stats,.grid2,.grid3,.metricgrid,.form{display:grid;gap:10px}.stats{grid-template-columns:repeat(4,1fr);margin-top:12px}.grid2{grid-template-columns:1fr 1fr}.grid3{grid-template-columns:repeat(3,1fr)}.metricgrid{grid-template-columns:repeat(4,1fr);margin-top:12px}.form{grid-template-columns:repeat(4,1fr)}
+.card,.metric{background:linear-gradient(145deg,#0c1711,#08100c);border:1px solid var(--line);border-radius:16px;padding:15px;box-shadow:0 12px 35px #0003}.card small,.metric small,label{color:var(--muted);font-size:11px}.card strong,.metric strong{display:block;font-size:25px;margin:6px 0}.green,.winTxt{color:var(--green2)!important}.red,.lossTxt{color:var(--red)!important}.progress{height:9px;background:#1a241e;border-radius:20px;overflow:hidden;margin-top:12px}.progress i{display:block;height:100%;background:linear-gradient(90deg,#17643a,#35b86a,#82e8a7);width:0}.range{display:flex;justify-content:space-between;color:#758079;font-size:10px;margin:5px 2px 15px}
+.tabs{display:flex;gap:7px;overflow:auto;padding:2px 0 4px;margin:15px 0;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}.tab{white-space:nowrap;border:1px solid #2c3a32;background:#0b120f;color:#aeb8b1;border-radius:11px;padding:10px 13px}.tab.active{background:#123d27;border-color:#4a9866;color:#d5f2df;font-weight:800}
+.panel{display:none}.panel.active{display:block}.head{display:flex;justify-content:space-between;align-items:center;margin:18px 0 12px}.pill{background:#332a1d;color:#d1b875;padding:6px 10px;border-radius:20px;font-size:10px}.btn{border:0;border-radius:11px;padding:10px 14px;font-weight:800}.primary{background:linear-gradient(90deg,#227b45,#3db968);color:#f1fff5}.secondary{background:#0d1713;border:1px solid #36533f;color:#83dba0}.danger{background:#301b1b;border:1px solid #74403c;color:#ef9991}.gold{background:#302513;border:1px solid #705d37;color:#e2c57f}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.actions>*{flex:1;min-width:130px}
+input,select,textarea{width:100%;display:block;margin-top:5px;background:#070d0a;color:#edf2ee;border:1px solid #314039;border-radius:10px;padding:11px;outline:none}textarea{min-height:130px;resize:vertical}.wide{grid-column:1/-1}.notice{padding:12px;border:1px solid #5a4729;background:#19140d;color:#cbb57c;border-radius:12px;font-size:11px;margin-bottom:12px}
+.table{overflow:auto;border:1px solid var(--line);border-radius:13px}table{width:100%;border-collapse:collapse;min-width:820px}th,td{padding:9px;border-bottom:1px solid #1d2822;text-align:left;font-size:11px}th{color:#7e8983;background:#0d1511}td{color:#d1d8d3}.result{padding:15px;margin-top:12px;border:1px solid #314d3a;border-radius:13px;background:#0c1811}.result strong{font-size:31px;display:block;color:#b9e5c8}
+.historygrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.history{border:1px solid var(--line);background:#0b1310;border-radius:14px;padding:14px}.history .num{font-size:22px;font-weight:900;margin:6px 0}.history button{margin-top:10px;width:100%}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}.cal{min-height:72px;border:1px solid var(--line);background:#0a110e;color:#cbd4ce;border-radius:10px;padding:8px;text-align:left}.cal.started{border-color:#3b8055;background:#0d1c13}.cal.done{border-color:#8c713e}.cal small,.cal em{display:block;font-size:9px;margin-top:4px}.cal small{color:#758078}.cal em{color:#62d594;font-style:normal}.wf{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid #1e2a23}.wf input{width:18px}.wf b{font-size:12px}.wf span{display:block;color:var(--muted);font-size:10px;margin-top:2px}.statrow{display:grid;grid-template-columns:1fr 1fr 1fr;padding:10px;border-bottom:1px solid #1d2822}.login-screen{position:fixed;inset:0;z-index:200;background:#030605ee;backdrop-filter:blur(18px);display:flex;align-items:center;justify-content:center;padding:18px}.login-card{width:min(420px,100%);padding:28px 23px;background:#0b1210;border:1px solid #31533d;border-radius:22px;box-shadow:0 30px 100px #000b}.login-logo{text-align:center;font-size:31px;font-weight:900}.login-kicker{text-align:center;color:#69df98;font-size:9px;letter-spacing:2px;font-weight:900;margin-top:5px}.login-card h2{text-align:center;margin-top:20px}.login-card label{display:block;margin-top:12px}.login-btn{width:100%;margin-top:15px}.login-error{min-height:18px;text-align:center;color:#e7867e;font-size:11px;margin-top:9px}.bottomnav{display:none}footer{text-align:center;color:#59645e;font-size:9px;padding:22px;border-top:1px solid #19231e}
+@media(max-width:850px){.stats,.metricgrid{grid-template-columns:repeat(2,1fr)}.form{grid-template-columns:1fr 1fr}.historygrid{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.wrap{padding:12px 10px 75px}.hero{padding:17px}.badge{display:none}.stats,.grid2,.grid3,.metricgrid,.form{grid-template-columns:1fr 1fr}.historygrid{grid-template-columns:1fr}.calendar{grid-template-columns:repeat(4,1fr)}.bottomnav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:60;background:#050908f2;border-top:1px solid #23312a;padding:6px;gap:5px}.bottomnav button{flex:1;background:#0b120f;border:1px solid #26372d;color:#94a098;border-radius:10px;padding:8px 3px;font-size:9px}.bottomnav button.active{color:#d8f5e1;border-color:#46885d;background:#12351f}}
 </style>
 </head>
 <body>
-<div id="loginScreen" class="premium-login" class="login-screen">
+<div id="loginScreen" class="login-screen">
   <div class="login-card">
-    <div class="login-logo">₹1K<span>→</span>18% Daily</div>
-    <div class="login-kicker">PRIVATE TRADING TRACKER</div>
-    <h1>Welcome back</h1>
-    <p>Login karke apna 30-Day Tracker open karo.</p>
-    <label>Username<input id="loginUser" autocomplete="username" placeholder="Enter username"></label>
-    <label>Password<input id="loginPass" type="password" autocomplete="current-password" placeholder="Enter password"></label>
+    <div class="login-logo">₹1K<span style="color:#69df98">→</span>18% Daily</div>
+    <div class="login-kicker">CLOUD TRADING TRACKER</div>
+    <h2>Welcome back</h2>
+    <p class="muted" style="text-align:center;font-size:12px">Login with your Supabase account.</p>
+    <label>Email<input id="loginEmail" type="email" autocomplete="username" placeholder="Email address"></label>
+    <label>Password<input id="loginPass" type="password" autocomplete="current-password" placeholder="Password"></label>
     <button id="loginBtn" class="btn primary login-btn">Login</button>
     <div id="loginError" class="login-error"></div>
-    <small class="login-note">Demo login: <b>admin</b> / <b>1234</b></small>
+    <button id="logoutAllBtn" class="btn secondary" style="width:100%;margin-top:8px;display:none">Sign out</button>
   </div>
 </div>
 
-<header class="top"><div class="topin"><div><div class="logo">₹1K<span>→</span>18% Daily</div><div class="sub">30-Day • 18% Daily Simulation Tracker</div></div><button class="reset" id="resetBtn">Reset</button></div></header>
+<header class="top"><div class="topin"><div><div class="logo">₹1K<span>→</span>18% Daily</div><div class="sub">30-Day • Cloud Simulation Tracker</div></div><button class="btn gold" id="resetBtn">Reset Local UI</button></div></header>
 
 <main class="wrap">
-<section class="hero"><div><div class="kicker">30 DAY PLAN • 18% DAILY SIMULATION</div><h1>Build the plan.<br><span>Track every day.</span></h1><p>Daily plan, trade records, periods, diary and saved history in one place.</p></div><div class="badge">₹1K<br><small>START</small></div></section>
+<section class="hero"><div><div class="kicker">30 DAY PLAN • 18% DAILY SIMULATION</div><h1>Build the plan.<br><span>Track every day.</span></h1><p>Cloud-synced trades, daily records, diary, statistics and backup in one place.</p></div><div class="badge">₹1K<br><small>START</small></div></section>
 
 <section class="stats">
 <div class="card"><small>Current Balance</small><strong id="currentBalance">₹1,000</strong><span id="pnl" class="green">+₹0</span></div>
-<div class="card"><small>30-Day Projected Target</small><strong>₹1,43,371</strong><span id="progress" class="green">1.7%</span></div>
+<div class="card"><small>30-Day Projected Target</small><strong id="targetBalance">₹143,371</strong><span id="progress" class="green">0%</span></div>
 <div class="card"><small>Day</small><strong id="dayNo">1 / 30</strong><span id="status" class="green">Not started</span></div>
-<div class="card"><small>Active Session</small><strong id="sessionState">Ready</strong><span id="sessionMeta" class="muted">10 AM → 5 PM</span></div>
+<div class="card"><small>Cloud</small><strong id="sessionState">Connecting</strong><span id="sessionMeta" class="muted">Supabase</span></div>
 </section>
-<div class="progress"><i id="progressBar"></i></div><div class="range"><span>₹1,000</span><span>₹1,43,371</span></div>
+<div class="progress"><i id="progressBar"></i></div><div class="range"><span>₹1,000</span><span id="rangeTarget">₹143,371</span></div>
 
 <nav class="tabs">
-<button class="tab active" data-tab="dashboard">Dashboard</button><button class="tab" data-tab="plan">30-Day Plan</button><button class="tab" data-tab="trade">Add Trade</button><button class="tab" data-tab="diary">Daily Diary</button><button class="tab" data-tab="history">Saved History</button><button class="tab" data-tab="calculator">Calculator</button><button class="tab" data-tab="stats">Statistics</button><button class="tab" data-tab="settings">Data</button>
+<button class="tab active" data-tab="dashboard">Dashboard</button><button class="tab" data-tab="plan">30-Day Plan</button><button class="tab" data-tab="trade">Add Trade</button><button class="tab" data-tab="diary">Daily Diary</button><button class="tab" data-tab="history">History</button><button class="tab" data-tab="calculator">Calculator</button><button class="tab" data-tab="stats">Statistics</button><button class="tab" data-tab="settings">Data</button>
 </nav>
 
 <section id="dashboard" class="panel active">
 <div class="head"><div><span class="kicker">TODAY</span><h2>Daily Control</h2></div><span class="pill" id="todayPill">Day 1</span></div>
 <div class="grid2">
-<div class="card"><small>Projected target today</small><strong id="todayTarget">₹1,180.00</strong><p class="muted">18% daily target • Mathematical simulation only.</p>
-<div id="dayMeta" class="meta"></div>
-<button id="startDayBtn" class="btn primary dayaction">▶ Start Day 1</button><button id="endDayBtn" class="btn gold dayaction" style="display:none">■ End Day</button></div>
+<div class="card"><small>Projected target today</small><strong id="todayTarget">₹1,180.00</strong><p class="muted">18% daily target • Mathematical simulation only.</p><div id="dayMeta" class="muted" style="font-size:11px"></div><button id="startDayBtn" class="btn primary" style="width:100%;margin-top:10px">▶ Start Day</button><button id="endDayBtn" class="btn gold" style="width:100%;margin-top:10px;display:none">■ End Day</button></div>
 <div class="card"><small>Today's result</small><strong id="todayPnl">₹0</strong><div class="grid3" style="margin-top:10px"><div><small>Trades</small><b id="todayTrades">0</b></div><div><small>Wins</small><b id="todayWins" class="green">0</b></div><div><small>Losses</small><b id="todayLosses" class="red">0</b></div></div></div>
 </div>
-<div class="metricgrid">
-<div class="metric"><small>Win Rate</small><strong id="dashWinRate">0%</strong></div>
-<div class="metric"><small>Avg Win</small><strong id="dashAvgWin">₹0</strong></div>
-<div class="metric"><small>Avg Loss</small><strong id="dashAvgLoss">₹0</strong></div>
-<div class="metric"><small>Target Remaining</small><strong id="dashRemaining">₹1,43,371</strong></div>
-</div>
-<div class="card chartbox" style="margin-top:12px"><div class="head"><h3 style="margin:0">Balance Growth</h3><span class="pill">Recorded</span></div><canvas id="balanceChart"></canvas></div>
-<div class="card" style="margin-top:12px"><div class="head"><h3 style="margin:0">Milestones</h3><span class="pill">Progress</span></div><div id="milestones" class="milestones"></div></div>
-<div class="card" style="margin-top:12px"><div class="head"><h3 style="margin:0">10 AM → 5 PM Workflow</h3><span class="pill">Checklist</span></div><div id="workflow" class="workflow"></div></div>
+<div class="metricgrid"><div class="metric"><small>Win Rate</small><strong id="dashWinRate">0%</strong></div><div class="metric"><small>Avg Win</small><strong id="dashAvgWin">₹0</strong></div><div class="metric"><small>Avg Loss</small><strong id="dashAvgLoss">₹0</strong></div><div class="metric"><small>Target Remaining</small><strong id="dashRemaining">₹143,371</strong></div></div>
+<div class="card" style="margin-top:12px"><div class="head"><h3 style="margin:0">10 AM → 5 PM Workflow</h3><span class="pill">Checklist</span></div><div id="workflow"></div></div>
 </section>
 
-<section id="plan" class="panel">
-<div class="head"><div><span class="kicker">ROADMAP</span><h2>30-Day Plan & Record</h2></div><span class="pill">Live records</span></div>
-<div class="notice">The target path is a mathematical simulation, not a promise of returns. Losses and drawdowns are possible.</div>
-<div class="table"><table><thead><tr><th>Day</th><th>Date</th><th>Start</th><th>Target</th><th>End</th><th>P/L</th><th>Trades</th><th>W</th><th>L</th><th>Status</th></tr></thead><tbody id="planBody"></tbody></table></div>
-</section>
+<section id="plan" class="panel"><div class="head"><div><span class="kicker">ROADMAP</span><h2>30-Day Plan</h2></div><span class="pill">Cloud records</span></div><div class="notice">The target path is a mathematical simulation, not a promise of returns. Losses and drawdowns are possible.</div><div class="table"><table><thead><tr><th>Day</th><th>Date</th><th>Start</th><th>Target</th><th>End</th><th>P/L</th><th>Trades</th><th>W</th><th>L</th><th>Status</th></tr></thead><tbody id="planBody"></tbody></table></div></section>
 
-<section id="trade" class="panel">
-<div class="head"><div><span class="kicker">TRADE RECORD</span><h2>Add Trade</h2></div><span class="pill" id="tradeCountLabel">0 trades</span></div>
-<div class="card">
-<div class="form">
-<label>Day<select id="jDay"></select></label><label>Date<input id="jDate" type="date"></label><label>Time<input id="jTime" type="time"></label><label>Period Number<input id="jPeriod" placeholder="Enter period"></label>
-<label>Starting Balance<input id="jStart" type="number" step="0.01"></label><label>Win / Loss P&L ₹<input id="jResult" type="number" step="0.01" placeholder="+20 or -20"></label><label class="wide">Note<input id="jNote" placeholder="Optional note"></label>
-</div>
-<div class="actions"><button class="btn secondary" id="quickWin">+ Win</button><button class="btn danger" id="quickLoss">− Loss</button><button class="btn primary" id="addTradeBtn">Save Trade Record</button></div>
-<p class="muted">A win is entered as a positive P/L and a loss as a negative P/L. Each trade stores date, time, day and period number.</p>
-</div>
-<div class="searchbar" style="margin-top:12px"><input id="tradeSearch" placeholder="Search period / note / date"><select id="tradeFilter"><option value="all">All results</option><option value="win">Wins only</option><option value="loss">Losses only</option></select><button class="btn secondary" id="clearTradeFilter">Reset Filter</button></div>
-<div class="table"><table><thead><tr><th>#</th><th>Day/Date</th><th>Time</th><th>Period</th><th>P/L</th><th>Before</th><th>After</th><th>Note</th><th>Action</th></tr></thead><tbody id="journalBody"></tbody></table></div>
-</section>
+<section id="trade" class="panel"><div class="head"><div><span class="kicker">TRADE RECORD</span><h2>Add Trade</h2></div><span class="pill" id="tradeCountLabel">0 trades</span></div>
+<div class="card"><div class="form"><label>Day<select id="jDay"></select></label><label>Date<input id="jDate" type="date"></label><label>Time<input id="jTime" type="time"></label><label>Period Number<input id="jPeriod" placeholder="Enter period"></label><label>Starting Balance<input id="jStart" type="number" step="0.01"></label><label>Win / Loss P&L ₹<input id="jResult" type="number" step="0.01" placeholder="+20 or -20"></label><label class="wide">Note<input id="jNote" placeholder="Optional note"></label></div><div class="actions"><button class="btn secondary" id="quickWin">+ Win</button><button class="btn danger" id="quickLoss">− Loss</button><button class="btn primary" id="addTradeBtn">Save Trade Record</button></div><p class="muted" style="font-size:11px">A win is positive P/L; a loss is negative P/L. Records are stored in the cloud under your account.</p></div>
+<div class="actions"><input id="tradeSearch" placeholder="Search period / note / date"><select id="tradeFilter"><option value="all">All results</option><option value="win">Wins only</option><option value="loss">Losses only</option></select><button class="btn secondary" id="clearTradeFilter">Reset Filter</button></div>
+<div class="table"><table><thead><tr><th>#</th><th>Day/Date</th><th>Time</th><th>Period</th><th>P/L</th><th>Before</th><th>After</th><th>Note</th><th>Action</th></tr></thead><tbody id="journalBody"></tbody></table></div></section>
 
-<section id="diary" class="panel">
-<div class="head"><div><span class="kicker">DAILY DIARY</span><h2>Day Journal</h2></div><span class="pill">Saved locally</span></div>
-<div class="card">
-<div class="form"><label>Day<select id="diaryDay"></select></label><label>Date<input id="diaryDate" type="date"></label></div>
-<label style="display:block;margin-top:12px">Today's notes / diary<textarea id="fullDiary" placeholder="What happened today? Wins, losses, observations, mistakes, lessons and tomorrow's plan..."></textarea></label>
-<div class="meta" id="diaryStats"></div><button class="btn primary" id="saveDiary" style="margin-top:12px">Save Day Journal</button>
-</div>
-</section>
+<section id="diary" class="panel"><div class="head"><div><span class="kicker">DAILY DIARY</span><h2>Day Journal</h2></div><span class="pill">Cloud saved</span></div><div class="card"><div class="form"><label>Day<select id="diaryDay"></select></label><label>Date<input id="diaryDate" type="date"></label></div><label style="display:block;margin-top:12px">Today's notes / diary<textarea id="fullDiary" placeholder="Wins, losses, observations, mistakes, lessons and tomorrow's plan..."></textarea></label><div class="muted" id="diaryStats" style="font-size:11px"></div><button class="btn primary" id="saveDiary" style="margin-top:12px;width:100%">Save Day Journal</button></div></section>
 
-<section id="history" class="panel">
-<div class="head"><div><span class="kicker">SAVED DATA</span><h2>Day-by-Day History</h2></div><span class="pill">Tap a day</span></div>
-<div id="historyGrid" class="historygrid"></div>
-<div class="card calendar-wrap"><div class="head"><h3 style="margin:0">30-Day Calendar</h3><span class="pill">Daily status</span></div><div id="calendar" class="calendar"></div></div>
-</section>
+<section id="history" class="panel"><div class="head"><div><span class="kicker">SAVED DATA</span><h2>Day-by-Day History</h2></div></div><div id="historyGrid" class="historygrid"></div><div class="card" style="margin-top:12px"><div class="head"><h3 style="margin:0">30-Day Calendar</h3></div><div id="calendar" class="calendar"></div></div></section>
 
-<section id="calculator" class="panel">
-<div class="head"><div><span class="kicker">TOOLS</span><h2>Calculators</h2></div></div>
-<div class="card">
-<h3>18% Daily Compound Projection</h3><div class="form"><label>Start<input id="calcStart" type="number" value="1000"></label><label>Days<input id="calcDays" type="number" value="18"></label><label>Daily %<input id="calcRate" type="number" step="0.01" value="18"></label><label>Target<input id="calcTarget" type="number" value="143371"></label></div>
-<button class="btn primary" id="calcBtn" style="margin-top:12px">Calculate</button><div class="result"><small>Projected ending balance</small><strong id="calcResult">₹0</strong><span id="calcNote"></span></div>
-<h3 style="margin-top:20px">Daily Growth Scenarios</h3><div id="scenarios" class="scenarios"></div>
-</div>
-<div class="card" style="margin-top:12px"><h3>Per-Trade Compound Scenario</h3><div class="form"><label>Balance<input id="tradeStart" type="number" value="1000"></label><label>% / Trade<input id="tradeRate" type="number" step="0.1" value="2"></label><label>Trades<input id="tradeCount" type="number" value="10"></label></div><div class="result"><small>Mathematical all-win projection</small><strong id="tradeResult">₹1,219</strong></div></div>
-</section>
+<section id="calculator" class="panel"><div class="head"><div><span class="kicker">TOOLS</span><h2>Calculators</h2></div></div><div class="card"><h3>18% Daily Compound Projection</h3><div class="form"><label>Start<input id="calcStart" type="number" value="1000"></label><label>Days<input id="calcDays" type="number" value="30"></label><label>Daily %<input id="calcRate" type="number" step="0.01" value="18"></label><label>Target<input id="calcTarget" type="number" value="143371"></label></div><button class="btn primary" id="calcBtn" style="margin-top:12px">Calculate</button><div class="result"><small>Projected ending balance</small><strong id="calcResult">₹0</strong><span id="calcNote" class="muted"></span></div></div>
+<div class="card" style="margin-top:12px"><h3>Per-Trade Compound Scenario</h3><div class="form"><label>Balance<input id="tradeStart" type="number" value="1000"></label><label>% / Trade<input id="tradeRate" type="number" step="0.1" value="2"></label><label>Trades<input id="tradeCount" type="number" value="10"></label></div><div class="result"><small>Mathematical all-win projection</small><strong id="tradeResult">₹1,219</strong></div></div></section>
 
-<section id="stats" class="panel">
-<div class="head"><div><span class="kicker">ANALYTICS</span><h2>Statistics</h2></div></div>
-<div class="stats"><div class="card"><small>Total Trades</small><strong id="sTrades">0</strong></div><div class="card"><small>Wins</small><strong id="sWins" class="green">0</strong></div><div class="card"><small>Losses</small><strong id="sLosses" class="red">0</strong></div><div class="card"><small>Total P/L</small><strong id="sPnl">₹0</strong></div></div>
-<div class="metricgrid">
-<div class="metric"><small>Biggest Win</small><strong id="bigWin">₹0</strong></div><div class="metric"><small>Biggest Loss</small><strong id="bigLoss">₹0</strong></div><div class="metric"><small>Current Streak</small><strong id="streak">0</strong></div><div class="metric"><small>Drawdown</small><strong id="drawdown">₹0</strong></div>
-</div>
-<div class="grid2" style="margin-top:12px"><div class="card chartbox"><div class="head"><h3 style="margin:0">Daily P/L</h3></div><canvas id="pnlChart"></canvas></div><div class="card chartbox"><div class="head"><h3 style="margin:0">Win / Loss</h3></div><canvas id="wlChart"></canvas></div></div>
-<div class="card" style="margin-top:12px"><h3>Daily Records</h3><div id="dailyStats"></div></div>
-</section>
+<section id="stats" class="panel"><div class="head"><div><span class="kicker">ANALYTICS</span><h2>Statistics</h2></div></div><div class="stats"><div class="card"><small>Total Trades</small><strong id="sTrades">0</strong></div><div class="card"><small>Wins</small><strong id="sWins" class="green">0</strong></div><div class="card"><small>Losses</small><strong id="sLosses" class="red">0</strong></div><div class="card"><small>Total P/L</small><strong id="sPnl">₹0</strong></div></div><div class="metricgrid"><div class="metric"><small>Biggest Win</small><strong id="bigWin">₹0</strong></div><div class="metric"><small>Biggest Loss</small><strong id="bigLoss">₹0</strong></div><div class="metric"><small>Current Streak</small><strong id="streak">0</strong></div><div class="metric"><small>Drawdown</small><strong id="drawdown">₹0</strong></div></div><div class="card" style="margin-top:12px"><h3>Daily Records</h3><div id="dailyStats"></div></div></section>
 
-<section id="settings" class="panel">
-<div class="head"><div><span class="kicker">DATA</span><h2>Backup & Storage</h2></div></div>
-<div class="card">
-<p class="muted">Your records are saved in this browser. Use Export regularly if you want a backup.</p>
-<div class="actions"><button class="btn primary" id="exportBtn">Export Backup JSON</button><button class="btn secondary" id="importBtn">Import Backup JSON</button><input id="importFile" type="file" accept=".json" style="display:none"><button class="btn danger" id="clearBtn">Clear All Saved Data</button></div>
-<div class="card" style="margin-top:12px"><h3>Local Login Profile</h3><div class="profilegrid"><label>Login Number / Username<input id="profileUser" placeholder="Mobile number"></label><label>New Password<input id="profilePass" type="password" placeholder="New password"></label></div><button class="btn secondary" id="saveProfile" style="margin-top:10px">Save Login Details</button><p class="meta">Demo/local authentication only. Do not use sensitive passwords on a public static site.</p></div>
-<button class="btn gold" id="logoutBtn" style="margin-top:10px">Logout</button><div class="meta" style="margin-top:15px">Storage status: <b id="storageStatus">Ready</b></div>
-</div>
-</section>
+<section id="settings" class="panel"><div class="head"><div><span class="kicker">DATA</span><h2>Cloud & Backup</h2></div></div><div class="card"><p class="muted">Trades and daily records are stored in Supabase. Export is an additional local backup.</p><div class="actions"><button class="btn primary" id="exportBtn">Export Backup JSON</button><button class="btn danger" id="clearLocalBtn">Clear Local UI Data</button></div><div class="card" style="margin-top:12px"><h3>Account</h3><div id="accountEmail" class="muted"></div><button class="btn gold" id="logoutBtn" style="margin-top:10px;width:100%">Logout</button></div><div class="muted" style="font-size:10px;margin-top:12px">Cloud status: <b id="storageStatus">Connecting…</b></div></div></section>
 </main>
 <div class="bottomnav"><button data-nav="dashboard">Home</button><button data-nav="trade">Trades</button><button data-nav="history">Calendar</button><button data-nav="stats">Stats</button><button data-nav="settings">Data</button></div>
-<footer>₹1K → 18% Daily • Educational simulation & tracking tool • 18% is an assumed target, not a guaranteed return.</footer>
-<div id="toast" class="toast"></div>
+<footer>₹1K → 18% Daily • Educational simulation & tracking tool • 18% is an assumed target, not guaranteed.</footer>
+<div id="toast" style="position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;background:#123b27;color:#dff7e7;border:1px solid #4e9868;padding:11px 15px;border-radius:12px;z-index:300;transition:.25s"></div>
 
 <script>
-const KEY="tracker_full_v1", START=1000, DAYS=30, DAILY_RATE=0.18, TARGET=Math.round(START*Math.pow(1+DAILY_RATE,DAYS));
-const dailyRate=DAILY_RATE;
-let state=JSON.parse(localStorage.getItem(KEY)||"null")||{days:{},trades:[],workflow:{},activeDay:null};
+/* ===== SUPABASE CONFIG ===== */
+const SUPABASE_URL="https://ozjyvkzjqqsslsztespo.supabase.co";
+const SUPABASE_KEY="sb_publishable_2IwUIzy3iLmHSgrPL7M7EA_RBzMJFje";
+const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+/* ===== TRACKER CONFIG ===== */
+const START=1000,DAYS=30,DAILY_RATE=.18,TARGET=Math.round(START*Math.pow(1+DAILY_RATE,DAYS));
+const LOCAL_KEY="tracker_cloud_ui_v1";
+let state={trades:[],days:{},activeDay:null,workflow:{}};
+let currentUser=null;
 
 const $=id=>document.getElementById(id);
 const money=n=>"₹"+(Number(n)||0).toLocaleString("en-IN",{maximumFractionDigits:2});
-function localDate(){let d=new Date(),z=n=>String(n).padStart(2,"0");return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}`}
-function localTime(){let d=new Date(),z=n=>String(n).padStart(2,"0");return `${z(d.getHours())}:${z(d.getMinutes())}`}
-function projected(d){return START*Math.pow(1+dailyRate,d)}
-function ensureDay(d){if(!state.days[d])state.days[d]={date:"",journal:"",actual:null,started:false,startBalance:null,startTime:"",endTime:""};return state.days[d]}
-function trades(d){return state.trades.filter(t=>+t.day===+d)}
-function pnl(d){return trades(d).reduce((s,t)=>s+Number(t.result||0),0)}
-function balance(){let a=[...state.trades].sort((x,y)=>new Date(x.timestamp)-new Date(y.timestamp));return a.length?Number(a[a.length-1].end):START}
-function save(){localStorage.setItem(KEY,JSON.stringify(state))}
-function toast(s){$("toast").textContent=s;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),1600)}
-function firstPending(){for(let d=1;d<=DAYS;d++)if(!ensureDay(d).started)return d;return DAYS}
-function lastRecorded(){let n=0;for(let d=1;d<=DAYS;d++){let x=ensureDay(d);if(x.started||x.journal||x.actual!==null||trades(d).length)n=d}return n}
+const localDate=()=>{let d=new Date(),z=n=>String(n).padStart(2,"0");return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}`};
+const localTime=()=>{let d=new Date(),z=n=>String(n).padStart(2,"0");return `${z(d.getHours())}:${z(d.getMinutes())}`};
+const projected=d=>START*Math.pow(1+DAILY_RATE,d);
+const toast=s=>{let t=$("toast");t.textContent=s;t.style.opacity=1;t.style.transform="translateX(-50%)";setTimeout(()=>{t.style.opacity=0;t.style.transform="translateX(-50%) translateY(20px)"},1700)};
+const saveLocal=()=>localStorage.setItem(LOCAL_KEY,JSON.stringify({days:state.days,activeDay:state.activeDay,workflow:state.workflow}));
+const ensureDay=d=>{if(!state.days[d])state.days[d]={date:"",journal:"",actual:null,started:false,startBalance:null,startTime:"",endTime:""};return state.days[d]};
+const trades=d=>state.trades.filter(t=>+t.day===+d);
+const pnl=d=>trades(d).reduce((s,t)=>s+Number(t.result||0),0);
+const balance=()=>{let a=[...state.trades].sort((x,y)=>new Date(x.created_at||x.timestamp)-new Date(y.created_at||y.timestamp));return a.length?Number(a[a.length-1].end_balance):START};
+const firstPending=()=>{for(let d=1;d<=DAYS;d++)if(!ensureDay(d).started)return d;return DAYS};
+const lastRecorded=()=>{let n=0;for(let d=1;d<=DAYS;d++){let x=ensureDay(d);if(x.started||x.journal||x.actual!==null||trades(d).length)n=d}return n};
 
+async function loadCloud(){
+  if(!currentUser)return;
+  $("storageStatus").textContent="Loading…";
+  const [{data:td,error:te},{data:dd,error:de}]=await Promise.all([
+    supabaseClient.from("trades").select("*").order("created_at",{ascending:true}),
+    supabaseClient.from("daily_records").select("*").order("day",{ascending:true})
+  ]);
+  if(te)throw te;if(de)throw de;
+  state.trades=(td||[]).map(t=>({id:t.id,day:t.day,date:t.trade_date,time:t.trade_time,period:t.period,start_balance:t.start_balance,result:Number(t.result||0),end_balance:Number(t.end_balance||0),note:t.note,created_at:t.created_at}));
+  state.days={};
+  (dd||[]).forEach(x=>state.days[x.day]={date:x.record_date||"",journal:x.journal||"",actual:x.actual_balance===null?null:Number(x.actual_balance),started:!!x.started,startBalance:x.start_balance===null?null:Number(x.start_balance),startTime:x.start_time||"",endTime:x.end_time||""});
+  const local=JSON.parse(localStorage.getItem(LOCAL_KEY)||"{}");state.activeDay=local.activeDay||null;state.workflow=local.workflow||{};
+  $("storageStatus").textContent="Connected ✓";
+  render();
+}
+async function cloudDay(d){
+  const x=ensureDay(d);
+  const payload={user_id:currentUser.id,day:d,record_date:x.date||null,start_balance:x.startBalance,actual_balance:x.actual,started:!!x.started,start_time:x.startTime||null,end_time:x.endTime||null,journal:x.journal||""};
+  const {error}=await supabaseClient.from("daily_records").upsert(payload,{onConflict:"user_id,day"});
+  if(error)throw error;
+}
+async function startDay(){
+  if(state.activeDay){toast(`Day ${state.activeDay} already active`);return}
+  let d=firstPending(),x=ensureDay(d);x.started=true;x.date=localDate();x.startTime=localTime();x.startBalance=balance();x.actual=null;x.endTime="";state.activeDay=d;saveLocal();
+  try{await cloudDay(d);render();toast(`Day ${d} started ✓`)}catch(e){console.error(e);toast("Cloud save failed: "+e.message)}
+}
+async function endDay(){
+  let d=state.activeDay;if(!d){toast("No active day");return}
+  let x=ensureDay(d),a=trades(d),end=a.length?a[a.length-1].end_balance:balance();x.actual=end;x.endTime=localTime();state.activeDay=null;saveLocal();
+  try{await cloudDay(d);render();toast(`Day ${d} completed ✓`)}catch(e){console.error(e);toast("Cloud save failed: "+e.message)}
+}
+async function addTrade(){
+  if(!state.activeDay){toast("Start the day first");showTab("dashboard");return}
+  let d=+state.activeDay,period=$("jPeriod").value.trim(),start=+$("jStart").value||0,result=+$("jResult").value||0,note=$("jNote").value.trim(),date=$("jDate").value||localDate(),time=$("jTime").value||localTime();
+  if(!period)return toast("Period number enter karo");if(!start)return toast("Starting balance enter karo");if(!result)return toast("P/L enter karo (+Win / -Loss)");
+  let end=start+result;
+  const payload={user_id:currentUser.id,day:d,trade_date:date,trade_time:time,period,start_balance:start,result,end_balance:end,note};
+  const {data,error}=await supabaseClient.from("trades").insert(payload).select().single();
+  if(error){console.error(error);toast("Trade save failed: "+error.message);return}
+  state.trades.push({id:data.id,day:d,date:data.trade_date,time:data.trade_time,period:data.period,start_balance:Number(data.start_balance),result:Number(data.result),end_balance:Number(data.end_balance),note:data.note,created_at:data.created_at});
+  let x=ensureDay(d);x.date=date;x.actual=end;await cloudDay(d);
+  $("jPeriod").value="";$("jResult").value="";$("jNote").value="";$("jStart").value=end;render();toast("Trade saved to cloud ✓");
+}
+async function deleteTrade(id){
+  if(!confirm("Delete this cloud trade record?"))return;
+  const {error}=await supabaseClient.from("trades").delete().eq("id",id);
+  if(error){toast("Delete failed: "+error.message);return}
+  state.trades=state.trades.filter(t=>t.id!==id);render();toast("Trade deleted ✓");
+}
+async function saveDiary(){
+  let d=+$("diaryDay").value||state.activeDay||1,x=ensureDay(d);x.journal=$("fullDiary").value;x.date=$("diaryDate").value||x.date||localDate();
+  try{await cloudDay(d);render();toast(`Day ${d} diary saved ✓`)}catch(e){toast("Diary save failed: "+e.message)}
+}
 function render(){
   let last=lastRecorded(),shown=state.activeDay||Math.min(last+1,DAYS),cur=balance(),x=ensureDay(shown);
-  $("currentBalance").textContent=money(cur);$("pnl").textContent=(cur>=START?"+":"")+money(cur-START);
-  $("progress").textContent=(cur/TARGET*100).toFixed(1)+"%";$("dayNo").textContent=`${shown} / ${DAYS}`;
-  $("status").textContent=state.activeDay?"In Progress":(x.actual!==null?"Completed":(last?"Ready to start":"Not started"));
-  $("sessionState").textContent=state.activeDay?"ACTIVE":"Ready";$("sessionMeta").textContent=state.activeDay?`Started ${x.startTime} • ${x.date}`:"10 AM → 5 PM";
-  $("progressBar").style.width=Math.min(100,Math.max(0,cur/TARGET*100))+"%";$("todayPill").textContent=`Day ${shown}`;
-  $("todayTarget").textContent=money(projected(shown));
-  $("dayMeta").textContent=x.started?`Start ${money(x.startBalance)} • ${x.date} ${x.startTime}`:`Daily target ${money(projected(shown))}`;
-  $("startDayBtn").style.display=state.activeDay?"none":"block";$("endDayBtn").style.display=state.activeDay?"block":"none";
-  $("startDayBtn").textContent=`▶ Start Day ${shown}`;$("endDayBtn").textContent=`■ End Day ${shown}`;
-  $("jDay").value=shown;$("jDate").value=x.date||localDate();$("jStart").value=trades(shown).length?trades(shown).at(-1).end:(x.startBalance??cur);
+  $("currentBalance").textContent=money(cur);$("pnl").textContent=(cur>=START?"+":"")+money(cur-START);$("targetBalance").textContent=money(TARGET);$("rangeTarget").textContent=money(TARGET);$("progress").textContent=(cur/TARGET*100).toFixed(1)+"%";$("dayNo").textContent=`${shown} / ${DAYS}`;
+  $("status").textContent=state.activeDay?"In Progress":(x.actual!==null?"Completed":(last?"Ready to start":"Not started"));$("sessionState").textContent="Connected";$("sessionMeta").textContent=currentUser?currentUser.email:"Supabase";
+  $("progressBar").style.width=Math.min(100,Math.max(0,cur/TARGET*100))+"%";$("todayPill").textContent=`Day ${shown}`;$("todayTarget").textContent=money(projected(shown));$("dayMeta").textContent=x.started?`Start ${money(x.startBalance)} • ${x.date} ${x.startTime}`:`Daily target ${money(projected(shown))}`;
+  $("startDayBtn").style.display=state.activeDay?"none":"block";$("endDayBtn").style.display=state.activeDay?"block":"none";$("startDayBtn").textContent=`▶ Start Day ${shown}`;$("endDayBtn").textContent=`■ End Day ${shown}`;
+  $("jDay").value=shown;$("jDate").value=x.date||localDate();$("jTime").value=localTime();$("jStart").value=trades(shown).length?trades(shown).at(-1).end_balance:(x.startBalance??cur);
   $("diaryDay").value=shown;$("diaryDate").value=x.date||localDate();$("fullDiary").value=x.journal||"";
-  renderPlan();renderToday(shown);renderJournal();renderHistory();renderStats();renderCalendarWorkflow();renderScenarios();calc();tradeCalc();renderPremium();renderCalendar();renderCharts();
+  renderToday(shown);renderPlan();renderJournal();renderHistory();renderStats();renderCalendarWorkflow();renderCalendar();calc();tradeCalc();
 }
-function renderToday(d){
-  let a=trades(d),p=pnl(d);$("todayPnl").textContent=(p>=0?"+":"")+money(p);$("todayTrades").textContent=a.length;$("todayWins").textContent=a.filter(t=>t.result>0).length;$("todayLosses").textContent=a.filter(t=>t.result<0).length;
-  $("diaryStats").textContent=`${a.length} trades • ${a.filter(t=>t.result>0).length} wins • ${a.filter(t=>t.result<0).length} losses • P/L ${p>=0?"+":""}${money(p)}`;
-}
-function renderPlan(){
-  let h="";for(let d=1;d<=DAYS;d++){let x=ensureDay(d),a=trades(d),p=pnl(d),end=x.actual!==null?x.actual:(a.length?a.at(-1).end:null);let st=x.started&&x.endTime?"Completed":x.started?"In Progress":end===null?"Not started":end>=projected(d)?"Ahead":"Behind";
-  h+=`<tr><td><b>Day ${d}</b></td><td>${x.date||"—"}</td><td>${money(x.startBalance??(d===1?START:projected(d-1)))}</td><td>${money(projected(d))}</td><td>${end===null?"—":money(end)}</td><td class="${p>=0?"winTxt":"lossTxt"}">${p>=0?"+":""}${money(p)}</td><td>${a.length}</td><td>${a.filter(t=>t.result>0).length}</td><td>${a.filter(t=>t.result<0).length}</td><td>${st}</td></tr>`}$("planBody").innerHTML=h;
-}
-function renderJournal(){
- const q=(($("tradeSearch")||{}).value||"").toLowerCase();const f=(($("tradeFilter")||{}).value||"all");
- const arr=[...state.trades].map((t,i)=>({...t,_i:i})).sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp)).filter(t=>{let ok=f==="all"||(f==="win"&&t.result>0)||(f==="loss"&&t.result<0);let hay=`${t.day} ${t.date} ${t.time} ${t.period} ${t.note}`.toLowerCase();return ok&&hay.includes(q)});
- $("journalBody").innerHTML=arr.map((t,i)=>`<tr><td>${i+1}</td><td>Day ${t.day}<br><small>${t.date}</small></td><td>${t.time}</td><td>${t.period}</td><td class="${t.result>=0?"winTxt":"lossTxt"}">${t.result>=0?"+":""}${money(t.result)}</td><td>${money(t.start)}</td><td>${money(t.end)}</td><td>${t.note||""}</td><td><div class="trade-actions"><button class="btn danger mini" data-del-trade="${t._i}">Delete</button></div></td></tr>`).join("")||`<tr><td colspan="9" class="muted">No matching trades.</td></tr>`;
- $("tradeCountLabel").textContent=`${state.trades.length} trades`;document.querySelectorAll("[data-del-trade]").forEach(b=>b.onclick=()=>deleteTrade(+b.dataset.delTrade));
-}
-function deleteTrade(i){if(!confirm("Delete this trade record?"))return;state.trades.splice(i,1);save();render();toast("Trade deleted");}
-function renderHistory(){
- let h="";for(let d=1;d<=DAYS;d++){let x=ensureDay(d),a=trades(d),p=pnl(d),end=x.actual!==null?x.actual:(a.length?a.at(-1).end:null);h+=`<div class="history ${state.activeDay===d?"active":""}"><h3>Day ${d}</h3><small>${x.date||"Not started"}</small><div class="num">${end===null?"—":money(end)}</div><div class="meta">${a.length} trades • ${a.filter(t=>t.result>0).length} W • ${a.filter(t=>t.result<0).length} L<br>P/L <span class="${p>=0?"winTxt":"lossTxt"}">${p>=0?"+":""}${money(p)}</span><br>${x.journal?x.journal.slice(0,65):"No diary yet"}</div><button class="btn secondary" data-open-day="${d}">Open Day</button></div>`}
- $("historyGrid").innerHTML=h;document.querySelectorAll("[data-open-day]").forEach(b=>b.onclick=()=>openDay(+b.dataset.openDay));
-}
-function openDay(d){$("diaryDay").value=d;renderDiaryFields(d);showTab("diary")}
+function renderToday(d){let a=trades(d),p=pnl(d);$("todayPnl").textContent=(p>=0?"+":"")+money(p);$("todayTrades").textContent=a.length;$("todayWins").textContent=a.filter(t=>t.result>0).length;$("todayLosses").textContent=a.filter(t=>t.result<0).length;$("diaryStats").textContent=`${a.length} trades • ${a.filter(t=>t.result>0).length} wins • ${a.filter(t=>t.result<0).length} losses • P/L ${p>=0?"+":""}${money(p)}`}
+function renderPlan(){let h="";for(let d=1;d<=DAYS;d++){let x=ensureDay(d),a=trades(d),p=pnl(d),end=x.actual!==null?x.actual:(a.length?a[a.length-1].end_balance:null),st=x.started&&x.endTime?"Completed":x.started?"In Progress":end===null?"Not started":end>=projected(d)?"Ahead":"Behind";h+=`<tr><td><b>Day ${d}</b></td><td>${x.date||"—"}</td><td>${money(x.startBalance??(d===1?START:projected(d-1)))}</td><td>${money(projected(d))}</td><td>${end===null?"—":money(end)}</td><td class="${p>=0?"winTxt":"lossTxt"}">${p>=0?"+":""}${money(p)}</td><td>${a.length}</td><td>${a.filter(t=>t.result>0).length}</td><td>${a.filter(t=>t.result<0).length}</td><td>${st}</td></tr>`}$("planBody").innerHTML=h}
+function renderJournal(){let q=($("tradeSearch").value||"").toLowerCase(),f=$("tradeFilter").value;let arr=[...state.trades].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).filter(t=>{let ok=f==="all"||(f==="win"&&t.result>0)||(f==="loss"&&t.result<0),hay=`${t.day} ${t.date} ${t.time} ${t.period} ${t.note}`.toLowerCase();return ok&&hay.includes(q)});$("journalBody").innerHTML=arr.map((t,i)=>`<tr><td>${i+1}</td><td>Day ${t.day}<br><small>${t.date||""}</small></td><td>${t.time||""}</td><td>${t.period||""}</td><td class="${t.result>=0?"winTxt":"lossTxt"}">${t.result>=0?"+":""}${money(t.result)}</td><td>${money(t.start_balance)}</td><td>${money(t.end_balance)}</td><td>${t.note||""}</td><td><button class="btn danger" data-del="${t.id}" style="padding:6px 9px;font-size:9px">Delete</button></td></tr>`).join("")||`<tr><td colspan="9" class="muted">No matching trades.</td></tr>`;$("tradeCountLabel").textContent=`${state.trades.length} trades`;document.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>deleteTrade(b.dataset.del))}
+function renderHistory(){let h="";for(let d=1;d<=DAYS;d++){let x=ensureDay(d),a=trades(d),p=pnl(d),end=x.actual!==null?x.actual:(a.length?a[a.length-1].end_balance:null);h+=`<div class="history"><h3>Day ${d}</h3><small class="muted">${x.date||"Not started"}</small><div class="num">${end===null?"—":money(end)}</div><div class="muted" style="font-size:10px">${a.length} trades • ${a.filter(t=>t.result>0).length} W • ${a.filter(t=>t.result<0).length} L<br>P/L <span class="${p>=0?"winTxt":"lossTxt"}">${p>=0?"+":""}${money(p)}</span><br>${x.journal?x.journal.slice(0,70):"No diary yet"}</div><button class="btn secondary" data-open="${d}">Open Day</button></div>`}$("historyGrid").innerHTML=h;document.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>{let d=+b.dataset.open;$("diaryDay").value=d;renderDiaryFields(d);showTab("diary")})}
 function renderDiaryFields(d){let x=ensureDay(d);$("diaryDate").value=x.date||"";$("fullDiary").value=x.journal||"";$("diaryStats").textContent=`${trades(d).length} trades • P/L ${pnl(d)>=0?"+":""}${money(pnl(d))}`}
-function renderStats(){let a=state.trades,p=a.reduce((s,t)=>s+t.result,0);$("sTrades").textContent=a.length;$("sWins").textContent=a.filter(t=>t.result>0).length;$("sLosses").textContent=a.filter(t=>t.result<0).length;$("sPnl").textContent=(p>=0?"+":"")+money(p);$("dailyStats").innerHTML=Array.from({length:DAYS},(_,i)=>i+1).filter(d=>trades(d).length||ensureDay(d).started).map(d=>`<div class="statrow"><b>Day ${d}</b><span>${trades(d).length} trades</span><strong class="${pnl(d)>=0?"winTxt":"lossTxt"}">${pnl(d)>=0?"+":""}${money(pnl(d))}</strong></div>`).join("")}
-function renderCalendarWorkflow(){
-  let w=[["10:00–10:30","Preparation","Set target and review previous day."],["10:30–12:00","Session 1","Record each trade; don't force trades."],["12:00–12:30","Review","Check wins, losses and P/L."],["12:30–14:00","Break","Review notes and reset."],["14:00–15:30","Session 2","Continue within predefined rules."],["15:30–16:00","Review","Compare actual with projection."],["16:00–17:00","Close","Finish records and stop."]];$("workflow").innerHTML=w.map((x,i)=>`<div class="wf"><input type="checkbox" data-wf="${i}" ${state.workflow[i]?"checked":""}><div><b>${x[0]} · ${x[1]}</b><span>${x[2]}</span></div></div>`).join("");document.querySelectorAll("[data-wf]").forEach(c=>c.onchange=()=>{state.workflow[c.dataset.wf]=c.checked;save()})
-}
-function renderScenarios(){$("scenarios").innerHTML=[5,10,15,20,25,30].map(r=>`<div class="scenario"><b>${r}% / day</b><strong>${money(START*Math.pow(1+r/100,DAYS))}</strong><small>30 periods</small></div>`).join("")}
+function renderStats(){let a=state.trades,p=a.reduce((s,t)=>s+t.result,0),w=a.filter(t=>t.result>0),l=a.filter(t=>t.result<0);$("sTrades").textContent=a.length;$("sWins").textContent=w.length;$("sLosses").textContent=l.length;$("sPnl").textContent=(p>=0?"+":"")+money(p);$("dashWinRate").textContent=a.length?(w.length/a.length*100).toFixed(1)+"%":"0%";$("dashAvgWin").textContent=money(w.length?w.reduce((s,t)=>s+t.result,0)/w.length:0);$("dashAvgLoss").textContent=money(l.length?l.reduce((s,t)=>s+t.result,0)/l.length:0);$("dashRemaining").textContent=money(Math.max(0,TARGET-balance()));$("bigWin").textContent=money(w.length?Math.max(...w.map(t=>t.result)):0);$("bigLoss").textContent=money(l.length?Math.min(...l.map(t=>t.result)):0);let ordered=[...a].sort((x,y)=>new Date(x.created_at)-new Date(y.created_at)),streak=0;for(let i=ordered.length-1;i>=0&&ordered[i].result>0;i--)streak++;$("streak").textContent=streak+" W";let peak=START,dd=0;ordered.forEach(t=>{peak=Math.max(peak,t.end_balance);dd=Math.max(dd,peak-t.end_balance)});$("drawdown").textContent=money(dd);$("dailyStats").innerHTML=Array.from({length:DAYS},(_,i)=>i+1).filter(d=>trades(d).length||ensureDay(d).started).map(d=>`<div class="statrow"><b>Day ${d}</b><span>${trades(d).length} trades</span><strong class="${pnl(d)>=0?"winTxt":"lossTxt"}">${pnl(d)>=0?"+":""}${money(pnl(d))}</strong></div>`).join("")||`<div class="muted">No records yet.</div>`}
+function renderCalendarWorkflow(){let w=[["10:00–10:30","Preparation","Set target and review previous day."],["10:30–12:00","Session 1","Record each trade; don't force trades."],["12:00–12:30","Review","Check wins, losses and P/L."],["12:30–14:00","Break","Review notes and reset."],["14:00–15:30","Session 2","Continue within predefined rules."],["15:30–16:00","Review","Compare actual with projection."],["16:00–17:00","Close","Finish records and stop."]];$("workflow").innerHTML=w.map((x,i)=>`<div class="wf"><input type="checkbox" data-wf="${i}" ${state.workflow[i]?"checked":""}><div><b>${x[0]} · ${x[1]}</b><span>${x[2]}</span></div></div>`).join("");document.querySelectorAll("[data-wf]").forEach(c=>c.onchange=()=>{state.workflow[c.dataset.wf]=c.checked;saveLocal()})}
+function renderCalendar(){let h="";for(let d=1;d<=DAYS;d++){let x=ensureDay(d),p=pnl(d),a=trades(d),cls=x.endTime?"done":x.started?"started":"";h+=`<button class="cal ${cls}" data-cal="${d}"><b>${d}</b><small>${x.date||"—"}</small><em>${a.length?((p>=0?"+":"")+money(p)):"No trades"}</em></button>`}$("calendar").innerHTML=h;document.querySelectorAll("[data-cal]").forEach(b=>b.onclick=()=>{let d=+b.dataset.cal;$("diaryDay").value=d;renderDiaryFields(d);showTab("diary")})}
 function calc(){let s=+$("calcStart").value||0,d=+$("calcDays").value||0,r=+$("calcRate").value||0;$("calcResult").textContent=money(s*Math.pow(1+r/100,d));$("calcNote").textContent=`${r}% assumed daily growth • ${d} periods • Target ${money(+$("calcTarget").value||0)}`}
 function tradeCalc(){let s=+$("tradeStart").value||0,r=+$("tradeRate").value||0,n=+$("tradeCount").value||0;$("tradeResult").textContent=money(s*Math.pow(1+r/100,n))}
-function renderPremium(){
- const a=state.trades,w=a.filter(t=>t.result>0),l=a.filter(t=>t.result<0),wins=w.length,losses=l.length,total=a.length;
- $("dashWinRate").textContent=total?((wins/total)*100).toFixed(1)+"%":"0%";$("dashAvgWin").textContent=money(w.length?w.reduce((s,t)=>s+t.result,0)/w.length:0);$("dashAvgLoss").textContent=money(l.length?l.reduce((s,t)=>s+t.result,0)/l.length:0);$("dashRemaining").textContent=money(Math.max(0,TARGET-balance()));
- const ms=[1000,5000,25000,100000,500000,2619996],bal=balance();$("milestones").innerHTML=ms.map(v=>`<div class="mile ${bal>=v?"done":""}"><b>${money(v)}</b><small>${bal>=v?"✓ Reached":"Locked"}</small></div>`).join("");
- let vals=[0,...a.slice().sort((x,y)=>new Date(x.timestamp)-new Date(y.timestamp)).map(t=>Number(t.end)||0)],peak=START,dd=0;vals.forEach(v=>{peak=Math.max(peak,v);dd=Math.max(dd,peak-v)});$("bigWin").textContent=money(w.length?Math.max(...w.map(t=>t.result)):0);$("bigLoss").textContent=money(l.length?Math.min(...l.map(t=>t.result)):0);$("drawdown").textContent=money(dd);
- let streak=0;for(let i=a.length-1;i>=0;i--){if(a.slice().sort((x,y)=>new Date(x.timestamp)-new Date(y.timestamp))[i]?.result>0)streak++;else break}$("streak").textContent=streak+" W";
-}
-function renderCalendar(){let h="";for(let d=1;d<=DAYS;d++){let x=ensureDay(d),p=pnl(d),a=trades(d),cls=x.endTime?"done":x.started?"started":"";h+=`<button class="cal ${cls}" data-cal-day="${d}"><b>${d}</b><small>${x.date||"—"}</small><em>${a.length?((p>=0?"+":"")+money(p)):"No trades"}</em></button>`}$('calendar').innerHTML=h;document.querySelectorAll('[data-cal-day]').forEach(b=>b.onclick=()=>openDay(+b.dataset.calDay))}
-function renderCharts(){drawLine('balanceChart',getBalancePoints(),false);drawLine('pnlChart',Array.from({length:DAYS},(_,i)=>pnl(i+1)),true);drawBars('wlChart',[state.trades.filter(t=>t.result>0).length,state.trades.filter(t=>t.result<0).length])}
-function getBalancePoints(){let arr=[START],a=[...state.trades].sort((x,y)=>new Date(x.timestamp)-new Date(y.timestamp));a.forEach(t=>arr.push(Number(t.end)||arr[arr.length-1]));return arr}
-function canvasSetup(id){let c=$(id);if(!c)return null;let r=c.getBoundingClientRect(),d=devicePixelRatio||1;c.width=Math.max(300,r.width*d);c.height=Math.max(160,r.height*d);let x=c.getContext('2d');x.scale(d,d);return {c,x,w:r.width,h:r.height}}
-function drawLine(id,data,isPnl){let z=canvasSetup(id);if(!z)return;let {x,w,h}=z;x.clearRect(0,0,w,h);let min=Math.min(...data,0),max=Math.max(...data,1);if(max===min)max=min+1;let pad=22;x.strokeStyle='#24372b';x.lineWidth=1;for(let i=0;i<4;i++){let yy=pad+i*(h-pad*2)/3;x.beginPath();x.moveTo(pad,yy);x.lineTo(w-pad,yy);x.stroke()}x.strokeStyle='#69df98';x.lineWidth=2.5;x.beginPath();data.forEach((v,i)=>{let px=pad+(w-pad*2)*(i/Math.max(1,data.length-1)),py=h-pad-(v-min)/(max-min)*(h-pad*2);i?x.lineTo(px,py):x.moveTo(px,py)});x.stroke();x.fillStyle='#84908a';x.font='9px system-ui';x.fillText(isPnl?'Daily P/L':'Start / recorded balance',pad,12);}
-function drawBars(id,data){let z=canvasSetup(id);if(!z)return;let {x,w,h}=z;x.clearRect(0,0,w,h);let max=Math.max(...data,1),bw=Math.min(70,w/4);data.forEach((v,i)=>{let bh=(v/max)*(h-45),px=w/2-bw-8+i*(bw+16);x.fillStyle=i?'#8c514b':'#3db968';x.fillRect(px,h-28-bh,bw,bh);x.fillStyle='#84908a';x.font='10px system-ui';x.fillText(i?'Loss':'Win',px+8,h-10);x.fillText(String(v),px+10,h-34-bh)})}
-function showTab(id){document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===id));document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id===id))}
-document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+function showTab(id){document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===id));document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id===id));document.querySelectorAll(".bottomnav button").forEach(b=>b.classList.toggle("active",b.dataset.nav===id))}
+function exportData(){let blob=new Blob([JSON.stringify({exported_at:new Date().toISOString(),user:currentUser?.email,trades:state.trades,days:state.days},null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`trading-tracker-backup-${localDate()}.json`;a.click();URL.revokeObjectURL(a.href);toast("Backup exported ✓")}
 
-function startDay(){
- if(state.activeDay){toast(`Day ${state.activeDay} already active`);return}
- let d=firstPending(),x=ensureDay(d);x.started=true;x.date=localDate();x.startTime=localTime();x.startBalance=balance();x.actual=null;x.endTime="";state.activeDay=d;save();render();toast(`Day ${d} started ✓`);
+async function login(){
+  let email=$("loginEmail").value.trim(),password=$("loginPass").value;
+  if(!email||!password){$("loginError").textContent="Email and password required.";return}
+  $("loginError").textContent="Signing in…";
+  const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+  if(error){$("loginError").textContent=error.message;return}
+  currentUser=data.user;$("loginScreen").style.display="none";$("accountEmail").textContent=currentUser.email;await loadCloud();
 }
-function endDay(){
- let d=state.activeDay;if(!d){toast("No active day");return}
- let x=ensureDay(d),a=trades(d),end=a.length?a.at(-1).end:balance();x.actual=end;x.endTime=localTime();state.activeDay=null;save();render();toast(`Day ${d} completed ✓`);
-}
-function addTrade(){
- if(!state.activeDay){toast("Start the day first");showTab("dashboard");return}
- let d=+state.activeDay,period=$("jPeriod").value.trim(),start=+$("jStart").value||0,result=+$("jResult").value||0,note=$("jNote").value.trim(),date=$("jDate").value||localDate(),time=$("jTime").value||localTime();
- if(!period)return toast("Period number enter karo");
- if(!start)return toast("Starting balance enter karo");
- if(!result)return toast("P/L enter karo (+Win / -Loss)");
- let end=start+result;state.trades.push({day:d,date,time,period,start,result,end,note,timestamp:`${date}T${time}:00`});let x=ensureDay(d);x.date=date;x.actual=end;save();$("jPeriod").value="";$("jResult").value="";$("jNote").value="";$("jStart").value=end;render();toast("Trade saved ✓");
-}
-function saveDiary(){let d=+$("diaryDay").value||state.activeDay||1,x=ensureDay(d);x.journal=$("fullDiary").value;x.date=$("diaryDate").value||x.date||localDate();save();render();toast(`Day ${d} diary saved ✓`)}
-function exportData(){let blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`1000-60k-backup-${localDate()}.json`;a.click();URL.revokeObjectURL(a.href);toast("Backup exported ✓")}
-$("importBtn").onclick=()=>$("importFile").click();
-$("importFile").onchange=e=>{let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x||!Array.isArray(x.trades)||!x.days)throw 0;state=x;save();render();toast("Backup imported ✓")}catch{toast("Invalid backup file")}};r.readAsText(f)}
-$("exportBtn").onclick=exportData;
-$("clearBtn").onclick=()=>{if(confirm("Clear ALL saved records? This cannot be undone unless you exported a backup.")){localStorage.removeItem(KEY);location.reload()}}
-$("startDayBtn").onclick=startDay;$("endDayBtn").onclick=endDay;$("addTradeBtn").onclick=addTrade;
-$("quickWin").onclick=()=>{$("jResult").value=20};$("quickLoss").onclick=()=>{$("jResult").value=-20};
-$("saveDiary").onclick=saveDiary;
-$("calcBtn").onclick=calc;
-["tradeStart","tradeRate","tradeCount"].forEach(id=>$(id).oninput=tradeCalc);
-$("resetBtn").onclick=()=>{if(confirm("Reset all saved tracker data?")){localStorage.removeItem(KEY);location.reload()}};
+async function logout(){await supabaseClient.auth.signOut();location.reload()}
+
 for(let d=1;d<=DAYS;d++){$("jDay").innerHTML+=`<option value="${d}">Day ${d}</option>`;$("diaryDay").innerHTML+=`<option value="${d}">Day ${d}</option>`}
-$("jDate").value=localDate();$("jTime").value=localTime();$("diaryDate").value=localDate();
+$("loginBtn").onclick=login;$("loginPass").onkeydown=e=>{if(e.key==="Enter")login()};$("logoutBtn").onclick=logout;$("startDayBtn").onclick=startDay;$("endDayBtn").onclick=endDay;$("addTradeBtn").onclick=addTrade;$("saveDiary").onclick=saveDiary;$("quickWin").onclick=()=>$("jResult").value=20;$("quickLoss").onclick=()=>$("jResult").value=-20;$("calcBtn").onclick=calc;$("exportBtn").onclick=exportData;$("tradeSearch").oninput=renderJournal;$("tradeFilter").onchange=renderJournal;$("clearTradeFilter").onclick=()=>{$("tradeSearch").value="";$("tradeFilter").value="all";renderJournal()};$("clearLocalBtn").onclick=()=>{localStorage.removeItem(LOCAL_KEY);state.workflow={};state.activeDay=null;toast("Local UI data cleared");render()};["tradeStart","tradeRate","tradeCount"].forEach(id=>$(id).oninput=tradeCalc);document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>showTab(b.dataset.tab));document.querySelectorAll("[data-nav]").forEach(b=>b.onclick=()=>showTab(b.dataset.nav));$("jDate").value=localDate();$("jTime").value=localTime();$("diaryDate").value=localDate();
 
-const LOGIN_KEY="tracker_login_v1";
-function showApp(){
-  $("loginScreen").style.display="none";
-  document.body.classList.remove("locked");
-}
-function doLogin(){
-  const u=$("loginUser").value.trim(),p=$("loginPass").value;
-  if(u===(localStorage.getItem("tracker_login_user")||"admin") && p===(localStorage.getItem("tracker_login_pass")||"1234")){
-    localStorage.setItem(LOGIN_KEY,"1");
-    $("loginError").textContent="";
-    showApp();
-  }else{
-    $("loginError").textContent="Invalid username or password.";
-  }
-}
-$("loginBtn").onclick=doLogin;
-$("loginPass").addEventListener("keydown",e=>{if(e.key==="Enter")doLogin()});
-if(localStorage.getItem(LOGIN_KEY)==="1")showApp();else document.body.classList.add("locked");
-
-
-$("logoutBtn").onclick=()=>{localStorage.removeItem(LOGIN_KEY);location.reload()};
-$("tradeSearch").oninput=renderJournal;$("tradeFilter").onchange=renderJournal;$("clearTradeFilter").onclick=()=>{$("tradeSearch").value="";$('tradeFilter').value="all";renderJournal()};
-document.querySelectorAll('[data-nav]').forEach(b=>b.onclick=()=>showTab(b.dataset.nav));
-const savedUser=localStorage.getItem('tracker_login_user');const savedPass=localStorage.getItem('tracker_login_pass');if(savedUser)$("profileUser").value=savedUser;
-$("saveProfile").onclick=()=>{let u=$("profileUser").value.trim(),p=$("profilePass").value;if(!u||!p)return toast('Number and password required');localStorage.setItem('tracker_login_user',u);localStorage.setItem('tracker_login_pass',p);toast('Login details saved locally ✓')};
-
-render();
+(async()=>{
+  try{
+    const {data}=await supabaseClient.auth.getSession();
+    if(data.session){currentUser=data.session.user;$("loginScreen").style.display="none";$("accountEmail").textContent=currentUser.email;await loadCloud()}
+    else {$("sessionState").textContent="Login required";$("storageStatus").textContent="Waiting for login"}
+  }catch(e){console.error(e);$("loginError").textContent="Could not connect to cloud."}
+})();
 </script>
 </body>
 </html>
