@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>₹4,576 → 18% Daily | Premium Trade Tracker</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--bg:#050908;--panel:#0b1210;--panel2:#0e1713;--green:#35b86a;--green2:#69df98;--gold:#c8a65a;--red:#df7770;--text:#edf2ee;--muted:#84908a;--line:#23312a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 10% 10%,#35b86a1f,transparent 26%),radial-gradient(circle at 90% 0,#c8a65a18,transparent 24%),linear-gradient(145deg,#030605,#07100c 48%,#050809);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}
+.top{position:sticky;top:0;z-index:50;background:#050908ee;backdrop-filter:blur(15px);border-bottom:1px solid var(--line)}.topin{max-width:1200px;margin:auto;padding:12px 16px;display:flex;justify-content:space-between;align-items:center}.logo{font-size:24px;font-weight:900}.logo span,h1 span{color:var(--green2)}.sub{font-size:10px;color:var(--muted)}
+.wrap{max-width:1200px;margin:auto;padding:18px 14px 60px}.hero{display:flex;justify-content:space-between;align-items:center;padding:24px;border:1px solid #294b38;border-radius:22px;background:linear-gradient(135deg,#0d1812,#07100c);box-shadow:0 20px 60px #0007}.kicker{font-size:10px;letter-spacing:2px;font-weight:900;color:var(--green2)}h1{font-size:clamp(36px,7vw,60px);line-height:1;margin:8px 0}h2{margin:4px 0 12px}.hero p,.muted{color:var(--muted)}.badge{min-width:90px;height:90px;border-radius:50%;display:grid;place-content:center;text-align:center;border:1px solid var(--gold);background:#211b10;color:#e0c477;font-weight:900}
+.stats,.grid2,.grid3,.metricgrid,.form{display:grid;gap:10px}.stats{grid-template-columns:repeat(4,1fr);margin-top:12px}.grid2{grid-template-columns:1fr 1fr}.grid3{grid-template-columns:repeat(3,1fr)}.metricgrid{grid-template-columns:repeat(4,1fr);margin-top:12px}.form{grid-template-columns:repeat(4,1fr)}
+.card,.metric{background:linear-gradient(145deg,#0c1711,#08100c);border:1px solid var(--line);border-radius:16px;padding:15px;box-shadow:0 12px 35px #0003}.card small,.metric small,label{color:var(--muted);font-size:11px}.card strong,.metric strong{display:block;font-size:25px;margin:6px 0}.green,.winTxt{color:var(--green2)!important}.red,.lossTxt{color:var(--red)!important}.progress{height:9px;background:#1a241e;border-radius:20px;overflow:hidden;margin-top:12px}.progress i{display:block;height:100%;background:linear-gradient(90deg,#17643a,#35b86a,#82e8a7);width:0}.range{display:flex;justify-content:space-between;color:#758079;font-size:10px;margin:5px 2px 15px}
+.tabs{display:flex;gap:7px;overflow:auto;padding:2px 0 4px;margin:15px 0;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}.tab{white-space:nowrap;border:1px solid #2c3a32;background:#0b120f;color:#aeb8b1;border-radius:11px;padding:10px 13px}.tab.active{background:#123d27;border-color:#4a9866;color:#d5f2df;font-weight:800}
+.panel{display:none}.panel.active{display:block}.head{display:flex;justify-content:space-between;align-items:center;margin:18px 0 12px}.pill{background:#332a1d;color:#d1b875;padding:6px 10px;border-radius:20px;font-size:10px}.btn{border:0;border-radius:11px;padding:10px 14px;font-weight:800}.primary{background:linear-gradient(90deg,#227b45,#3db968);color:#f1fff5}.secondary{background:#0d1713;border:1px solid #36533f;color:#83dba0}.danger{background:#301b1b;border:1px solid #74403c;color:#ef9991}.gold{background:#302513;border:1px solid #705d37;color:#e2c57f}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.actions>*{flex:1;min-width:130px}
+input,select,textarea{width:100%;display:block;margin-top:5px;background:#070d0a;color:#edf2ee;border:1px solid #314039;border-radius:10px;padding:11px;outline:none}textarea{min-height:130px;resize:vertical}.wide{grid-column:1/-1}.notice{padding:12px;border:1px solid #5a4729;background:#19140d;color:#cbb57c;border-radius:12px;font-size:11px;margin-bottom:12px}
+.table{overflow:auto;border:1px solid var(--line);border-radius:13px}table{width:100%;border-collapse:collapse;min-width:820px}th,td{padding:9px;border-bottom:1px solid #1d2822;text-align:left;font-size:11px}th{color:#7e8983;background:#0d1511}td{color:#d1d8d3}.result{padding:15px;margin-top:12px;border:1px solid #314d3a;border-radius:13px;background:#0c1811}.result strong{font-size:31px;display:block;color:#b9e5c8}
+.historygrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.history{border:1px solid var(--line);background:#0b1310;border-radius:14px;padding:14px}.history .num{font-size:22px;font-weight:900;margin:6px 0}.history button{margin-top:10px;width:100%}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}.cal{min-height:72px;border:1px solid var(--line);background:#0a110e;color:#cbd4ce;border-radius:10px;padding:8px;text-align:left}.cal.started{border-color:#3b8055;background:#0d1c13}.cal.done{border-color:#8c713e}.cal small,.cal em{display:block;font-size:9px;margin-top:4px}.cal small{color:#758078}.cal em{color:#62d594;font-style:normal}.wf{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid #1e2a23}.wf input{width:18px}.wf b{font-size:12px}.wf span{display:block;color:var(--muted);font-size:10px;margin-top:2px}.statrow{display:grid;grid-template-columns:1fr 1fr 1fr;padding:10px;border-bottom:1px solid #1d2822}.login-screen{position:fixed;inset:0;z-index:200;background:#030605ee;backdrop-filter:blur(18px);display:flex;align-items:center;justify-content:center;padding:18px}.login-card{width:min(420px,100%);padding:28px 23px;background:#0b1210;border:1px solid #31533d;border-radius:22px;box-shadow:0 30px 100px #000b}.login-logo{text-align:center;font-size:31px;font-weight:900}.login-kicker{text-align:center;color:#69df98;font-size:9px;letter-spacing:2px;font-weight:900;margin-top:5px}.login-card h2{text-align:center;margin-top:20px}.login-card label{display:block;margin-top:12px}.login-btn{width:100%;margin-top:15px}.login-error{min-height:18px;text-align:center;color:#e7867e;font-size:11px;margin-top:9px}.bottomnav{display:none}footer{text-align:center;color:#59645e;font-size:9px;padding:22px;border-top:1px solid #19231e}
+@media(max-width:850px){.stats,.metricgrid{grid-template-columns:repeat(2,1fr)}.form{grid-template-columns:1fr 1fr}.historygrid{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.wrap{padding:12px 10px 75px}.hero{padding:17px}.badge{display:none}.stats,.grid2,.grid3,.metricgrid,.form{grid-template-columns:1fr 1fr}.historygrid{grid-template-columns:1fr}.calendar{grid-template-columns:repeat(4,1fr)}.bottomnav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:60;background:#050908f2;border-top:1px solid #23312a;padding:6px;gap:5px}.bottomnav button{flex:1;background:#0b120f;border:1px solid #26372d;color:#94a098;border-radius:10px;padding:8px 3px;font-size:9px}.bottomnav button.active{color:#d8f5e1;border-color:#46885d;background:#12351f}}
+
+/* ===== PREMIUM 2.3K THEME ===== */
+:root{
+  --bg:#040706;
+  --panel:#09110e;
+  --panel2:#0d1813;
+  --green:#38d996;
+  --green2:#83f3bb;
+  --gold:#e2c276;
+  --red:#ff817c;
+  --text:#f2f7f4;
+  --muted:#8b9992;
+  --line:#20352b;
+  --cyan:#63d9e8;
+}
+body{
+  background:
+    radial-gradient(circle at 12% 0,rgba(56,217,150,.15),transparent 28%),
+    radial-gradient(circle at 92% 4%,rgba(226,194,118,.13),transparent 24%),
+    radial-gradient(circle at 55% 100%,rgba(99,217,232,.06),transparent 30%),
+    linear-gradient(145deg,#020504 0%,#07100c 48%,#040807 100%);
+}
+body:before{
+  opacity:.028;
+  background-image:
+    linear-gradient(rgba(255,255,255,.7) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.7) 1px,transparent 1px);
+  background-size:44px 44px;
+}
+.top{
+  background:rgba(3,7,5,.88);
+  border-bottom:1px solid rgba(131,243,187,.14);
+  box-shadow:0 12px 40px rgba(0,0,0,.42);
+}
+.logo{text-shadow:0 0 28px rgba(131,243,187,.18)}
+.hero{
+  background:
+    linear-gradient(135deg,rgba(11,28,20,.97),rgba(5,12,9,.96));
+  border-color:rgba(131,243,187,.28);
+  box-shadow:0 28px 90px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.045);
+}
+.hero:after{
+  border-color:rgba(226,194,118,.16);
+  box-shadow:0 0 0 24px rgba(226,194,118,.025),0 0 0 48px rgba(99,217,232,.018);
+}
+.card,.metric{
+  background:linear-gradient(145deg,rgba(12,24,18,.98),rgba(6,13,10,.98));
+  border-color:#213a2d;
+  box-shadow:0 14px 42px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.025);
+}
+.card:hover{
+  border-color:#3c6e55;
+  box-shadow:0 18px 48px rgba(0,0,0,.3),0 0 0 1px rgba(56,217,150,.04);
+}
+.tab.active{
+  background:linear-gradient(135deg,#123e2b,#0c2b20);
+  border-color:#4f9d78;
+  box-shadow:0 8px 28px rgba(56,217,150,.15);
+}
+.primary{
+  background:linear-gradient(100deg,#1b8f5e,#39d996);
+  box-shadow:0 9px 28px rgba(56,217,150,.18);
+}
+.secondary{
+  background:#0a1711;
+  border-color:#365d49;
+  color:#91e7ba;
+}
+.gold{
+  background:linear-gradient(135deg,#302713,#1e180d);
+  border-color:#806c3d;
+  color:#f0d58c;
+}
+.progress{
+  background:#121d18;
+  box-shadow:inset 0 2px 6px rgba(0,0,0,.5);
+}
+.progress i{
+  background:linear-gradient(90deg,#168157,#38d996,#9af7c7);
+  box-shadow:0 0 18px rgba(56,217,150,.3);
+}
+.badge{
+  border-color:rgba(226,194,118,.8);
+  background:radial-gradient(circle,#302713,#171108);
+  box-shadow:0 0 42px rgba(226,194,118,.13),inset 0 1px 0 rgba(255,255,255,.06);
+}
+.result{
+  background:linear-gradient(145deg,#0d1c14,#07100c);
+  border-color:#315540;
+}
+.notice{
+  border-color:#6e5a31;
+  background:linear-gradient(135deg,#1b160c,#110f09);
+  color:#dfc77e;
+}
+.table,.history,.cal{
+  border-color:#21362b;
+}
+th{background:linear-gradient(#111d17,#0a130f)}
+.cal.started{border-color:#3d8d63;background:#0d2117}
+.cal.done{border-color:#9a7a3e}
+.mile.done{
+  border-color:#48a878;
+  background:linear-gradient(145deg,#0d2418,#09150f);
+  box-shadow:inset 0 0 0 1px #205638,0 8px 24px rgba(56,217,150,.08);
+}
+.login-screen{
+  background:
+    radial-gradient(circle at 50% 25%,rgba(56,217,150,.12),transparent 30%),
+    radial-gradient(circle at 20% 90%,rgba(226,194,118,.08),transparent 26%),
+    rgba(2,5,4,.96);
+}
+.login-card{
+  background:linear-gradient(145deg,rgba(12,25,19,.98),rgba(4,10,7,.99));
+  border-color:rgba(131,243,187,.25);
+  box-shadow:0 35px 110px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,.05);
+}
+input,select,textarea{
+  background:#050c08;
+  border-color:#294236;
+}
+input:focus,select:focus,textarea:focus{
+  border-color:#55d99a;
+  box-shadow:0 0 0 3px rgba(56,217,150,.09),inset 0 1px 5px rgba(0,0,0,.3);
+}
+.tag{background:#10291e;color:#91e7ba}
+.successText{color:#83f3bb}
+footer{border-top-color:#17271f}
+@media(max-width:560px){
+  .hero{box-shadow:0 18px 55px rgba(0,0,0,.4)}
+}
+
+
+/* ===== LIGHT PREMIUM MOBILE APP THEME ===== */
+:root{
+  --bg:#f4f7f5;
+  --panel:#ffffff;
+  --panel2:#f8fbf9;
+  --green:#159a62;
+  --green2:#0f7f50;
+  --brown:#8c6b36;
+  --navy:#18344b;
+  --grey:#6b7771;
+  --line:#dce7e1;
+  --gold:#b88a2c;
+  --red:#d9534f;
+  --text:#17231e;
+  --muted:#718078;
+  --cyan:#168fa0;
+}
+html{scroll-behavior:smooth}
+body{
+  background:
+    radial-gradient(circle at 8% 0,rgba(21,154,98,.10),transparent 26%),
+    radial-gradient(circle at 95% 4%,rgba(184,138,44,.10),transparent 23%),
+    linear-gradient(180deg,#f8fbf9 0%,#f1f6f3 100%);
+  color:var(--text);
+}
+body:before{
+  opacity:.025;
+  background-image:
+    linear-gradient(rgba(21,80,54,.35) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(21,80,54,.35) 1px,transparent 1px);
+  background-size:42px 42px;
+}
+.top{
+  background:rgba(255,255,255,.90);
+  border-bottom:1px solid #dce8e1;
+  box-shadow:0 8px 30px rgba(26,61,45,.08);
+}
+.logo{color:#183129;text-shadow:none}
+.logo b,.logo span{color:var(--green)}
+.sub{color:#77847d}
+.reset{
+  background:#fffaf0;
+  border:1px solid #dfc98f;
+  color:#806327;
+  box-shadow:0 4px 14px rgba(128,99,39,.08);
+}
+.hero{
+  background:linear-gradient(135deg,#ffffff 0%,#f1faf5 100%);
+  border:1px solid #cfe3d8;
+  box-shadow:0 18px 55px rgba(27,75,52,.10),inset 0 1px 0 #fff;
+}
+.hero:after{
+  border-color:rgba(21,154,98,.14);
+  box-shadow:0 0 0 24px rgba(21,154,98,.025),0 0 0 48px rgba(184,138,44,.018);
+}
+.kicker{color:#138554}
+.hero p,.muted,.meta{color:#718078}
+.badge{
+  background:linear-gradient(145deg,#fffaf0,#f4ead0);
+  border:1px solid #d2b66b;
+  color:#876825;
+  box-shadow:0 12px 35px rgba(135,104,37,.12),inset 0 1px 0 #fff;
+}
+.card,.metric{
+  background:rgba(255,255,255,.94);
+  border:1px solid #dbe7e1;
+  box-shadow:0 10px 30px rgba(30,68,51,.07),inset 0 1px 0 #fff;
+}
+.card:hover{
+  transform:translateY(-3px);
+  border-color:#bcd8ca;
+  box-shadow:0 16px 36px rgba(30,68,51,.10);
+}
+.card small,.metric small,label{color:#718078}
+.card strong,.metric strong{color:#182a22}
+.green,.successText,.winTxt{color:#138b58!important}
+.red,.dangerText,.lossTxt{color:#d9534f!important}
+.progress{background:#e4eee9;box-shadow:inset 0 2px 5px rgba(37,74,57,.10)}
+.progress i{
+  background:linear-gradient(90deg,#159a62,#42c78c);
+  box-shadow:0 0 14px rgba(21,154,98,.20);
+}
+.tab{
+  background:#fff;
+  border:1px solid #d8e4de;
+  color:#65736b;
+  box-shadow:0 3px 12px rgba(31,66,50,.045);
+}
+.tab.active{
+  background:linear-gradient(135deg,#e4f7ed,#d4f0e2);
+  border-color:#78c39e;
+  color:#126d49;
+  box-shadow:0 7px 22px rgba(21,154,98,.13),inset 0 1px 0 #fff;
+}
+.tab:hover{border-color:#9bcdb3;color:#176c4b}
+.btn{box-shadow:0 5px 14px rgba(27,75,52,.07)}
+.primary{
+  background:linear-gradient(100deg,#138b58,#28b879);
+  color:#fff;
+  box-shadow:0 9px 22px rgba(21,154,98,.20);
+}
+.secondary{
+  background:#f7fbf9;
+  border:1px solid #bfd8cb;
+  color:#14764e;
+}
+.gold{
+  background:linear-gradient(135deg,#fff8e8,#f6ecd2);
+  border:1px solid #dfc783;
+  color:#765b20;
+}
+.danger{
+  background:#fff4f3;
+  border:1px solid #e9b5b2;
+  color:#bd4a46;
+}
+input,select,textarea{
+  background:#fbfdfc;
+  color:#1b2923;
+  border:1px solid #cfddd6;
+  box-shadow:inset 0 1px 4px rgba(31,66,50,.035);
+}
+input:focus,select:focus,textarea:focus{
+  border-color:#55b98a;
+  box-shadow:0 0 0 3px rgba(21,154,98,.10),inset 0 1px 4px rgba(31,66,50,.04);
+}
+.notice{
+  background:linear-gradient(135deg,#fffaf0,#fff7e5);
+  border:1px solid #e3cb8b;
+  color:#765f29;
+  box-shadow:0 6px 18px rgba(128,99,39,.06);
+}
+.pill{
+  background:#fff5dc;
+  color:#8a6a29;
+  border:1px solid #ead6a5;
+}
+.table,.history,.cal{
+  border-color:#d7e4dd;
+}
+.table{box-shadow:0 8px 24px rgba(30,68,51,.055)}
+table{color:#23342b}
+th{
+  color:#637169;
+  background:linear-gradient(#f5faf7,#edf4f0);
+}
+td{color:#34443c;border-bottom-color:#e3ebe7}
+.result{
+  background:linear-gradient(145deg,#f5fbf7,#ffffff);
+  border:1px solid #cfe3d8;
+  box-shadow:0 8px 24px rgba(30,68,51,.06);
+}
+.result strong{color:#14794f}
+.scenario{
+  background:#fff;
+  border:1px solid #dce7e1;
+  box-shadow:0 5px 15px rgba(30,68,51,.05);
+}
+.scenario b{color:#158653}
+.history{
+  background:#fff;
+}
+.history.active{
+  border-color:#72bd98;
+  box-shadow:0 0 0 1px #c8e8d7 inset,0 10px 25px rgba(21,154,98,.08);
+}
+.calendar .cal{
+  background:#fff;
+  color:#32433a;
+}
+.cal.started{
+  border-color:#77bf9b;
+  background:#eefaf4;
+}
+.cal.done{
+  border-color:#d4b86d;
+  background:#fffaf0;
+}
+.mile{
+  background:#f9fcfa;
+  border:1px solid #d8e5df;
+}
+.mile.done{
+  border-color:#70bd96;
+  background:#edf9f3;
+  box-shadow:inset 0 0 0 1px #c8e8d7;
+}
+.wf{border-bottom-color:#e2ebe6}
+.wf input{accent-color:#159a62}
+.bottomnav{
+  background:rgba(255,255,255,.94);
+  border-top:1px solid #d8e5df;
+  box-shadow:0 -8px 25px rgba(27,75,52,.08);
+}
+.bottomnav button{
+  background:#f8fbf9;
+  border:1px solid #dbe7e1;
+  color:#748078;
+}
+.bottomnav button.active{
+  color:#126d49;
+  border-color:#79c39e;
+  background:#e5f7ed;
+}
+footer{color:#84918a;border-top-color:#e1eae5}
+.toast{
+  background:#e6f8ee;
+  color:#146e49;
+  border:1px solid #8bcbaa;
+  box-shadow:0 8px 24px rgba(21,154,98,.15);
+}
+.login-screen{
+  background:
+    radial-gradient(circle at 50% 20%,rgba(21,154,98,.11),transparent 30%),
+    radial-gradient(circle at 15% 90%,rgba(184,138,44,.08),transparent 26%),
+    rgba(245,249,247,.96);
+}
+.login-card{
+  background:linear-gradient(145deg,#ffffff,#f1f8f4);
+  border:1px solid #cfe1d7;
+  box-shadow:0 25px 70px rgba(27,75,52,.14),inset 0 1px 0 #fff;
+}
+.login-logo{color:#183129}
+.login-logo span{color:#159a62}
+.login-kicker{color:#138554}
+.login-card h1{color:#182a22}
+.login-card>p{color:#718078}
+.login-note{color:#7b8881}
+.chartbox{background:rgba(255,255,255,.96)}
+/* smoother mobile-app feel */
+button,.card,.metric,.tab,.cal,.history,input,select,textarea{
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease,background .18s ease,color .18s ease;
+}
+button:active{transform:scale(.98)}
+.panel.active{animation:panelIn .24s ease both}
+@keyframes panelIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+@media(max-width:560px){
+  .wrap{padding-bottom:84px}
+  .hero{border-radius:20px}
+  .card{border-radius:18px}
+  .bottomnav button{min-height:42px}
+}
+
+
+/* ===== WHITE / BLACK / CHAMPAGNE GOLD MOTIVATION THEME ===== */
+:root{--bg:#f7f7f5;--panel:#ffffff;--panel2:#fbfaf7;--green:#18734b;--green2:#1e704a;--gold:#b18a3b;--red:#bd4141;--text:#171717;--muted:#6e6b65;--line:#e7dfcf;--cyan:#426d7b}
+html{background:#f7f7f5}
+body{color:#171717;background:
+ radial-gradient(ellipse at 8% 3%,rgba(196,161,88,.17),transparent 30%),
+ radial-gradient(ellipse at 94% 10%,rgba(0,0,0,.055),transparent 28%),
+ linear-gradient(180deg,#fff 0%,#f8f7f3 48%,#f1eee6 100%);font-family:Inter,"Segoe UI",system-ui,sans-serif}
+body:before{content:"DISCIPLINE  •  PATIENCE  •  CONSISTENCY";position:fixed;inset:auto -8% 8% auto;z-index:-1;pointer-events:none;color:rgba(177,138,59,.055);font-size:clamp(28px,7vw,92px);font-weight:950;letter-spacing:.06em;white-space:nowrap;transform:rotate(-12deg)}
+.top{background:rgba(255,255,255,.92);border-bottom:1px solid #e8dfce;box-shadow:0 5px 25px rgba(30,25,15,.04)}
+.logo{color:#171717;letter-spacing:-.04em}.logo span,h1 span{color:#a77e2f}
+.sub,.hero p,.muted{color:#706b61}
+.hero{position:relative;overflow:hidden;border:1px solid #ddcba3;border-radius:24px;background:
+ radial-gradient(ellipse at 90% 110%,rgba(177,138,59,.17),transparent 42%),
+ linear-gradient(120deg,#fff 0%,#fffdf8 56%,#f3ead7 100%);box-shadow:0 18px 45px rgba(36,28,12,.07)}
+.hero:after{content:"";position:absolute;right:-8px;bottom:-24px;width:46%;height:70%;opacity:.12;pointer-events:none;background:linear-gradient(140deg,transparent 0 35%,#b18a3b 35% 36%,transparent 36%),linear-gradient(35deg,transparent 0 44%,#171717 44% 45%,transparent 45%);clip-path:polygon(0 100%,20% 54%,34% 72%,57% 16%,76% 58%,89% 35%,100% 100%);background-color:#b18a3b}
+.kicker{color:#a17a2d}.badge{border:1px solid #c5a45d;background:linear-gradient(145deg,#191919,#34302a);color:#f4d995;box-shadow:0 10px 28px rgba(0,0,0,.12)}
+.card,.metric{background:linear-gradient(145deg,#fff,#fbfaf7);border:1px solid #e9e1d2;box-shadow:0 8px 25px rgba(35,27,10,.045)}
+.card small,.metric small,label{color:#6e6b65}
+.stats strong,.metric strong{color:#191919}
+.green,.winTxt{color:#18734b!important}.red,.lossTxt{color:#bd4141!important}
+.progress{background:#e9e4d9}.progress i{background:linear-gradient(90deg,#171717,#9a742c,#d5b76b)}
+.tab{border:1px solid #e3dac7;background:#fff;color:#5f5a50}.tab.active{background:#191919;border-color:#191919;color:#f3d995}
+.pill{background:#f5ecd9;color:#856322;border:1px solid #e6d4ae}
+.btn{transition:transform .15s ease,box-shadow .15s ease}.btn:active{transform:scale(.98)}
+.primary{background:linear-gradient(110deg,#171717,#40382b);color:#f6d995;box-shadow:0 5px 14px rgba(0,0,0,.10)}
+.secondary{background:#fff;border:1px solid #c7a75d;color:#73571e}
+.danger{background:#fff3f1;border:1px solid #e2b9b4;color:#a73535}
+.gold{background:#f5ecd9;border:1px solid #d9c18d;color:#75571c}
+input,select,textarea{background:#fff;color:#171717;border:1px solid #ded7ca}
+input:focus,select:focus,textarea:focus{border-color:#b18a3b;box-shadow:0 0 0 3px rgba(177,138,59,.12)}
+.notice{border:1px solid #e3d2ab;background:#fbf6e9;color:#6e5728}
+.result{border:1px solid #ddcba3;background:linear-gradient(120deg,#fff,#f7f0e1)}
+.result strong{color:#171717}.riskbox strong{color:#9b742a;font-size:34px}
+.table{border-color:#e6dfd2}th{color:#615b50;background:#f4f0e7}td{color:#282621}th,td{border-bottom-color:#e9e3d9}
+.history{border-color:#e6dfd2;background:#fff}.cal{border-color:#e6dfd2;background:#fff;color:#292722}.cal.started{border-color:#8fba9c;background:#f0f8f2}.cal.done{border-color:#c6a75e;background:#fbf4e4}
+.wf{border-bottom-color:#e8e0d2}.wf span{color:#706b61}
+.login-screen{background:rgba(247,247,245,.92)}.login-card{background:#fff;border:1px solid #dfd0ad;box-shadow:0 25px 80px rgba(20,16,8,.14)}.login-logo{color:#171717}.login-kicker{color:#a17a2d}.login-card h2{color:#171717}
+.bottomnav{background:rgba(255,255,255,.96);border-top:1px solid #e6dfd2;box-shadow:0 -5px 20px rgba(20,16,8,.05)}.bottomnav button{background:#fff;border:1px solid #e6dfd2;color:#625d52}.bottomnav button.active{color:#f6d995;border-color:#191919;background:#191919}
+footer{color:#817b70;border-top-color:#e6dfd2}
+
+</style>
+</head>
+<body>
+<div id="loginScreen" class="login-screen">
+  <div class="login-card">
+    <div class="login-logo">₹4,576<span style="color:#a77e2f">→</span>18% Daily</div>
+    <div class="login-kicker">CLOUD TRADING TRACKER</div>
+    <h2>Welcome back</h2>
+    <p class="muted" style="text-align:center;font-size:12px">Login with your Supabase account.</p>
+    <label>Email<input id="loginEmail" type="email" autocomplete="username" placeholder="Email address"></label>
+    <label>Password<input id="loginPass" type="password" autocomplete="current-password" placeholder="Password"></label>
+    <button id="loginBtn" class="btn primary login-btn">Login</button>
+    <div id="loginError" class="login-error"></div>
+    <button id="logoutAllBtn" class="btn secondary" style="width:100%;margin-top:8px;display:none">Sign out</button>
+  </div>
+</div>
+
+<header class="top"><div class="topin"><div><div class="logo">₹4,576<span>→</span>18% Daily</div><div class="sub">20-Day • Cloud Trade Tracker</div></div><button class="btn gold" id="resetBtn">Reset Local UI</button></div></header>
+
+<main class="wrap">
+<section class="hero"><div><div class="kicker">20 DAY PLAN • 18% DAILY PROJECTION</div><h1>Stay focused.<br><span>Trust the process.</span></h1><p>Discipline • Patience • Consistency — track each trade and let your balance update automatically.</p></div><div class="badge">₹4,576<br><small>START</small></div></section>
+
+<section class="stats">
+<div class="card"><small>Current Balance</small><strong id="currentBalance">₹4,576</strong><span id="pnl" class="green">+₹0</span></div>
+<div class="card"><small>20-Day Projected Target</small><strong id="targetBalance">₹125,351</strong><span id="progress" class="green">0%</span></div>
+<div class="card"><small>Day</small><strong id="dayNo">1 / 20</strong><span id="status" class="green">Not started</span></div>
+<div class="card"><small>Cloud</small><strong id="sessionState">Connecting</strong><span id="sessionMeta" class="muted">Supabase</span></div>
+</section>
+<div class="progress"><i id="progressBar"></i></div><div class="range"><span>₹4,576</span><span id="rangeTarget">₹125,351</span></div>
+
+<nav class="tabs">
+<button class="tab active" data-tab="dashboard">Dashboard</button><button class="tab" data-tab="plan">20-Day Plan</button><button class="tab" data-tab="trade">Add Trade</button><button class="tab" data-tab="diary">Daily Diary</button><button class="tab" data-tab="history">History</button><button class="tab" data-tab="calculator">Calculator</button><button class="tab" data-tab="stats">Statistics</button><button class="tab" data-tab="settings">Data</button>
+</nav>
+
+<section id="dashboard" class="panel active">
+<div class="head"><div><span class="kicker">TODAY</span><h2>Daily Control</h2></div><span class="pill" id="todayPill">Day 1</span></div>
+<div class="grid2">
+<div class="card"><small>Projected target today</small><strong id="todayTarget">₹1,180.00</strong><p class="muted">18% daily target • Mathematical simulation only.</p><div id="dayMeta" class="muted" style="font-size:11px"></div><button id="startDayBtn" class="btn primary" style="width:100%;margin-top:10px">▶ Start Day</button><button id="endDayBtn" class="btn gold" style="width:100%;margin-top:10px;display:none">■ End Day</button></div>
+<div class="card"><small>Today's result</small><strong id="todayPnl">₹0</strong><div class="grid3" style="margin-top:10px"><div><small>Trades</small><b id="todayTrades">0</b></div><div><small>Wins</small><b id="todayWins" class="green">0</b></div><div><small>Losses</small><b id="todayLosses" class="red">0</b></div></div></div>
+</div>
+<div class="metricgrid"><div class="metric"><small>Win Rate</small><strong id="dashWinRate">0%</strong></div><div class="metric"><small>Avg Win</small><strong id="dashAvgWin">₹0</strong></div><div class="metric"><small>Avg Loss</small><strong id="dashAvgLoss">₹0</strong></div><div class="metric"><small>Target Remaining</small><strong id="dashRemaining">₹125,351</strong></div></div>
+<div class="card" style="margin-top:12px"><div class="head"><h3 style="margin:0">10 AM → 5 PM Workflow</h3><span class="pill">Checklist</span></div><div id="workflow"></div></div>
+</section>
+
+<section id="plan" class="panel"><div class="head"><div><span class="kicker">ROADMAP</span><h2>20-Day Plan</h2></div><span class="pill">Cloud records</span></div><div class="notice">The target path is a mathematical simulation, not a promise of returns. Losses and drawdowns are possible.</div><div class="table"><table><thead><tr><th>Day</th><th>Date</th><th>Start</th><th>Target</th><th>End</th><th>P/L</th><th>Trades</th><th>W</th><th>L</th><th>Status</th></tr></thead><tbody id="planBody"></tbody></table></div></section>
+
+<section id="trade" class="panel"><div class="head"><div><span class="kicker">TRADE RECORD</span><h2>Add Trade</h2></div><span class="pill" id="tradeCountLabel">0 trades</span></div>
+<div class="card"><div class="form"><label>Day<select id="jDay"></select></label><label>Date<input id="jDate" type="date"></label><label>Time<input id="jTime" type="time"></label><label>Period Number<input id="jPeriod" placeholder="Enter period"></label><label>Current Balance (auto)<input id="jStart" type="number" step="0.01" readonly></label><label>Win / Loss P&L ₹<input id="jResult" type="number" step="0.01" placeholder="Auto-fill with Win / Loss"></label><label class="wide">Note<input id="jNote" placeholder="Optional note"></label></div><div class="result riskbox"><small>Suggested amount for this trade · 1% of current balance</small><strong id="suggestedStake">₹45.76</strong><span id="stakeHint" class="muted">Calculated automatically from your latest balance.</span></div><div class="actions"><button class="btn secondary" id="quickWin">+ Win (1%)</button><button class="btn danger" id="quickLoss">− Loss (1%)</button><button class="btn primary" id="addTradeBtn">Save Trade Record</button></div><p class="muted" style="font-size:11px">The suggested amount updates after every saved trade. Quick Win/Loss records P/L equal to ±1% of balance; actual platform payout may differ. Records are stored in the cloud under your account.</p></div>
+<div class="actions"><input id="tradeSearch" placeholder="Search period / note / date"><select id="tradeFilter"><option value="all">All results</option><option value="win">Wins only</option><option value="loss">Losses only</option></select><button class="btn secondary" id="clearTradeFilter">Reset Filter</button></div>
+<div class="table"><table><thead><tr><th>#</th><th>Day/Date</th><th>Time</th><th>Period</th><th>P/L</th><th>Before</th><th>After</th><th>Note</th><th>Action</th></tr></thead><tbody id="journalBody"></tbody></table></div></section>
+
+<section id="diary" class="panel"><div class="head"><div><span class="kicker">DAILY DIARY</span><h2>Day Journal</h2></div><span class="pill">Cloud saved</span></div><div class="card"><div class="form"><label>Day<select id="diaryDay"></select></label><label>Date<input id="diaryDate" type="date"></label></div><label style="display:block;margin-top:12px">Today's notes / diary<textarea id="fullDiary" placeholder="Wins, losses, observations, mistakes, lessons and tomorrow's plan..."></textarea></label><div class="muted" id="diaryStats" style="font-size:11px"></div><button class="btn primary" id="saveDiary" style="margin-top:12px;width:100%">Save Day Journal</button></div></section>
+
+<section id="history" class="panel"><div class="head"><div><span class="kicker">SAVED DATA</span><h2>Day-by-Day History</h2></div></div><div id="historyGrid" class="historygrid"></div><div class="card" style="margin-top:12px"><div class="head"><h3 style="margin:0">20-Day Calendar</h3></div><div id="calendar" class="calendar"></div></div></section>
+
+<section id="calculator" class="panel"><div class="head"><div><span class="kicker">TOOLS</span><h2>Calculators</h2></div></div><div class="card"><h3>18% Daily Compound Projection · 20 Days</h3><div class="form"><label>Start<input id="calcStart" type="number" value="4576"></label><label>Days<input id="calcDays" type="number" value="20"></label><label>Daily %<input id="calcRate" type="number" step="0.01" value="18"></label><label>Target<input id="calcTarget" type="number" value="125351"></label></div><button class="btn primary" id="calcBtn" style="margin-top:12px">Calculate</button><div class="result"><small>Projected ending balance</small><strong id="calcResult">₹0</strong><span id="calcNote" class="muted"></span></div></div>
+<div class="card" style="margin-top:12px"><h3>Per-Trade Compound Scenario</h3><div class="form"><label>Balance<input id="tradeStart" type="number" value="4576"></label><label>% / Trade<input id="tradeRate" type="number" step="0.1" value="1"></label><label>Trades<input id="tradeCount" type="number" value="10"></label></div><div class="result"><small>Mathematical all-win projection</small><strong id="tradeResult">₹4,622</strong></div></div></section>
+
+<section id="stats" class="panel"><div class="head"><div><span class="kicker">ANALYTICS</span><h2>Statistics</h2></div></div><div class="stats"><div class="card"><small>Total Trades</small><strong id="sTrades">0</strong></div><div class="card"><small>Wins</small><strong id="sWins" class="green">0</strong></div><div class="card"><small>Losses</small><strong id="sLosses" class="red">0</strong></div><div class="card"><small>Total P/L</small><strong id="sPnl">₹0</strong></div></div><div class="metricgrid"><div class="metric"><small>Biggest Win</small><strong id="bigWin">₹0</strong></div><div class="metric"><small>Biggest Loss</small><strong id="bigLoss">₹0</strong></div><div class="metric"><small>Current Streak</small><strong id="streak">0</strong></div><div class="metric"><small>Drawdown</small><strong id="drawdown">₹0</strong></div></div><div class="card" style="margin-top:12px"><h3>Daily Records</h3><div id="dailyStats"></div></div></section>
+
+<section id="settings" class="panel"><div class="head"><div><span class="kicker">DATA</span><h2>Cloud & Backup</h2></div></div><div class="card"><p class="muted">Trades and daily records are stored in Supabase. Export is an additional local backup.</p><div class="actions"><button class="btn primary" id="exportBtn">Export Backup JSON</button><button class="btn danger" id="clearLocalBtn">Clear Local UI Data</button></div><div class="card" style="margin-top:12px"><h3>Account</h3><div id="accountEmail" class="muted"></div><button class="btn gold" id="logoutBtn" style="margin-top:10px;width:100%">Logout</button></div><div class="muted" style="font-size:10px;margin-top:12px">Cloud status: <b id="storageStatus">Connecting…</b></div></div></section>
+</main>
+<div class="bottomnav"><button data-nav="dashboard">Home</button><button data-nav="trade">Trades</button><button data-nav="history">Calendar</button><button data-nav="stats">Stats</button><button data-nav="settings">Data</button></div>
+<footer>₹4,576 → 18% Daily • Educational tracking tool • Growth is an assumption, not guaranteed.</footer>
+<div id="toast" style="position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;background:#123b27;color:#dff7e7;border:1px solid #4e9868;padding:11px 15px;border-radius:12px;z-index:300;transition:.25s"></div>
+
+<script>
+/* ===== SUPABASE CONFIG ===== */
+const SUPABASE_URL="https://ozjyvkzjqqsslsztespo.supabase.co";
+const SUPABASE_KEY="sb_publishable_2IwUIzy3iLmHSgrPL7M7EA_RBzMJFje";
+const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+/* ===== TRACKER CONFIG ===== */
+const START=4576,DAYS=20,DAILY_RATE=.18,RISK_RATE=.01,TARGET=Math.round(START*Math.pow(1+DAILY_RATE,DAYS));
+const LOCAL_KEY="tracker_cloud_ui_v1";
+let state={trades:[],days:{},activeDay:null,workflow:{}};
+let currentUser=null;
+
+const $=id=>document.getElementById(id);
+const money=n=>"₹"+(Number(n)||0).toLocaleString("en-IN",{maximumFractionDigits:2});
+const localDate=()=>{let d=new Date(),z=n=>String(n).padStart(2,"0");return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}`};
+const localTime=()=>{let d=new Date(),z=n=>String(n).padStart(2,"0");return `${z(d.getHours())}:${z(d.getMinutes())}`};
+const projected=d=>START*Math.pow(1+DAILY_RATE,d);
+const toast=s=>{let t=$("toast");t.textContent=s;t.style.opacity=1;t.style.transform="translateX(-50%)";setTimeout(()=>{t.style.opacity=0;t.style.transform="translateX(-50%) translateY(20px)"},1700)};
+const saveLocal=()=>localStorage.setItem(LOCAL_KEY,JSON.stringify({days:state.days,activeDay:state.activeDay,workflow:state.workflow}));
+const ensureDay=d=>{if(!state.days[d])state.days[d]={date:"",journal:"",actual:null,started:false,startBalance:null,startTime:"",endTime:""};return state.days[d]};
+const trades=d=>state.trades.filter(t=>+t.day===+d);
+const pnl=d=>trades(d).reduce((s,t)=>s+Number(t.result||0),0);
+const balance=()=>{let a=[...state.trades].sort((x,y)=>new Date(x.created_at||x.timestamp)-new Date(y.created_at||y.timestamp));return a.length?Number(a[a.length-1].end_balance):START};
+const currentTradeBalance=()=>{let d=state.activeDay;let a=d?trades(d):[];return a.length?Number(a[a.length-1].end_balance):balance()};
+const suggestedStake=()=>Math.round(currentTradeBalance()*RISK_RATE*100)/100;
+const updateStakeUI=()=>{if($("suggestedStake"))$("suggestedStake").textContent=money(suggestedStake());if($("stakeHint"))$("stakeHint").textContent=`1% of ${money(currentTradeBalance())} current balance`;if($("jStart"))$("jStart").value=currentTradeBalance()};
+const firstPending=()=>{for(let d=1;d<=DAYS;d++)if(!ensureDay(d).started)return d;return DAYS};
+const lastRecorded=()=>{let n=0;for(let d=1;d<=DAYS;d++){let x=ensureDay(d);if(x.started||x.journal||x.actual!==null||trades(d).length)n=d}return n};
+
+async function loadCloud(){
+  if(!currentUser)return;
+  $("storageStatus").textContent="Loading…";
+  const [{data:td,error:te},{data:dd,error:de}]=await Promise.all([
+    supabaseClient.from("trades").select("*").order("created_at",{ascending:true}),
+    supabaseClient.from("daily_records").select("*").order("day",{ascending:true})
+  ]);
+  if(te)throw te;if(de)throw de;
+  state.trades=(td||[]).map(t=>({id:t.id,day:t.day,date:t.trade_date,time:t.trade_time,period:t.period,start_balance:t.start_balance,result:Number(t.result||0),end_balance:Number(t.end_balance||0),note:t.note,created_at:t.created_at}));
+  state.days={};
+  (dd||[]).forEach(x=>state.days[x.day]={date:x.record_date||"",journal:x.journal||"",actual:x.actual_balance===null?null:Number(x.actual_balance),started:!!x.started,startBalance:x.start_balance===null?null:Number(x.start_balance),startTime:x.start_time||"",endTime:x.end_time||""});
+  const local=JSON.parse(localStorage.getItem(LOCAL_KEY)||"{}");state.activeDay=local.activeDay||null;state.workflow=local.workflow||{};
+  $("storageStatus").textContent="Connected ✓";
+  render();
+}
+async function cloudDay(d){
+  const x=ensureDay(d);
+  const payload={user_id:currentUser.id,day:d,record_date:x.date||null,start_balance:x.startBalance,actual_balance:x.actual,started:!!x.started,start_time:x.startTime||null,end_time:x.endTime||null,journal:x.journal||""};
+  const {error}=await supabaseClient.from("daily_records").upsert(payload,{onConflict:"user_id,day"});
+  if(error)throw error;
+}
+async function startDay(){
+  if(state.activeDay){toast(`Day ${state.activeDay} already active`);return}
+  let d=firstPending(),x=ensureDay(d);x.started=true;x.date=localDate();x.startTime=localTime();x.startBalance=balance();x.actual=null;x.endTime="";state.activeDay=d;saveLocal();
+  try{await cloudDay(d);render();toast(`Day ${d} started ✓`)}catch(e){console.error(e);toast("Cloud save failed: "+e.message)}
+}
+async function endDay(){
+  let d=state.activeDay;if(!d){toast("No active day");return}
+  let x=ensureDay(d),a=trades(d),end=a.length?a[a.length-1].end_balance:balance();x.actual=end;x.endTime=localTime();state.activeDay=null;saveLocal();
+  try{await cloudDay(d);render();toast(`Day ${d} completed ✓`)}catch(e){console.error(e);toast("Cloud save failed: "+e.message)}
+}
+async function addTrade(){
+  if(!state.activeDay){toast("Start the day first");showTab("dashboard");return}
+  let d=+state.activeDay,period=$("jPeriod").value.trim(),start=currentTradeBalance(),result=+$("jResult").value||0,note=$("jNote").value.trim(),date=$("jDate").value||localDate(),time=$("jTime").value||localTime();
+  if(!period)return toast("Period number enter karo");if(!start)return toast("Starting balance enter karo");if(!result)return toast("P/L enter karo (+Win / -Loss)");
+  let end=start+result;
+  const payload={user_id:currentUser.id,day:d,trade_date:date,trade_time:time,period,start_balance:start,result,end_balance:end,note};
+  const {data,error}=await supabaseClient.from("trades").insert(payload).select().single();
+  if(error){console.error(error);toast("Trade save failed: "+error.message);return}
+  state.trades.push({id:data.id,day:d,date:data.trade_date,time:data.trade_time,period:data.period,start_balance:Number(data.start_balance),result:Number(data.result),end_balance:Number(data.end_balance),note:data.note,created_at:data.created_at});
+  let x=ensureDay(d);x.date=date;x.actual=end;await cloudDay(d);
+  $("jPeriod").value="";$("jResult").value="";$("jNote").value="";$("jStart").value=end;render();toast("Trade saved to cloud ✓");
+}
+async function deleteTrade(id){
+  if(!confirm("Delete this cloud trade record?"))return;
+  const {error}=await supabaseClient.from("trades").delete().eq("id",id);
+  if(error){toast("Delete failed: "+error.message);return}
+  state.trades=state.trades.filter(t=>t.id!==id);render();toast("Trade deleted ✓");
+}
+async function saveDiary(){
+  let d=+$("diaryDay").value||state.activeDay||1,x=ensureDay(d);x.journal=$("fullDiary").value;x.date=$("diaryDate").value||x.date||localDate();
+  try{await cloudDay(d);render();toast(`Day ${d} diary saved ✓`)}catch(e){toast("Diary save failed: "+e.message)}
+}
+function render(){
+  let last=lastRecorded(),shown=state.activeDay||Math.min(last+1,DAYS),cur=balance(),x=ensureDay(shown);
+  $("currentBalance").textContent=money(cur);$("pnl").textContent=(cur>=START?"+":"")+money(cur-START);$("targetBalance").textContent=money(TARGET);$("rangeTarget").textContent=money(TARGET);$("progress").textContent=(cur/TARGET*100).toFixed(1)+"%";$("dayNo").textContent=`${shown} / ${DAYS}`;
+  $("status").textContent=state.activeDay?"In Progress":(x.actual!==null?"Completed":(last?"Ready to start":"Not started"));$("sessionState").textContent="Connected";$("sessionMeta").textContent=currentUser?currentUser.email:"Supabase";
+  $("progressBar").style.width=Math.min(100,Math.max(0,cur/TARGET*100))+"%";$("todayPill").textContent=`Day ${shown}`;$("todayTarget").textContent=money(projected(shown));$("dayMeta").textContent=x.started?`Start ${money(x.startBalance)} • ${x.date} ${x.startTime}`:`Daily target ${money(projected(shown))}`;
+  $("startDayBtn").style.display=state.activeDay?"none":"block";$("endDayBtn").style.display=state.activeDay?"block":"none";$("startDayBtn").textContent=`▶ Start Day ${shown}`;$("endDayBtn").textContent=`■ End Day ${shown}`;
+  $("jDay").value=shown;$("jDate").value=x.date||localDate();$("jTime").value=localTime();$("jStart").value=trades(shown).length?trades(shown).at(-1).end_balance:(x.startBalance??cur);updateStakeUI();
+  $("diaryDay").value=shown;$("diaryDate").value=x.date||localDate();$("fullDiary").value=x.journal||"";
+  renderToday(shown);renderPlan();renderJournal();renderHistory();renderStats();renderCalendarWorkflow();renderCalendar();calc();tradeCalc();
+}
+function renderToday(d){let a=trades(d),p=pnl(d);$("todayPnl").textContent=(p>=0?"+":"")+money(p);$("todayTrades").textContent=a.length;$("todayWins").textContent=a.filter(t=>t.result>0).length;$("todayLosses").textContent=a.filter(t=>t.result<0).length;$("diaryStats").textContent=`${a.length} trades • ${a.filter(t=>t.result>0).length} wins • ${a.filter(t=>t.result<0).length} losses • P/L ${p>=0?"+":""}${money(p)}`}
+function renderPlan(){let h="";for(let d=1;d<=DAYS;d++){let x=ensureDay(d),a=trades(d),p=pnl(d),end=x.actual!==null?x.actual:(a.length?a[a.length-1].end_balance:null),st=x.started&&x.endTime?"Completed":x.started?"In Progress":end===null?"Not started":end>=projected(d)?"Ahead":"Behind";h+=`<tr><td><b>Day ${d}</b></td><td>${x.date||"—"}</td><td>${money(x.startBalance??(d===1?START:projected(d-1)))}</td><td>${money(projected(d))}</td><td>${end===null?"—":money(end)}</td><td class="${p>=0?"winTxt":"lossTxt"}">${p>=0?"+":""}${money(p)}</td><td>${a.length}</td><td>${a.filter(t=>t.result>0).length}</td><td>${a.filter(t=>t.result<0).length}</td><td>${st}</td></tr>`}$("planBody").innerHTML=h}
+function renderJournal(){let q=($("tradeSearch").value||"").toLowerCase(),f=$("tradeFilter").value;let arr=[...state.trades].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).filter(t=>{let ok=f==="all"||(f==="win"&&t.result>0)||(f==="loss"&&t.result<0),hay=`${t.day} ${t.date} ${t.time} ${t.period} ${t.note}`.toLowerCase();return ok&&hay.includes(q)});$("journalBody").innerHTML=arr.map((t,i)=>`<tr><td>${i+1}</td><td>Day ${t.day}<br><small>${t.date||""}</small></td><td>${t.time||""}</td><td>${t.period||""}</td><td class="${t.result>=0?"winTxt":"lossTxt"}">${t.result>=0?"+":""}${money(t.result)}</td><td>${money(t.start_balance)}</td><td>${money(t.end_balance)}</td><td>${t.note||""}</td><td><button class="btn danger" data-del="${t.id}" style="padding:6px 9px;font-size:9px">Delete</button></td></tr>`).join("")||`<tr><td colspan="9" class="muted">No matching trades.</td></tr>`;$("tradeCountLabel").textContent=`${state.trades.length} trades`;document.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>deleteTrade(b.dataset.del))}
+function renderHistory(){let h="";for(let d=1;d<=DAYS;d++){let x=ensureDay(d),a=trades(d),p=pnl(d),end=x.actual!==null?x.actual:(a.length?a[a.length-1].end_balance:null);h+=`<div class="history"><h3>Day ${d}</h3><small class="muted">${x.date||"Not started"}</small><div class="num">${end===null?"—":money(end)}</div><div class="muted" style="font-size:10px">${a.length} trades • ${a.filter(t=>t.result>0).length} W • ${a.filter(t=>t.result<0).length} L<br>P/L <span class="${p>=0?"winTxt":"lossTxt"}">${p>=0?"+":""}${money(p)}</span><br>${x.journal?x.journal.slice(0,70):"No diary yet"}</div><button class="btn secondary" data-open="${d}">Open Day</button></div>`}$("historyGrid").innerHTML=h;document.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>{let d=+b.dataset.open;$("diaryDay").value=d;renderDiaryFields(d);showTab("diary")})}
+function renderDiaryFields(d){let x=ensureDay(d);$("diaryDate").value=x.date||"";$("fullDiary").value=x.journal||"";$("diaryStats").textContent=`${trades(d).length} trades • P/L ${pnl(d)>=0?"+":""}${money(pnl(d))}`}
+function renderStats(){let a=state.trades,p=a.reduce((s,t)=>s+t.result,0),w=a.filter(t=>t.result>0),l=a.filter(t=>t.result<0);$("sTrades").textContent=a.length;$("sWins").textContent=w.length;$("sLosses").textContent=l.length;$("sPnl").textContent=(p>=0?"+":"")+money(p);$("dashWinRate").textContent=a.length?(w.length/a.length*100).toFixed(1)+"%":"0%";$("dashAvgWin").textContent=money(w.length?w.reduce((s,t)=>s+t.result,0)/w.length:0);$("dashAvgLoss").textContent=money(l.length?l.reduce((s,t)=>s+t.result,0)/l.length:0);$("dashRemaining").textContent=money(Math.max(0,TARGET-balance()));$("bigWin").textContent=money(w.length?Math.max(...w.map(t=>t.result)):0);$("bigLoss").textContent=money(l.length?Math.min(...l.map(t=>t.result)):0);let ordered=[...a].sort((x,y)=>new Date(x.created_at)-new Date(y.created_at)),streak=0;for(let i=ordered.length-1;i>=0&&ordered[i].result>0;i--)streak++;$("streak").textContent=streak+" W";let peak=START,dd=0;ordered.forEach(t=>{peak=Math.max(peak,t.end_balance);dd=Math.max(dd,peak-t.end_balance)});$("drawdown").textContent=money(dd);$("dailyStats").innerHTML=Array.from({length:DAYS},(_,i)=>i+1).filter(d=>trades(d).length||ensureDay(d).started).map(d=>`<div class="statrow"><b>Day ${d}</b><span>${trades(d).length} trades</span><strong class="${pnl(d)>=0?"winTxt":"lossTxt"}">${pnl(d)>=0?"+":""}${money(pnl(d))}</strong></div>`).join("")||`<div class="muted">No records yet.</div>`}
+function renderCalendarWorkflow(){let w=[["10:00–10:30","Preparation","Set target and review previous day."],["10:30–12:00","Session 1","Record each trade; don't force trades."],["12:00–12:30","Review","Check wins, losses and P/L."],["12:30–14:00","Break","Review notes and reset."],["14:00–15:30","Session 2","Continue within predefined rules."],["15:30–16:00","Review","Compare actual with projection."],["16:00–17:00","Close","Finish records and stop."]];$("workflow").innerHTML=w.map((x,i)=>`<div class="wf"><input type="checkbox" data-wf="${i}" ${state.workflow[i]?"checked":""}><div><b>${x[0]} · ${x[1]}</b><span>${x[2]}</span></div></div>`).join("");document.querySelectorAll("[data-wf]").forEach(c=>c.onchange=()=>{state.workflow[c.dataset.wf]=c.checked;saveLocal()})}
+function renderCalendar(){let h="";for(let d=1;d<=DAYS;d++){let x=ensureDay(d),p=pnl(d),a=trades(d),cls=x.endTime?"done":x.started?"started":"";h+=`<button class="cal ${cls}" data-cal="${d}"><b>${d}</b><small>${x.date||"—"}</small><em>${a.length?((p>=0?"+":"")+money(p)):"No trades"}</em></button>`}$("calendar").innerHTML=h;document.querySelectorAll("[data-cal]").forEach(b=>b.onclick=()=>{let d=+b.dataset.cal;$("diaryDay").value=d;renderDiaryFields(d);showTab("diary")})}
+function calc(){let s=+$("calcStart").value||0,d=+$("calcDays").value||0,r=+$("calcRate").value||0;$("calcResult").textContent=money(s*Math.pow(1+r/100,d));$("calcNote").textContent=`${r}% assumed daily growth • ${d} periods • Target ${money(+$("calcTarget").value||0)}`}
+function tradeCalc(){let s=+$("tradeStart").value||0,r=+$("tradeRate").value||0,n=+$("tradeCount").value||0;$("tradeResult").textContent=money(s*Math.pow(1+r/100,n))}
+function showTab(id){document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===id));document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id===id));document.querySelectorAll(".bottomnav button").forEach(b=>b.classList.toggle("active",b.dataset.nav===id))}
+function exportData(){let blob=new Blob([JSON.stringify({exported_at:new Date().toISOString(),user:currentUser?.email,trades:state.trades,days:state.days},null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`trading-tracker-backup-${localDate()}.json`;a.click();URL.revokeObjectURL(a.href);toast("Backup exported ✓")}
+
+async function login(){
+  let email=$("loginEmail").value.trim(),password=$("loginPass").value;
+  if(!email||!password){$("loginError").textContent="Email and password required.";return}
+  $("loginError").textContent="Signing in…";
+  const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+  if(error){$("loginError").textContent=error.message;return}
+  currentUser=data.user;$("loginScreen").style.display="none";$("accountEmail").textContent=currentUser.email;await loadCloud();
+}
+async function logout(){await supabaseClient.auth.signOut();location.reload()}
+
+for(let d=1;d<=DAYS;d++){$("jDay").innerHTML+=`<option value="${d}">Day ${d}</option>`;$("diaryDay").innerHTML+=`<option value="${d}">Day ${d}</option>`}
+$("loginBtn").onclick=login;$("loginPass").onkeydown=e=>{if(e.key==="Enter")login()};$("logoutBtn").onclick=logout;$("startDayBtn").onclick=startDay;$("endDayBtn").onclick=endDay;$("addTradeBtn").onclick=addTrade;$("saveDiary").onclick=saveDiary;$("quickWin").onclick=()=>{$("jResult").value=Number((currentTradeBalance()*RISK_RATE).toFixed(2));};$("quickLoss").onclick=()=>{$("jResult").value=-Number((currentTradeBalance()*RISK_RATE).toFixed(2));};$("calcBtn").onclick=calc;$("exportBtn").onclick=exportData;$("tradeSearch").oninput=renderJournal;$("tradeFilter").onchange=renderJournal;$("clearTradeFilter").onclick=()=>{$("tradeSearch").value="";$("tradeFilter").value="all";renderJournal()};$("clearLocalBtn").onclick=()=>{localStorage.removeItem(LOCAL_KEY);state.workflow={};state.activeDay=null;toast("Local UI data cleared");render()};["tradeStart","tradeRate","tradeCount"].forEach(id=>$(id).oninput=tradeCalc);document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>showTab(b.dataset.tab));document.querySelectorAll("[data-nav]").forEach(b=>b.onclick=()=>showTab(b.dataset.nav));$("jDate").value=localDate();$("jTime").value=localTime();$("diaryDate").value=localDate();
+
+(async()=>{
+  try{
+    const {data}=await supabaseClient.auth.getSession();
+    if(data.session){currentUser=data.session.user;$("loginScreen").style.display="none";$("accountEmail").textContent=currentUser.email;await loadCloud()}
+    else {$("sessionState").textContent="Login required";$("storageStatus").textContent="Waiting for login"}
+  }catch(e){console.error(e);$("loginError").textContent="Could not connect to cloud."}
+})();
+</script>
+</body>
+</html>
